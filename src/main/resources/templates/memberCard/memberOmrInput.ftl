@@ -55,7 +55,7 @@
 							</div>
 							</td>
 							<th>오답없음</th>
-							<td><input type="checkbox" value="" name="NoOdab" onclick="NoOdab1();" /></td>
+							<td><input type="checkbox" value="" name="NoOdab" onclick="$.noOdab(${isGtC?string});" /></td>
 						</tr>
 					</table>
 				</div>
@@ -117,7 +117,7 @@
 																<#elseif jungDab.jungHang?number lt i>
 																	<input type="hidden" name="txt_input" value="">
 																<#else>
-																	<input type="checkbox" name="txt_input" value="${i?string("00") }" onclick="OdabChk(this, '${jungDab.jungKey?substring(1) }  |  ${i?string("00")}', ${(jungDab.jungKey?substring(1))?number }, ${(i?string("00"))?number })">
+																	<input type="checkbox" name="txt_input" value="${i?string("00") }" onclick="$.odabChk(this, '${jungDab.jungKey?substring(1) }  |  ${i?string("00")}', ${(jungDab.jungKey?substring(1))?number }, ${(i?string("00"))?number })">
 																</#if>
 																</td>
 															</#list>
@@ -128,7 +128,7 @@
 													<tr class="fst">
 														<td width="41px" bgcolor="ffffef" align='right'><font color="#496492">${i }</font></td>
 														<td width="409px" align="center" width="28">
-															<input type="checkbox" name="txt_input" value="${i }"   onclick="OdabChk(this, '${i?string("000") }', ${i }, 0)">
+															<input type="checkbox" name="txt_input" value="${i }"   onclick="$.odabChk(this, '${i?string("000") }', ${i }, 0)">
 														</td>
 													</tr>
 													</#list>
@@ -162,8 +162,8 @@
 		<!-- 버튼박스 -->
 		<div class="btn-box">
 			<div id="savechk">
-				<span class="button btn-type-G"><a href="javascript:chkSubmit();" class="w-65" style="width: 65px;">저장</a></span>
-				<span class="button btn-type-E"><a href="javascript:cancel();" class="w-65" style="width: 65px;">취소</a></span>
+				<span class="button btn-type-G"><a href="javascript:$.chkSubmit();" class="w-65" style="width: 65px;">저장</a></span>
+				<span class="button btn-type-E"><a href="javascript:self:close();" class="w-65" style="width: 65px;">취소</a></span>
 			</div>
 			<div id="savechkIng"  style="display:none">
 				<b><font color="blue">저장 중입니다. 조금만 기다려 주세요</font></b>
@@ -173,122 +173,5 @@
 	</div>
 	</form>
 </div>
-<script type="text/javascript">
-	function OdabChk(chkObj, OdabStr, MunNum, OdabNum)
-	{
-		var boo=true;
-		var chktemp = true;
-
-		m_tot = parseInt(document.Qry2FormName.ErrTot.value);
-		if ( chkObj.checked == true )
-		{
-			for (i=0 ; i < m_tot ; i++)
-			{
-				if (document.Qry2FormName.selError[i].value == MunNum)
-				{
-					for ( j = 0 ; j < 10 ; j++ )
-						document.Qry2FormName.txt_input[(MunNum - 1) * 10 + j].checked = false;
-
-					chkObj.checked = true;
-					document.all.selErrorList.options.remove(i);
-					m_tot--;
-					document.Qry2FormName.ErrTot.value = m_tot;
-				}
-			}
-			ErrListRefresh(OdabStr, MunNum);
-
-		}
-		else
-		{
-			m_tot = m_tot - 1;
-			document.Qry2FormName.ErrTot.value = m_tot;
-			for (i=0 ; i <= m_tot ; i++)
-			{
-				if (document.Qry2FormName.selError[i].value == MunNum)
-				{
-					document.all.selErrorList.options.remove(i);
-					break;
-				}
-			}
-		}
-	}
-	function ErrListRefresh(OdabStr, MunNum)
-	{
-		var tmpValue = 0;
-		var tmpText = "";
-		var i = 0;
-		m_tot = parseInt(document.Qry2FormName.ErrTot.value);
-		for ( i = 0 ; i <= m_tot - 1 ; i++ )
-		{
-			if (  MunNum < eval(document.Qry2FormName.selError[i].value) )
-			{
-				//alert(MunNum + "/" + document.Qry2FormName.selError(i).value);
-				tmpValue = document.Qry2FormName.selError[i].value;
-				tmpText = document.Qry2FormName.selError[i].text;
-				document.Qry2FormName.selError[i].value = MunNum;
-				document.Qry2FormName.selError[i].text = OdabStr;
-				MunNum = tmpValue;
-				OdabStr = tmpText;
-			}
-		}
-
-		m_tot = m_tot + 1;
-		document.Qry2FormName.ErrTot.value = m_tot;
-		var monhang=document.createElement("option");
-		//monhang.text = indx ;
-		monhang.text = OdabStr;
-		monhang.value = MunNum ;
-		document.Qry2FormName.selError.options.add(monhang);
-
-	}
-	
-	function NoOdab1()
-	{
-		if(document.Qry2FormName.NoOdab.checked == true)
-		{
-			for (i = document.Qry2FormName.selError.length - 1 ; i >= 0 ; i--)
-			{
-				<#if isGtC>
-				for ( j = 0 ; j < 10 ; j++ )
-					document.Qry2FormName.txt_input[(document.Qry2FormName.selError[i].value - 1) * 10 + j].checked = false;
-				<#else>
-				document.Qry2FormName.txt_input[(document.Qry2FormName.selError[i].value - 1)].checked = false;
-				</#if>
-
-				document.all.selErrorList.options.remove(i);
-			}
-
-			document.all.ts1.style.display="none";
-			document.all.ts1_No.style.display="";
-			document.Qry2FormName.NoOdab.value = "1";
-
-			document.Qry2FormName.ErrLst.value = "$";
-			document.Qry2FormName.ErrTot.value = 0;
-
-		}
-		else
-		{
-			document.all.ts1.style.display="";
-			document.all.ts1_No.style.display="none";
-			document.Qry2FormName.NoOdab.value = "0";
-
-		}
-	}
-	
-	function chkSubmit()
-	{
-		strTemp = "$";
-		for(i = 0 ; i < document.Qry2FormName.ErrTot.value ; i++){
-			strTemp = strTemp + document.Qry2FormName.selError.options(i).text + "$";
-		}
-		strTemp = strTemp + "#";
-		document.Qry2FormName.ErrLst.value = strTemp;
-
-		document.Qry2FormName.action = "/memberCard/memberOmrSave";
-		document.all.savechk.style.display="none";
-		document.all.savechkIng.style.display="";
-		document.Qry2FormName.submit();
-	}
-</script>
 </body>
 </html>

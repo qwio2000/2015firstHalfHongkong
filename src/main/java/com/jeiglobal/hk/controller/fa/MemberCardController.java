@@ -41,8 +41,11 @@ public class MemberCardController {
 	@RequestMapping
 	public ModelAndView memberCard(){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/index");
+		mav.addObject("headerScript", headerScript);
 		mav.addObject("authMemberInfo", authMemberInfo);
 		return mav;
 	}
@@ -259,9 +262,12 @@ public class MemberCardController {
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, request);
 		String url = request.getRequestURI();
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("popTitle", "진단처방");
 		mav.addObject("url", url);
+		mav.addObject("headerScript", headerScript);
 		if(dung.compareTo("C")>0){
 			List<JungDabInfo> jungDabList = memberInfoService.getJungDabList(memberDetailInfo.getKwamok(), dung, authMemberInfo);
 			if(jungDabList==null){

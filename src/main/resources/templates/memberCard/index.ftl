@@ -92,13 +92,13 @@ $(function(){
 								<td>
 									<div class="user-info-cell">
 										<p class="number">AA239051<img src="/public/img/subj/img_subj_kk.gif" width="17" height="11" border="0"/></p>
-										<a href="javascript:popup_post('/memberCard/memberInfo','AA239051','01266','KK')" class="link">구민준 Min Jun</a>
+										<a href="javascript:$.popupPost('/memberCard/memberInfo','AA239051','01266','KK')" class="link">구민준 Min Jun</a>
 									</div>
 								</td>
 								<td>
 									<a href="#">04</a>
 								</td>
-								<td><a href="javascript:popup_post('/memberCard/memberHuhei','AA239051','01266','KK')"><img src="/public/img/common/img_o.gif"></a></td>
+								<td><a href="javascript:$.popupPost('/memberCard/memberHuhei','AA239051','01266','KK')"><img src="/public/img/common/img_o.gif"></a></td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -106,7 +106,7 @@ $(function(){
 								<td></td>
 								<td></td>
 								<td>
-									<span class="button btn-type-G"><a href="javascript:popup_post('/memberCard/memberOmrInfo','AA239051','01266','KK')" class="w-65">처방</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA239051','01266','KK')" class="w-65">처방</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
@@ -120,13 +120,13 @@ $(function(){
 								<td>
 									<div class="user-info-cell">
 										<p class="number">AA242162<img src="/public/img/subj/img_subj_km.gif" width="17" height="11" border="0"/></p>
-										<a href="javascript:popup_post('/memberCard/memberInfo','AA242162','01266','KM')" class="link">김윤재 Yun Jae</a>
+										<a href="javascript:$.popupPost('/memberCard/memberInfo','AA242162','01266','KM')" class="link">김윤재 Yun Jae</a>
 									</div>
 								</td>
 								<td>
 									<a href="#">04</a>
 								</td>
-								<td><a href="javascript:popup_post('/memberCard/memberHuhei','AA242162','01266','KM')"><img src="/public/img/common/img_o.gif"></a></td>
+								<td><a href="javascript:$.popupPost('/memberCard/memberHuhei','AA242162','01266','KM')"><img src="/public/img/common/img_o.gif"></a></td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -134,7 +134,7 @@ $(function(){
 								<td></td>
 								<td></td>
 								<td>
-									<span class="button btn-type-G"><a href="javascript:popup_post('/memberCard/memberOmrInfo','AA242162','01266','KM')" class="w-65">처방</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA242162','01266','KM')" class="w-65">처방</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
@@ -148,13 +148,13 @@ $(function(){
 								<td>
 									<div class="user-info-cell">
 										<p class="number">AA260434<img src="/public/img/subj/img_subj_em.gif" width="17" height="11" border="0"/></p>
-										<a href="javascript:popup_post('/memberCard/memberInfo','AA260434','01266','EM')" class="link">조은 Cho Eun</a>
+										<a href="javascript:$.popupPost('/memberCard/memberInfo','AA260434','01266','EM')" class="link">조은 Cho Eun</a>
 									</div>
 								</td>
 								<td>
 									<a href="#">05</a>
 								</td>
-								<td><a href="javascript:popup_post('/memberCard/memberHuhei','AA260434','01266','EM')"><img src="/public/img/common/img_o.gif"></a></td>
+								<td><a href="javascript:$.popupPost('/memberCard/memberHuhei','AA260434','01266','EM')"><img src="/public/img/common/img_o.gif"></a></td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -162,7 +162,7 @@ $(function(){
 								<td></td>
 								<td></td>
 								<td>
-									<span class="button btn-type-G"><a href="javascript:popup_post('/memberCard/memberOmrInfo','AA260434','01266','EM')" class="w-65">처방</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA260434','01266','EM')" class="w-65">처방</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
@@ -176,13 +176,13 @@ $(function(){
 								<td>
 									<div class="user-info-cell">
 										<p class="number">AA283357<img src="/public/img/subj/img_subj_km.gif" width="17" height="11" border="0"/></p>
-										<a href="javascript:popup_post('/memberCard/memberInfo','AA283357','01266','KM')" class="link">최주영Choi Joo Young</a>
+										<a href="javascript:$.popupPost('/memberCard/memberInfo','AA283357','01266','KM')" class="link">최주영Choi Joo Young</a>
 									</div>
 								</td>
 								<td>
 									<a href="#">03</a>
 								</td>
-								<td><a href="javascript:popup_post('/memberCard/memberHuhei','AA283357','01266','KM')"><img src="/public/img/common/img_o.gif"></a></td>
+								<td><a href="javascript:$.popupPost('/memberCard/memberHuhei','AA283357','01266','KM')"><img src="/public/img/common/img_o.gif"></a></td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -190,7 +190,7 @@ $(function(){
 								<td></td>
 								<td></td>
 								<td>
-									<span class="button btn-type-G"><a href="javascript:popup_post('/memberCard/memberOmrInfo','AA283357','01266','KM')" class="w-65">처방</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA283357','01266','KM')" class="w-65">처방</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
@@ -204,13 +204,13 @@ $(function(){
 								<td>
 									<div class="user-info-cell">
 										<p class="number">AA274710<img src="/public/img/subj/img_subj_em.gif" width="17" height="11" border="0"/></p>
-										<a href="javascript:popup_post('/memberCard/memberInfo','AA274710','01266','EM')" class="link">변혜영 HyeYoung</a>
+										<a href="javascript:$.popupPost('/memberCard/memberInfo','AA274710','01266','EM')" class="link">변혜영 HyeYoung</a>
 									</div>
 								</td>
 								<td>
 									<a href="#">04</a>
 								</td>
-								<td><a href="javascript:popup_post('/memberCard/memberHuhei','AA274710','01266','EM')"><img src="/public/img/common/img_o.gif"></a></td>
+								<td><a href="javascript:$.popupPost('/memberCard/memberHuhei','AA274710','01266','EM')"><img src="/public/img/common/img_o.gif"></a></td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -218,7 +218,7 @@ $(function(){
 								<td></td>
 								<td></td>
 								<td>
-									<span class="button btn-type-G"><a href="javascript:popup_post('/memberCard/memberOmrInfo','AA274710','01266','EM')" class="w-65">처방</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA274710','01266','EM')" class="w-65">처방</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
@@ -244,17 +244,5 @@ $(function(){
 	<!-- footer -->
 	<#include "/footer.ftl">
 	<!-- //footer -->
-<script type="text/javascript">
-	function popup_post(url, mKey, sKey, kwamok){
-		 var pop_status=window.open("","Window","width=848, height=700, menubar=no,status=yes,scrollbars=no");
-		 document.frm1.action = url;
-		 document.frm1.mKey.value = mKey;
-		 document.frm1.sKey.value = sKey;
-		 document.frm1.kwamok.value = kwamok;
-		 document.frm1.target = "Window";
-		 document.frm1.submit();
-		 pop_status.focus();
-	}
-</script>
 </body>
 </html>
