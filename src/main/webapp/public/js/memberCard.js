@@ -19,19 +19,17 @@ $(function() {
 				}
 			},
 			huGubun_chk:function(){
-				if(document.Qry2FormName.huGubun.length != null){
-					if(document.Qry2FormName.huGubun[0].checked==true){
-						document.Qry2FormName.huSayu[0].disabled=false;
-						document.Qry2FormName.huSayu[1].disabled=true;
-					}else{
-						document.Qry2FormName.huSayu[0].disabled=true;
-						document.Qry2FormName.huSayu[1].disabled=false;
-					}
+				if($("input[name='huGubun']")[0].checked){
+					$("select[name='huSayu']")[0].disabled = false;
+					$("select[name='huSayu']")[1].disabled = true;
+				}else{
+					$("select[name='huSayu']")[0].disabled = true;
+					$("select[name='huSayu']")[1].disabled = false;
 				}
 			}
 		});
 		
-	   //관리카드 팝업 내 검색
+		//관리카드 팝업 내 검색
 		$(document).on("click","#searchBtn",function(){
 			var jsonSendData = $("#Qry2FormName").serialize();
 			$.ajax({
@@ -46,8 +44,8 @@ $(function() {
 					var source = $("#template").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("inc", function(value, options){
-   						return parseInt(value) + 1;
-   					});
+						return parseInt(value) + 1;
+					});
 					$("#mainContent").empty();
 					$("#mainContent").append(template(data));
 				},
