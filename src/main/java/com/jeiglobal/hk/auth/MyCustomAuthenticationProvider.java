@@ -15,8 +15,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.jeiglobal.hk.domain.user.Authorities;
-import com.jeiglobal.hk.domain.user.Member;
+import com.jeiglobal.hk.domain.common.MemberAuthority;
+import com.jeiglobal.hk.domain.common.AuthMemberInfo;
 import com.jeiglobal.hk.service.AuthoritiesService;
 /**
  * @Compoent를 선언해줘야 스캔할때 스프링이 bean으로 등록해줌
@@ -34,26 +34,29 @@ public class MyCustomAuthenticationProvider implements AuthenticationProvider {
 			throws AuthenticationException {
 		
 		UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) authentication;
-		Member member =  authoritiesService.findMemberById(authToken.getName());
+		AuthMemberInfo member =  authoritiesService.findMemberById(authToken.getName());
 		if(member == null){
 			throw new UsernameNotFoundException(authToken.getName());
 		}
 		
-		if(!matchPassword(member.getMemberPassword(),authToken.getCredentials())){
+		String inputPass = authoritiesService.selectEncryptPassWord(authToken.getCredentials().toString());
+		
+		if(!matchPassword(member.getMemberPassword(),inputPass)){
 			throw new BadCredentialsException("계정ID와 비밀번호가 맞지않습니다.");
 		}
 		
 		List<GrantedAuthority> authorities = getAuthorities(member.getMemberId());
-		return new UsernamePasswordAuthenticationToken(new Member(member.getMemberId(),member.getMemberPassword(),true),null,authorities);
+		return new UsernamePasswordAuthenticationToken(new AuthMemberInfo(member.getMemberId(),member.getMemberPassword()
+				,true,member.getEmpName(),member.getJisaCD(),member.getDepid1(),member.getDepid2(),member.getEmpKey(),member.getEmpKeyLvCD(),member.getDepMngCD(),member.getEncodeCookie()),null,authorities);
 	}
 
 	private List<GrantedAuthority> getAuthorities(String memberId) {
-		List<Authorities> perms = authoritiesService.findPermissionById(memberId);
+		List<MemberAuthority> perms = authoritiesService.findPermissionById(memberId);
 		if (perms == null)
 			return Collections.emptyList();
 
 		List<GrantedAuthority> authorities = new ArrayList<>(perms.size());
-		for (Authorities perm : perms) {
+		for (MemberAuthority perm : perms) {
 			authorities.add(new SimpleGrantedAuthority(perm.getAuthority()));
 		}
 		return authorities;

@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/public/js/**","/public/css/**","/public/img/**");
+			web.ignoring().antMatchers("/public/js/**","/public/css/**","/public/img/**","/favicon.ico");
 		}
 		
 		@Override
@@ -66,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					.csrf().disable()
 					.authorizeRequests()
 					.antMatchers("/login","/").permitAll()
+					.antMatchers("/adminManager/**").hasAuthority("SUPERADMIN")
 					.anyRequest().authenticated()
 				.and()
 					.formLogin()
@@ -89,4 +90,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.and()
 					.requestCache().requestCache(new NullRequestCache());
 		}
+		
 }

@@ -2,12 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jeiglobal.hk.repository.AuthoritiesRepository">
 	
-	<select id="findMemberById" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.user.Member">
-		SELECT * FROM global.Member WHERE memberId = #{memberId}
+	<select id="findMemberById" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.common.AuthMemberInfo">
+		SELECT mailBox as memberId,pwd as memberPassword,stateCD as memberEnabled,depid1,depid2,empKey
+		,empName,jisaCD,empKeyLvCD,depMngCD,encodeCookie FROM globalbiz.ComLoginInfo WHERE mailBox = #{memberId} AND stateCD = '1'
 	</select>
 	
-	<select id="findPermissionById" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.user.Authorities">
-		SELECT * FROM global.Authorities WHERE memberId = #{memberId}
+	<select id="findPermissionById" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.common.MemberAuthority">
+		SELECT * FROM globalbiz.MemberAuthority WHERE memberId = #{memberId}
+	</select>
+	
+	<update id="updateEncodeCookieById" parameterType="hashMap">
+		UPDATE globalbiz.ComLoginInfo SET encodeCookie = #{encodeCookie} WHERE mailBox = #{memberId}
+	</update>
+	
+	<select id="countMemberByIdAndEncodeCookie" parameterType="hashMap" resultType="long">
+		SELECT count(mailBox) FROM globalbiz.ComLoginInfo WHERE mailBox = #{memberId} AND encodeCookie = #{encodeCookie}
 	</select>
 	
 </mapper>

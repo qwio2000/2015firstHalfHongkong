@@ -1,16 +1,26 @@
 package com.jeiglobal.hk.config;
 
+import java.io.IOException;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+
+import com.jeiglobal.hk.intercepter.MenuIntercepter;
+
+import freemarker.template.TemplateException;
 
 
 @Configuration
@@ -26,13 +36,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// TODO Auto-generated method stub
 		registry.addResourceHandler("/public/js/**")
-		.addResourceLocations("/WEB-INF/public/js/")
+		.addResourceLocations("/public/js/")
 		.setCachePeriod(31556926);
 		registry.addResourceHandler("/public/css/**")
-		.addResourceLocations("/WEB-INF/public/css/")
+		.addResourceLocations("/public/css/")
 		.setCachePeriod(31556926);
 		registry.addResourceHandler("/public/img/**")
-		.addResourceLocations("/WEB-INF/public/img/")
+		.addResourceLocations("/public/img/")
 		.setCachePeriod(31556926);
 	}
 	
@@ -56,6 +66,38 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 		viewResolver.setSuffix(".jsp");
 		viewResolver.setOrder(1);
 		return viewResolver;
+	}
+	@Bean
+	  public ViewResolver viewResolver() {
+	    FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
+	    resolver.setCache(true);
+	    resolver.setPrefix("");
+	    resolver.setSuffix(".ftl");
+	    resolver.setContentType("text/html; charset=UTF-8");
+	    resolver.setExposeSpringMacroHelpers(true);
+	    resolver.setOrder(0);
+	    return resolver;
+	  }
+	
+	 @Bean
+	  public FreeMarkerConfigurer freemarkerConfig() throws IOException, TemplateException {
+	    FreeMarkerConfigurationFactory factory = new FreeMarkerConfigurationFactory();
+	    factory.setTemplateLoaderPath("classpath:templates");
+	    factory.setDefaultEncoding("UTF-8");
+	    FreeMarkerConfigurer result = new FreeMarkerConfigurer();
+	    result.setConfiguration(factory.createConfiguration());
+	    return result;
+	  }
+	
+	@Bean
+	public MenuIntercepter menuIntercepter(){
+		return new MenuIntercepter();
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		// TODO Auto-generated method stub
+		registry.addInterceptor(menuIntercepter()).addPathPatterns("/**").excludePathPatterns("/","/login");
 	}
 	
 }

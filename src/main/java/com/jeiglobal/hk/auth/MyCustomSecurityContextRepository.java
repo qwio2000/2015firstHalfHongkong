@@ -3,7 +3,9 @@ package com.jeiglobal.hk.auth;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +22,8 @@ import org.springframework.security.web.context.HttpRequestResponseHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Component;
 
-import com.jeiglobal.hk.domain.user.Authorities;
-import com.jeiglobal.hk.domain.user.Member;
+import com.jeiglobal.hk.domain.common.MemberAuthority;
+import com.jeiglobal.hk.domain.common.AuthMemberInfo;
 import com.jeiglobal.hk.service.AuthoritiesService;
 
 
@@ -36,20 +38,32 @@ public class MyCustomSecurityContextRepository implements SecurityContextReposit
 			HttpRequestResponseHolder requestResponseHolder) {
 		
 		SecurityContext ctx = SecurityContextHolder.createEmptyContext();
-		String authValue = getAuthCookieValue(requestResponseHolder.getRequest());
-		if(authValue != null){
-			String userName = authValue;
-			List<GrantedAuthority> authorities = new ArrayList<>();
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		map = getAuthCookieValue(requestResponseHolder.getRequest());
+		
+		if(map != null && !map.isEmpty() && map.containsKey("AUTHId") && map.containsKey("AUTHKey")){
+			String userName = map.get("AUTHId").toString();
+			String encodeCookie = map.get("AUTHKey").toString();
 			
-			List<Authorities> memberAuthories = authoritiesService.findPermissionById(userName);
+			long cnt = authoritiesService.countMemberByIdAndEncodeCookie(userName, encodeCookie);
 			
-			for(int i = 0; i < memberAuthories.size(); i++){
-				authorities.add(new SimpleGrantedAuthority(memberAuthories.get(i).getAuthority()));
+			if(cnt == 1){
+				List<GrantedAuthority> authorities = new ArrayList<>();
+				
+				List<MemberAuthority> memberAuthories = authoritiesService.findPermissionById(userName);
+				
+				for(int i = 0; i < memberAuthories.size(); i++){
+					authorities.add(new SimpleGrantedAuthority(memberAuthories.get(i).getAuthority()));
+				}
+				
+				AuthMemberInfo member = authoritiesService.findMemberById(userName);
+				member.setMemberPassword("");
+				member.setEncodeCookie("");
+				
+				Authentication authentication = new UsernamePasswordAuthenticationToken(member,"",authorities);
+				ctx.setAuthentication(authentication);
 			}
-			
-			Member member = new Member(userName,"",true);
-			Authentication authentication = new UsernamePasswordAuthenticationToken(member,"",authorities);
-			ctx.setAuthentication(authentication);
 		}
 		
 		return ctx;
@@ -69,23 +83,31 @@ public class MyCustomSecurityContextRepository implements SecurityContextReposit
 		
 	}
 	
-	private String getAuthCookieValue(HttpServletRequest request){
+	private Map<String,Object> getAuthCookieValue(HttpServletRequest request){
 		Cookie[] cookies =  request.getCookies();
+		Map<String,Object> map = new HashMap<String,Object>();
+		
 		if(cookies == null){
 			return null;
 		}
 		
 		for (Cookie cookie : cookies) {
-			if("AUTH".equals(cookie.getName())){
+			if("AUTHId".equals(cookie.getName())){
 				try {
-					return URLDecoder.decode(cookie.getValue(),"utf-8");
+					map.put("AUTHId",URLDecoder.decode(cookie.getValue(),"utf-8"));
+				} catch (UnsupportedEncodingException e) {
+					return null;
+				}
+			}else if("AUTHKey".equals(cookie.getName())){
+				try {
+					map.put("AUTHKey",URLDecoder.decode(cookie.getValue(),"utf-8"));
 				} catch (UnsupportedEncodingException e) {
 					return null;
 				}
 			}
 		}
 		
-		return null;
+		return map;
 	}
 	
 	

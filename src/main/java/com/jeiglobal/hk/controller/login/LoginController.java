@@ -26,9 +26,4 @@ public class LoginController {
 		model.addAttribute("requrl",returl);
 	    return "login";
 	}
-	@RequestMapping(value="/index")
-	public String index(){
-		return "index";
-	}
-	
 }

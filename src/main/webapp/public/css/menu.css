@@ -1,0 +1,164 @@
+/* default */
+div,p,td,a {font-size:9pt}
+
+/* jei.group.php */
+#group_list {
+	width:300px;
+	height:500px;
+	border:1px solid #ddd;
+	overflow:auto;
+	float:left;
+}
+#group_container {
+	width:480px;
+	height:500px;
+	border:1px solid #ddd;
+	overflow:auto;
+	
+}
+
+/* jei.group.con.php */
+#ginsert ,#gmodify, #ghelp{
+	cursor:pointer;
+}
+
+#top_icon {
+	width:100%;
+	padding:2px;
+}
+#ginsert {
+	margin:0 0px 0 5px;
+	float:left;
+}
+#ghelp {
+	float:right;
+	margin:0 10px 0 0;
+}
+
+/* jei.group.insert.form.php */
+
+.gtable1 {
+	background-color:#EEE;
+	width:95%;
+	border:1px solid #AAA;
+	padding:2px;
+	margin:2px;
+}
+
+
+/* /menu */
+#group_warp, #menu_warp {width:100%; min-width:1000px; clear:both; margin:0;  text-align:left; float:left;}
+#group_list, #menu_list {
+border:1px solid #969694; 
+border-width:1px 0 1px 1px; 
+background-color: #f7f7f7;
+float:left;
+height:500px;/******************************************************** 카테고리영역  **/
+width:240px; 
+overflow:auto;
+}
+
+#jboard_warp { border:1px solid #969694; background-color: #f7f7f7;clear:both; margin:0;  text-align:left; background:#F9F9F9 url(../img/menu/btn_bar_height.gif) no-repeat scroll 100% 50%; padding:0 20px 0 0;}
+#jboard_category { overflow:auto; padding:10px;}
+
+
+.group_center, .menu_center { 
+width:5px;
+float:left; 
+background:#eee; 
+cursor:pointer; 
+border:1px solid #969694;
+border-width:1px 1px 1px 0; 
+background:#F9F9F9 url(../img/menu/btn_bar_height.gif) no-repeat scroll 0 0;
+float:left;
+height:500px; /***************************************************************  가운데 BAR  **/
+width:16px; 
+margin:0 10px 0 0;
+}
+.group_center2, .menu_center2 { width:5px; height:500px;  float:left; 	background:#eee; 	cursor:pointer; border:1px solid #969694; border-width:1px 1px 1px 0;  background:#F9F9F9 url(../img/menu/btn_bar_height2.gif) no-repeat scroll 0 0; float:left;  height:500px; width:16px; margin:0 10px 0 0; }
+
+#group_container, #menu_content { border:1px solid #969694; height:500px; overflow:auto; width:630px; float:left; padding:0 10px;}
+
+.treeview_warp {padding:10px;}
+#sidetreecontrol { background:transparent url(../img/menu/bg_line_02.gif) repeat-x scroll center bottom; font-weight:bold;
+padding:13px 0 10px 10px;}
+
+
+/*좌측카테고리*/ 
+#sidetreecontrol span {color:#999; font-weight:normal; margin:0 5px;}
+#sidetreecontrol a.square-blue-remove {background:transparent url(../img/menu/square-blue-remove.gif) no-repeat 0 0px; padding:3px 0 3px 18px;}
+#sidetreecontrol a.square-blue-add {background:transparent url(../img/menu/square-blue-add.gif) no-repeat 0 0px; padding:3px 0 3px 18px;}
+
+
+/* jei.category.insert.form.php */
+.loading1{
+	background-image: url('../img/menu/loader.gif');
+}
+
+.ctable1 {
+	background-color:#EEE;
+	width:95%;
+	border:1px solid #AAA;
+	padding:2px;
+	margin:2px;
+}
+.ctable1 td { 
+	height:20px;
+}
+.help_con {
+	background-color:#FFFEEF;
+	border:1px solid #CCC;
+	padding:10px;
+	position:absolute;
+}
+
+/* jei.category.con.php */
+#cinsert ,#cmodify, #chelp{
+	cursor:pointer;
+}
+
+#top_icon {
+	width:95%;
+	padding:2px;
+}
+#cinsert {
+	margin:0 0 0 5px;
+	float:left;
+}
+#chelp {
+	float:right;
+	margin:0 10px 0 0;
+}
+
+#cinsert_con, #ginsert_con {
+	width:100%;
+}
+
+#cinsert_con h3, #ginsert_con h3 {
+background:transparent url(../img/menu/icon.gif) no-repeat scroll 0 3px;
+color:#3D3D3D;
+cursor:default;
+font-weight:bold;
+font-size:12px;
+letter-spacing:-1px;
+margin:12px 0 8px 0;
+padding:0 0 0 6px;
+
+}
+
+
+
+/* jei.category.permission.php */
+#perm_ugroup_list {
+	background-color:#EEE;
+	border:1px solid #AAA;
+	width:80%;
+	padding:5px;
+}
+
+.permission_box {
+	background-color:#EEE;
+	border:1px solid #AAA;
+	width:80%;
+	padding:5px;
+}

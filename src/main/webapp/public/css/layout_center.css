@@ -1,0 +1,13 @@
+@charset "UTF-8";
+/* layout */
+html{overflow-y:scroll;}
+html, body, #wrapper {height:100%;}
+.skip-nav{display:block;top:-100px;position:absolute;padding:10px;border:5px solid #d1d1d1;background:#444444;color:#ffffff;font-size:14px;width:200px;font-weight:bold;text-align:center;}
+.skip-nav:focus{visibility:visible;top:0px;left:10%;}
+
+/* today*/
+.today-visual {display:block;position:relative;height:71px;background: url('/public/img/today/main_visual.jpg') no-repeat;}
+.today-visual p {position:absolute;top:39px;left:81px;color:#ffffff;font-weight:bold;font-size:14px;letter-spacing:-0.1em;}
+.today-visual span {display:block;margin-left:291px;position:relative;top:21px;left:83px;}.today-visual span a {display:inline-block;float:left;}
+
+.primary-content {float:right;width:967px;padding: 0 0 50px 30px;}

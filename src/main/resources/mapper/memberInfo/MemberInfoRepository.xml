@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.MemberInfoRepository">
+	
+	<select id="selectMemberDetailInfo" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDetailInfo">
+	SELECT a.subj AS kwamok, a.stateCD, b.mkey AS mKey,b.mFstName,b.mLstName, c.empKey AS fstEmpKey, c.empName AS fstEmpName, a.fstYoil, 
+			a.sndEmpKey AS sndEmpKey, d.empName AS sndEmpName, a.sndYoil, b.birthYMD, b.sexCD, b.schoolName, b.gradeCD, b.addr, 
+			b.tel, b.gPhone, b.ePhone,b.gFstName,b.gLstName,globalbiz.FuncCodeDtlNM(#{mdi.jisa},'0009',a.IpheiPathCD,#{lang},'1') AS ipheiPath,
+			b.mEmail, b.gEmail, b.specialComment, c.empName AS sName, c.depid1, c.depid2, a.jisaCD as jisa, a.setCnt, #{mdi.sKey} AS sKey
+	FROM globalbiz.MemKwamokMst a
+	INNER JOIN globalbiz.MemMst b ON a.mkey = b.mkey
+	INNER JOIN globalbiz.ComEmpMst c ON a.fstEmpKey = c.empKey
+	LEFT JOIN globalbiz.ComEmpMst d ON a.sndEmpKey = d.empKey
+	WHERE a.mkey=#{mdi.mKey} AND a.subj=#{mdi.kwamok} AND a.jisaCD = #{mdi.jisa}
+	</select>
+	<select id="selectDtlCodeList" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.DtlCD">
+		SELECT mstCD, dtlCD, jisaCD, dtlCDNME AS dtlCDNM
+		FROM globalbiz.ComCodeDtl 
+		WHERE mstCD IN ('0003','0009') AND jisaCD = #{jisaCD} 
+		ORDER BY mstCD, sortVal1
+	</select>
+	<select id="selectMemberKwamokInfo" parameterType="com.jeiglobal.hk.domain.member.MemberDetailInfo" resultType="com.jeiglobal.hk.domain.member.MemberKwamokInfo">
+		SELECT a.subj AS kwamok, globalbiz.FuncCodeDtlNM(#{mdi.jisa},'0008',a.stateCD,#{lang},'1') AS state, ipheiYMD, bokheiYMD, huheiYMD, setCnt, 
+			CASE 
+			WHEN fstYoil='1' THEN 'SUN' 
+			WHEN fstYoil='2' THEN 'MON' 
+			WHEN fstYoil='3' THEN 'TUE'
+			WHEN fstYoil='4' THEN 'WED'
+			WHEN fstYoil='5' THEN 'THU'
+			WHEN fstYoil='6' THEN 'FRI'
+			WHEN fstYoil='7' THEN 'SAT'
+			ELSE ''
+			END AS fstYoil,
+			b.empKey AS fstEmpKey, b.empName AS fstEmpName,
+			CASE 
+			WHEN sndYoil='1' THEN 'SUN' 
+			WHEN sndYoil='2' THEN 'MON' 
+			WHEN sndYoil='3' THEN 'TUE'
+			WHEN sndYoil='4' THEN 'WED'
+			WHEN sndYoil='5' THEN 'THU'
+			WHEN sndYoil='6' THEN 'FRI'
+			WHEN sndYoil='7' THEN 'SAT'
+			ELSE ''
+			END AS sndYoil,
+			c.empKey AS sndEmpKey, c.empName AS sndEmpName
+		FROM globalbiz.MemKwamokMst a
+		INNER JOIN globalbiz.ComEmpMst b ON a.fstEmpKey = b.empKey
+		LEFT JOIN globalbiz.ComEmpMst c ON a.sndEmpKey = c.empKey
+		WHERE mkey = #{mdi.mKey} ORDER BY state, ipheiYMD DESC
+	</select>
+	<select id="updateMemberDetailInfo" statementType="CALLABLE" resultType="int" parameterType="hashMap">
+		{ CALL globalbiz.SPMemberDetailInfoUpdate(#{ami.jisaCD},#{mdi.kwamok},DATE_FORMAT(NOW(),'%Y-%m-%d'),#{mdi.sKey},#{mdi.sName},#{mdi.depid1},#{mdi.mKey},#{mdi.mFstName},#{mdi.mLstName},#{mdi.birthYMD},
+		#{mdi.sexCD},#{mdi.schoolName},#{mdi.gradeCD},#{mdi.addr},#{mdi.tel},#{mdi.gFstName},#{mdi.gLstName},#{mdi.gPhone},#{mdi.ePhone},#{mdi.mEmail},#{mdi.gEmail},#{mdi.ipheiPath},#{mdi.specialComment},CONCAT(#{ami.jisaCD},#{ami.empKey}),
+		CONCAT(#{ami.jisaCD},#{ami.depid1}),#{mdi.fstYoil},#{mdi.sndYoil},#{mdi.cngFstYoil},#{mdi.cngSndYoil})}
+	</select>
+	<select id="selectFirstIpheiDate" parameterType="hashMap" resultType="java.lang.String">
+		SELECT ipheiYMD AS firstIpheiDate 
+		FROM globalbiz.MemIpheiMst 
+		WHERE mkey=#{mKey}
+		ORDER BY ipheiYMD LIMIT 0,1
+	</select>
+	<select id="selectMemberIpheiInfoList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberIpheiInfo">
+		SELECT subj as kwamok,ipheiYMD, globalbiz.FuncCodeDtlNM(#{jisa},'0011',ipheiGubunCD,#{lang},'1') AS ipheiGubun, globalbiz.FuncCodeDtlNM(#{jisa},'0055',ipheiKindMstCD,#{lang},'1') AS ipheiKind, jGradeCD,
+				setCnt, fstYMD, fstEmpKey, fstEmpName, sndYMD, sndEmpKey, sndEmpName
+		FROM globalbiz.MemIpheiMst 
+		WHERE mkey=#{mKey} 
+		<choose>
+			<when test="searchKwamok == null or searchKwamok == ''">
+				AND subj=#{kwamok}
+			</when>
+			<when test="searchKwamok == 'all'"/>
+			<otherwise>
+				AND subj=#{searchKwamok}
+			</otherwise>
+		</choose>
+		ORDER BY kwamok, ipheiYMD DESC
+	</select>
+	<select id="selectMemberHuheiInfoList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberHuheiInfo">
+		SELECT subj as kwamok,huheiYMD, globalbiz.FuncCodeDtlNM(#{jisa},'0062',huheiKindCD,#{lang},'1') AS huheiKind, empKey, empName, globalbiz.FuncCodeDtlNM(#{jisa},'0021',huheiSayuCD,#{lang},'1') AS huheiSayu
+		FROM globalbiz.MemHuheiMst 
+		WHERE mkey=#{mKey}
+		<choose>
+			<when test="searchKwamok == null or searchKwamok == ''">
+				AND subj=#{kwamok}
+			</when>
+			<when test="searchKwamok == 'all'"/>
+			<otherwise>
+				AND subj=#{searchKwamok}
+			</otherwise>
+		</choose>
+		ORDER BY kwamok, huheiYMD DESC
+	</select>
+	<select id="selectMemberIpgumInfoList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberIpgumInfo">
+		SELECT subj as kwamok, ipgumYMD, globalbiz.FuncCodeDtlNM(#{jisa},'0024',existCD,#{lang},'1') AS existCD, empKey, empName, ipheibi, ipheibiFree, wolheibi, wolheibiFree, expireYMD, ipheibi+wolheibi AS totalHeibi
+		FROM MemIpgumMst 
+		WHERE mkey=#{mKey}
+		<choose>
+			<when test="searchKwamok == null or searchKwamok == ''">
+				AND subj=#{kwamok}
+			</when>
+			<when test="searchKwamok == 'all'"/>
+			<otherwise>
+				AND subj=#{searchKwamok}
+			</otherwise>
+		</choose>
+		ORDER BY kwamok, ipgumYMD DESC;
+	</select>
+	<select id="selectMemberJindoInfoList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberJindoInfo">
+		{ CALL globalbiz.SPMemberJindoInfo(#{jisa},
+		<choose>
+			<when test="searchKwamok == null or searchKwamok == ''">
+				#{kwamok}
+			</when>
+			<otherwise>
+				#{searchKwamok}
+			</otherwise>
+		</choose>
+		,#{mKey},#{curYYYYMM},#{lang})}
+	</select>
+	<select id="selectMemberJindoSearch" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberJindoSearch">
+		SELECT a.mFstName, a.mLstName, b.setCnt, b.fstYoil, globalbiz.FuncCodeDtlNM(#{jisa},'0006',b.fstYoil,#{lang},'1') AS fstYoilNm, b.sndYoil, globalbiz.FuncCodeDtlNM(#{jisa},'0006',b.sndYoil,#{lang},'1') AS sndYoilNm
+		FROM globalbiz.MemMst a INNER JOIN globalbiz.MemKwamokMst b ON a.mkey = b.mkey
+		WHERE a.mkey = #{mKey} 
+		<choose>
+			<when test="searchKwamok == null or searchKwamok == ''">
+				AND subj=#{kwamok}
+			</when>
+			<otherwise>
+				AND subj=#{searchKwamok}
+			</otherwise>
+		</choose>
+	</select>
+	<select id="selectMemberJindoSearchInfo" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberJindoSearchInfo">
+		{ CALL globalbiz.SPMemberJindoSearch(#{jisa},
+		<choose>
+			<when test="searchKwamok == null or searchKwamok == ''">
+				#{kwamok}
+			</when>
+			<otherwise>
+				#{searchKwamok}
+			</otherwise>
+		</choose>,#{mKey},#{yyyy},#{mm})}
+	</select>
+	<select id="selectKwamokList" parameterType="hashMap" resultType="java.lang.String">
+		SELECT subj FROM globalbiz.MemDepositSet WHERE jisaCD=#{jisaCD} AND depid1=#{depid1} GROUP BY subj;
+	</select>
+	<select id="selectOmrGichoList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.OmrGicho">
+		CALL devglobaldig.SPOmrGichoList(#{hkey},#{kwamok},#{searchYY},#{jisa},#{lang})
+	</select>
+	<select id="selectMemberJindanCheck" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.member.MemberDetailInfo" resultType="com.jeiglobal.hk.domain.member.OmrInfo">
+		CALL devglobaldig.SPMemberJindanCheck(#{mKey},#{kwamok},#{fstYoil})
+	</select>
+	<select id="selectJungDabList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JungDabInfo">
+		SELECT JUNG_KEY AS jungKey, JUNG_DAB AS jungDab, JUNG_HANG AS jungHang FROM devglobaldig.JDNSys8070P WHERE jisa=#{jisa} AND kwamok =#{kwamok} AND LEFT(JUNG_KEY,1) = #{dung}
+	</select>
+	<select id="selectTotMunCount" parameterType="hashMap" resultType="int">
+		SELECT TOT FROM devglobaldig.JDNSys8 WHERE SBJ = #{kwamok} AND GRD = #{dung} AND JISA = #{jisa};
+	</select>
+	<select id="selectMemberOmrCheck" parameterType="com.jeiglobal.hk.domain.member.MemberDetailInfo" resultType="String">
+		SELECT inSta FROM devglobaldig.OmrGicho WHERE hkey =#{mKey} AND kwamok = #{kwamok} AND omrDate = DATE_FORMAT(NOW(),'%Y-%m-%d')
+	</select>
+	<select id="insertOmrGicho" statementType="CALLABLE" parameterType="hashMap">
+		CALL devglobaldig.SPOmrGichoInsert(DATE_FORMAT(NOW(),'%Y-%m-%d'),#{mdi.mKey},#{mdi.kwamok},'','',#{mdi.mFstName},#{mdi.mLstName},#{mdi.sKey},#{mdi.sName},#{dung},
+		#{mdi.gradeCD},'1',#{mdi.fstYoil},#{mdi.sndYoil},#{mdi.setCnt},#{mdi.birthYMD},CONCAT(#{ami.jisaCD},#{ami.depid1}),#{ami.jisaCD},'3',CONCAT(#{ami.jisaCD},#{ami.empKey}))
+	</select>
+	<select id="insertOdabInfo" statementType="CALLABLE" parameterType="hashMap">
+		CALL devglobaldig.SPOmrOdabInsert(#{jisa},#{omrDate},#{hKey},#{kwamok},#{dung},#{munNo},#{odabNo})
+	</select>
+	<select id="omrBan" statementType="CALLABLE" parameterType="hashMap" resultType="String">
+		CALL devglobaldig.SPOmrBan(#{ami.jisaCD},DATE_FORMAT(NOW(),'%Y-%m-%d'),#{mdi.mKey},#{mdi.kwamok},'0','0',#{dung},
+		#{mdi.gradeCD},'1',#{mdi.fstYoil},#{mdi.birthYMD},#{mdi.setCnt},#{mdi.setCnt},#{mdi.sndYoil},'20',CONCAT(#{ami.jisaCD},#{ami.empKey}))
+	</select>
+	<select id="selectKwamokName" parameterType="hashMap" resultType="String">
+		SELECT FuncMemSubjNM(#{jisa},#{kwamok},#{lang},'1') AS KwamokName
+	</select>
+	<select id="selectHuheiDayList" statementType="CALLABLE" parameterType="hashMap" resultType="String">
+		CALL globalbiz.SPDateSetting(#{yyyy},#{mm},#{jisa},#{empKeyLvCD})
+	</select>
+	<select id="selectHuheiSayuList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.DtlCD">
+		SELECT mstCD, dtlCD, jisaCD, dtlCDNME AS dtlCDNM
+		FROM globalbiz.ComCodeDtl WHERE jisaCD = #{jisa} AND mstCD IN ('0021','0201')
+		ORDER BY mstCD, dtlCD, sortVal1
+	</select>
+	
+</mapper>

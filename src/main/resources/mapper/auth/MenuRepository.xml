@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.MenuRepository">
+	
+	<select id="findOneByMParentIdx" parameterType="long" resultType="com.jeiglobal.hk.domain.common.GlobalMenu">
+		SELECT * FROM globalbiz.GlobalMenu WHERE mParentIdx = #{mIdx} ORDER BY mParentIdx,mSort Limit 1
+	</select>
+	
+	<select id="findByMParentIdxAndJisaCDAndEmpKeyLvCDAndDepMngCD" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.GlobalMenu">
+		SELECT * FROM globalbiz.GlobalMenu 
+		WHERE mParentIdx = #{mIdx} AND mJisaCD = #{mJisaCD}
+		AND mEmpKeyLvCD = #{mEmpKeyLvCD} AND mDepMngCD = #{mDepMngCD} AND mUseState = #{mUseState}
+		ORDER BY mParentIdx,mSort
+	</select>
+	
+	<select id="findByMIdx" parameterType="long" resultType="com.jeiglobal.hk.domain.common.GlobalMenu">
+		SELECT * FROM globalbiz.GlobalMenu WHERE mIdx = #{mIdx} Limit 1
+	</select>
+	
+	<update id="updateMHasChildrenByMidx" parameterType="hashMap">
+		UPDATE globalbiz.GlobalMenu SET mHasChildren = #{mHasChildren} WHERE mIdx = #{mIdx}
+	</update>
+	
+	<select id="findOneByMParentOrderByMOrderDESC" parameterType="long" resultType="com.jeiglobal.hk.domain.common.GlobalMenu">
+		SELECT * FROM globalbiz.GlobalMenu WHERE mParentIdx = #{mIdx} ORDER BY mSort DESC Limit 1
+	</select>
+	
+	<insert id="insertGlobalMenu" parameterType="com.jeiglobal.hk.domain.common.GlobalMenu">
+		INSERT INTO globalbiz.GlobalMenu(mParentIdx,mJisaCD,mEmpKeyLvCD,mDepMngCD,mMenuName,mMenuLink,mAntPattern
+		,mCon,mSort,mMenuCode,mHasChildren,mDepth,m1,m2,m3,m4,m5,m6,m7,m8,m9,mRegDate,mUpdate,mUseState)
+		VALUES(#{mParentIdx},#{mJisaCD},#{mEmpKeyLvCD},#{mDepMngCD},#{mMenuName},#{mMenuLink},#{mAntPattern}
+		,#{mCon},#{mSort},#{mMenuCode},#{mHasChildren},#{mDepth},#{m1},#{m2},#{m3}
+		,#{m4},#{m5},#{m6},#{m7},#{m8},#{m9},#{mRegDate},#{mUpdate},#{mUseState})
+	</insert>
+		
+	<select id="selectLastId" resultType="long">
+		SELECT LAST_INSERT_ID()
+	</select>
+	
+	<update id="updateMDepthByMIdx" parameterType="hashMap">
+		UPDATE globalbiz.GlobalMenu SET
+			<if test="mDepth == 1">
+				m1 = #{mIdx}
+			</if>
+			<if test="mDepth == 2">
+				m2 = #{mIdx}
+			</if>
+			<if test="mDepth == 3">
+				m3 = #{mIdx}
+			</if>
+			<if test="mDepth == 4">
+				m4 = #{mIdx}
+			</if>
+			<if test="mDepth == 5">
+				m5 = #{mIdx}
+			</if>
+			<if test="mDepth == 6">
+				m6 = #{mIdx}
+			</if>
+			<if test="mDepth == 7">
+				m7 = #{mIdx}
+			</if>
+			<if test="mDepth == 8">
+				m8 = #{mIdx}
+			</if>
+			<if test="mDepth == 9">
+				m9 = #{mIdx}
+			</if>
+		WHERE mIdx = #{mIdx}
+	</update>
+	
+	<select id="countMIdxByMParentIdx" parameterType="long" resultType="long">
+		SELECT count(mIdx) FROM globalbiz.GlobalMenu WHERE mParentIdx = #{mIdx}
+	</select>
+	
+	<select id="selectMParentIdxByMIdx" parameterType="long" resultType="long">
+		SELECT mParentIdx FROM globalbiz.GlobalMenu WHERE mIdx = #{mIdx} limit 1
+	</select>
+	
+	<delete id="deleteGlobalMenuByMidx" parameterType="long">
+		DELETE FROM globalbiz.GlobalMenu WHERE mIdx = #{mIdx}
+	</delete>
+	
+	<select id="selectMDepthByMIdx" parameterType="long" resultType="int">
+		SELECT mDepth FROM globalbiz.GlobalMenu WHERE mIdx = #{mIdx} limit 1
+	</select>
+	
+	<select id="findByMDepth" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.GlobalMenu">
+		SELECT * FROM globalbiz.GlobalMenu WHERE
+			<if test="mDepth == 1">
+				m1 = #{mIdx}
+			</if>
+			<if test="mDepth == 2">
+				m2 = #{mIdx}
+			</if>
+			<if test="mDepth == 3">
+				m3 = #{mIdx}
+			</if>
+			<if test="mDepth == 4">
+				m4 = #{mIdx}
+			</if>
+			<if test="mDepth == 5">
+				m5 = #{mIdx}
+			</if>
+			<if test="mDepth == 6">
+				m6 = #{mIdx}
+			</if>
+			<if test="mDepth == 7">
+				m7 = #{mIdx}
+			</if>
+			<if test="mDepth == 8">
+				m8 = #{mIdx}
+			</if>
+			<if test="mDepth == 9">
+				m9 = #{mIdx}
+			</if>
+		ORDER BY mDepth,mSort
+	</select>
+	
+	<update id="updateGlobalMenuByMIdx" parameterType="com.jeiglobal.hk.domain.common.GlobalMenu">
+			UPDATE globalbiz.GlobalMenu SET
+			<if test="mParentIdx != null">
+				mParentIdx = #{mParentIdx},
+			</if>
+			<if test="mJisaCD != null">
+				mJisaCD = #{mJisaCD},
+			</if>
+			<if test="mEmpKeyLvCD != null">
+				mEmpKeyLvCD = #{mEmpKeyLvCD},
+			</if>
+			<if test="mDepMngCD != null">
+				mDepMngCD = #{mDepMngCD},
+			</if>
+			<if test="mMenuName != null">
+				mMenuName = #{mMenuName},
+			</if>
+			<if test="mMenuLink != null">
+				mMenuLink = #{mMenuLink},
+			</if>
+				<if test="mAntPattern != null">
+				mAntPattern = #{mAntPattern},
+			</if>
+			<if test="mCon != null">
+				mCon = #{mCon},
+			</if>
+			<if test="mSort != null">
+				mSort = #{mSort},
+			</if>
+			<if test="mMenuCode != null">
+				mMenuCode = #{mMenuCode},
+			</if>
+			<if test="mHasChildren != null">
+				mHasChildren = #{mHasChildren},
+			</if>
+			<if test="mDepth != null">
+				mDepth = #{mDepth},
+			</if>
+			<if test="mHasChildren != null">
+				mHasChildren = #{mHasChildren},
+			</if>
+			<if test="m1 != null">
+				m1 = #{m1},
+			</if>
+			<if test="m2 != null">
+				m2 = #{m2},
+			</if>
+			<if test="m3 != null">
+				m3 = #{m3},
+			</if>
+			<if test="m4 != null">
+				m4 = #{m4},
+			</if>
+			<if test="m5 != null">
+				m5 = #{m5},
+			</if>
+			<if test="m6 != null">
+				m6 = #{m6},
+			</if>
+			<if test="m7 != null">
+				m7 = #{m7},
+			</if>
+			<if test="m8 != null">
+				m8 = #{m8},
+			</if>
+			<if test="m9 != null">
+				m9 = #{m9},
+			</if>
+			<if test="mRegDate != null">
+				mRegDate = #{mRegDate},
+			</if>
+			<if test="mUpdate != null">
+				mUpdate = #{mUpdate},
+			</if>
+			<if test="mUseState != null">
+				mUseState = #{mUseState},
+			</if>
+			mIdx = #{mIdx}
+			WHERE mIdx = #{mIdx}
+	</update>
+	
+	<update id="updateMSortByMIdx" parameterType="hashMap">
+		UPDATE globalbiz.GlobalMenu SET mSort = #{mSort} WHERE mIdx = #{mIdx}
+	</update>
+	
+	<select id="findByMParentIdx" parameterType="long" resultType="com.jeiglobal.hk.domain.common.GlobalMenu">
+		SELECT * FROM globalbiz.GlobalMenu WHERE mParentIdx = #{mIdx} ORDER BY mSort ASC
+	</select>
+	
+</mapper>
