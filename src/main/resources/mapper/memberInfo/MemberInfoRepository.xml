@@ -179,9 +179,9 @@
 		ORDER BY mstCD, dtlCD, sortVal1
 	</select>
 	<select id="selectTodayHuheiCheck" parameterType="hashMap" resultType="String">
-		SELECT "false"
-		FROM globalbiz.ComCodeDtl WHERE jisaCD = #{jisa} AND mstCD IN ('0021','0201')
-		ORDER BY mstCD, dtlCD, sortVal1
+		SELECT "false" AS checkString
+		FROM globalbiz.MemHuheiMst
+		WHERE huheiYMD = #{huheiDay} and mkey = #{mdi.mKey} and subj = #{mdi.kwamok} and empKey = #{mdi.sKey}
 	</select>
 	
 </mapper>

@@ -332,7 +332,7 @@ public class MemberInfoService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
-		map.put("huheiDay", huheiDay);
+		map.put("huheiDay", "2012-06-29");
 		return memberInfoRepository.selectTodayHuheiCheck(map);
 	}
 

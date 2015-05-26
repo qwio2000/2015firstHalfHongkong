@@ -379,9 +379,8 @@ public class MemberCardController {
 	@RequestMapping(value="/memberHuhei.json",method=RequestMethod.GET,produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String memberHuheiSave(MemberDetailInfo memberDetailInfo, HttpServletRequest request, String huheiDay){
-		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String check = memberInfoService.getTodayHuheiCheck(memberDetailInfo, huheiDay);
-		
-		return "test";
+		return check;
 	}
 }

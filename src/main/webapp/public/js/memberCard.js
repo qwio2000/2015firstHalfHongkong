@@ -164,7 +164,11 @@ $(function() {
 				async: true,
 				dataType: "TEXT",
 				success: function(data) {
-					alert(data);
+					if(data == "false"){
+						alert('당일 퇴회 내역이 존재합니다');
+						return;
+					}
+					alert('휴회처리 ㅋㅋ');
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
