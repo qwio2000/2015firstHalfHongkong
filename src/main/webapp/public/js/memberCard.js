@@ -153,4 +153,28 @@ $(function() {
 				}
 			});		
 		});
+		//휴회 가능 여부 조회
+		$(document).on("click","#saveButton",function(){
+			var jsonSendData = $("#Qry2FormName").serialize();
+			$.ajax({
+				url: window.location.pathname+".json",
+				type: "GET",
+				data:jsonSendData,
+				cache: false,
+				async: true,
+				dataType: "JSON",
+				success: function(data, textStatus, XMLHttpRequest) {
+					var source = $("#template").html();
+					var template = Handlebars.compile(source);
+					Handlebars.registerHelper("inc", function(value, options){
+						return parseInt(value) + 1;
+					});
+					$("#mainContent").empty();
+					$("#mainContent").append(template(data));
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});		
+		});
 });
