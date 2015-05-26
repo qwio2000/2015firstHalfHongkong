@@ -321,17 +321,6 @@ public class MemberInfoService {
 		return memberInfoRepository.selectKwamokName(map);
 	}
 
-	public List<String> getHuheiDayList(AuthMemberInfo authMemberInfo) {
-		// TODO Auto-generated method stub
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("jisa", authMemberInfo.getJisaCD());
-		map.put("empKeyLvCD", authMemberInfo.getEmpKeyLvCD());
-		map.put("yyyy", sdf.format(cal.getTime()).substring(0, 4));
-		map.put("mm", sdf.format(cal.getTime()).substring(5));
-		return memberInfoRepository.selectHuheiDayList(map);
-	}
 
 	public List<DtlCD> getHuheiSayuList(AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub

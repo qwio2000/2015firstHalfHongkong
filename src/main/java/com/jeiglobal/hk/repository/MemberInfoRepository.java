@@ -66,8 +66,6 @@ public interface MemberInfoRepository {
 
 	public String selectKwamokName(HashMap<String, Object> map);
 
-	public List<String> selectHuheiDayList(HashMap<String, Object> map);
-
 	public List<DtlCD> selectHuheiSayuList(String jisa);
 
 }

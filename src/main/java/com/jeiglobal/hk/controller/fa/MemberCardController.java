@@ -25,6 +25,7 @@ import com.jeiglobal.hk.domain.member.MemberJindoInfo;
 import com.jeiglobal.hk.domain.member.MemberJindoSearch;
 import com.jeiglobal.hk.domain.member.MemberKwamokInfo;
 import com.jeiglobal.hk.domain.member.OmrInfo;
+import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.MemberInfoService;
 
 @Controller
@@ -33,6 +34,9 @@ public class MemberCardController {
 	
 	@Autowired
 	private MemberInfoService memberInfoService;
+	
+	@Autowired
+	private CommonService commonService;
 	
 	@RequestMapping
 	public ModelAndView memberCard(){
@@ -355,7 +359,7 @@ public class MemberCardController {
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, request);
 		String kwamokName = memberInfoService.getKwamokName(memberDetailInfo.getJisa(), memberDetailInfo.getKwamok(), request);
-		List<String> huheiDayList = memberInfoService.getHuheiDayList(authMemberInfo); 
+		List<String> huheiDayList = commonService.getHuheiDayList(authMemberInfo); 
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		List<DtlCD> huheiSayuList = memberInfoService.getHuheiSayuList(authMemberInfo);

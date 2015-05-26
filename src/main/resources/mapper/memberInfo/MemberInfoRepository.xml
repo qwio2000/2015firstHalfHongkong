@@ -173,9 +173,6 @@
 	<select id="selectKwamokName" parameterType="hashMap" resultType="String">
 		SELECT FuncMemSubjNM(#{jisa},#{kwamok},#{lang},'1') AS KwamokName
 	</select>
-	<select id="selectHuheiDayList" statementType="CALLABLE" parameterType="hashMap" resultType="String">
-		CALL globalbiz.SPDateSetting(#{yyyy},#{mm},#{jisa},#{empKeyLvCD})
-	</select>
 	<select id="selectHuheiSayuList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.DtlCD">
 		SELECT mstCD, dtlCD, jisaCD, dtlCDNME AS dtlCDNM
 		FROM globalbiz.ComCodeDtl WHERE jisaCD = #{jisa} AND mstCD IN ('0021','0201')
