@@ -359,7 +359,7 @@ public class MemberCardController {
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, request);
 		String kwamokName = memberInfoService.getKwamokName(memberDetailInfo.getJisa(), memberDetailInfo.getKwamok(), request);
-		List<String> huheiDayList = commonService.getHuheiDayList(authMemberInfo); 
+		List<String> huheiDayList = commonService.getAvailableDateList(authMemberInfo); 
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		List<DtlCD> huheiSayuList = memberInfoService.getHuheiSayuList(authMemberInfo);
