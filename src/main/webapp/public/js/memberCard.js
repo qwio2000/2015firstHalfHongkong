@@ -3,7 +3,7 @@ $(function() {
 		var memberCard_url = "/memberCard";
 		
 		// 함수 정의 
-    	$.extend ({
+		$.extend ({
 			//진단 체크
     		checkSubmit:function(check, dung) {
     			if($("input[name='kwamok']").val() != 'KM' && $("input[name='kwamok']").val() != 'EM'){
@@ -19,7 +19,6 @@ $(function() {
     			}
     		},
     		huGubun_chk:function(){
-    			alert('test');
     			if(document.Qry2FormName.huGubun.length != null){
     			    if(document.Qry2FormName.huGubun[0].checked==true){
     				    document.Qry2FormName.huSayu[0].disabled=false;
