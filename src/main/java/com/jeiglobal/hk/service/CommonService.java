@@ -17,7 +17,7 @@ public class CommonService {
 	@Autowired
 	private CommonRepository commonRepository;
 	
-	public List<String> getHuheiDayList(AuthMemberInfo authMemberInfo) {
+	public List<String> getAvailableDateList(AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
