@@ -31,7 +31,7 @@ $(function() {
 				var boo=true;
 				var chktemp = true;
 				m_tot = parseInt(document.Qry2FormName.ErrTot.value);
-				if ( chkObj.checked == true ){
+				if ( chkObj.checked ){
 					for (i=0 ; i < m_tot ; i++)
 					{
 						if (document.Qry2FormName.selError[i].value == MunNum)
@@ -118,14 +118,14 @@ $(function() {
 				pop_status.focus();
 			},
 			popupPost:function(url, mKey, sKey, kwamok){
-				 var pop_status=window.open("","Window","width=848, height=700, menubar=no,status=yes,scrollbars=no");
-				 document.frm1.action = url;
-				 document.frm1.mKey.value = mKey;
-				 document.frm1.sKey.value = sKey;
-				 document.frm1.kwamok.value = kwamok;
-				 document.frm1.target = "Window";
-				 document.frm1.submit();
-				 pop_status.focus();
+				var pop_status=window.open("","Window","width=848, height=700, menubar=no,status=yes,scrollbars=no");
+				document.frm1.action = url;
+				document.frm1.mKey.value = mKey;
+				document.frm1.sKey.value = sKey;
+				document.frm1.kwamok.value = kwamok;
+				document.frm1.target = "Window";
+				document.frm1.submit();
+				pop_status.focus();
 			}
 		});
 		
