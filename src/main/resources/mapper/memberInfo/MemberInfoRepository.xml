@@ -178,5 +178,10 @@
 		FROM globalbiz.ComCodeDtl WHERE jisaCD = #{jisa} AND mstCD IN ('0021','0201')
 		ORDER BY mstCD, dtlCD, sortVal1
 	</select>
+	<select id="selectTodayHuheiCheck" parameterType="hashMap" resultType="String">
+		SELECT "false"
+		FROM globalbiz.ComCodeDtl WHERE jisaCD = #{jisa} AND mstCD IN ('0021','0201')
+		ORDER BY mstCD, dtlCD, sortVal1
+	</select>
 	
 </mapper>

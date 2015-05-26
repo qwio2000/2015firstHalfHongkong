@@ -162,15 +162,9 @@ $(function() {
 				data:jsonSendData,
 				cache: false,
 				async: true,
-				dataType: "JSON",
-				success: function(data, textStatus, XMLHttpRequest) {
-					var source = $("#template").html();
-					var template = Handlebars.compile(source);
-					Handlebars.registerHelper("inc", function(value, options){
-						return parseInt(value) + 1;
-					});
-					$("#mainContent").empty();
-					$("#mainContent").append(template(data));
+				dataType: "TEXT",
+				success: function(data) {
+					alert(data);
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);

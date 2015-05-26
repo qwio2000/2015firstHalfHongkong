@@ -68,4 +68,6 @@ public interface MemberInfoRepository {
 
 	public List<DtlCD> selectHuheiSayuList(String jisa);
 
+	public String selectTodayHuheiCheck(HashMap<String, Object> map);
+
 }

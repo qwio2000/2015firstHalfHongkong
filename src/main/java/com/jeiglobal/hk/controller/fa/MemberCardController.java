@@ -376,13 +376,12 @@ public class MemberCardController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/memberHuheiSave.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
+	@RequestMapping(value="/memberHuhei.json",method=RequestMethod.GET,produces="application/json;charset=UTF-8;")
 	@ResponseBody
-	public MemberDetailInfo memberHuheiSave(MemberDetailInfo memberDetailInfo, HttpServletRequest request, String huGubun, String huSayu, String huheiDay){
+	public String memberHuheiSave(MemberDetailInfo memberDetailInfo, HttpServletRequest request, String huheiDay){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
-		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, request);
+		String check = memberInfoService.getTodayHuheiCheck(memberDetailInfo, huheiDay);
 		
-		return memberDetailInfo;
+		return "test";
 	}
 }

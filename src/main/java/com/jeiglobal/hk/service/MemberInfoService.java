@@ -327,4 +327,13 @@ public class MemberInfoService {
 		return memberInfoRepository.selectHuheiSayuList(authMemberInfo.getJisaCD());
 	}
 
+	public String getTodayHuheiCheck(MemberDetailInfo memberDetailInfo,
+			String huheiDay) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("mdi", memberDetailInfo);
+		map.put("huheiDay", huheiDay);
+		return memberInfoRepository.selectTodayHuheiCheck(map);
+	}
+
 }
