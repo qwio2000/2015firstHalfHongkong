@@ -85,7 +85,7 @@
 									</select>
 								</td>
 								<td>
-									<a href="#">
+									<a href="/ippr20EM?hkey=AA288249&omrDate=2014-04-14&kwamok=EM&jisa=08&omrPath=20&lang=E">
 											<img src="/public/img/common/btn_detail_view.gif" width="23" height="19" border=0>
 									</a>
 								</td>
