@@ -332,8 +332,26 @@ public class MemberInfoService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
-		map.put("huheiDay", "2012-06-29");
+		map.put("huheiDay", huheiDay);
 		return memberInfoRepository.selectTodayHuheiCheck(map);
+	}
+
+	public String getIsHuheiAgreeState(MemberDetailInfo memberDetailInfo) {
+		// TODO Auto-generated method stub
+		return memberInfoRepository.selectIsHuheiAgreeState(memberDetailInfo);
+	}
+
+	public String insertMemberHuheiInfo(MemberDetailInfo memberDetailInfo,
+			AuthMemberInfo authMemberInfo, String huGubun, String huSayu,
+			String huheiDay) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("mdi", memberDetailInfo);
+		map.put("huGubun", huGubun);
+		map.put("huSayu", huSayu);
+		map.put("huheiDay", huheiDay);
+		map.put("ami", authMemberInfo);
+		return memberInfoRepository.insertMemberHuheiInfo(map);
 	}
 
 }

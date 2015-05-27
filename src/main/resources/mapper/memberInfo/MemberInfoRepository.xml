@@ -183,5 +183,14 @@
 		FROM globalbiz.MemHuheiMst
 		WHERE huheiYMD = #{huheiDay} and mkey = #{mdi.mKey} and subj = #{mdi.kwamok} and empKey = #{mdi.sKey}
 	</select>
+	<select id="selectIsHuheiAgreeState" parameterType="com.jeiglobal.hk.domain.member.MemberDetailInfo" resultType="String">
+		SELECT "false" AS checkString
+		FROM MemHuheiAgree 
+		WHERE mkey = #{mKey} AND subj = #{kwamok} AND agreeCD = '00';
+	</select>
+	<select id="insertMemberHuheiInfo" statementType="CALLABLE" parameterType="hashMap" resultType="String">
+		CALL globalbiz.SPHuheiInsert(#{huGubun}, #{huheiDay}, #{mdi.kwamok}, #{mdi.mKey}, #{mdi.sKey}, #{ami.depid1}, #{ami.depid2}, 
+		#{ami.jisaCD}, #{huSayu}, CONCAT(#{ami.jisaCD},#{ami.empKey}), CONCAT(#{ami.jisaCD},#{ami.depid1},#{ami.depid2}), #{ami.empKeyLvCD})
+	</select>
 	
 </mapper>

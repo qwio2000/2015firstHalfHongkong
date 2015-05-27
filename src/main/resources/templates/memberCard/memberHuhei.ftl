@@ -2,7 +2,7 @@
 <body>
 <#include "/function.ftl">
 <div id="popWrapper" class="wrapper" style="width:850px;">
-	<form id="Qry2FormName" name="Qry2FormName" action="" method="post">
+	<form id="Qry2FormName" name="Qry2FormName" action="/memberCard/memberHuheiSave" method="post">
 		<input type="hidden" name="mKey" value="${memberDetailInfo.mKey?default('') }"/>
 		<input type="hidden" name="kwamok" value="${memberDetailInfo.kwamok?default('') }"/>
 		<input type="hidden" name="mFstName" value="${memberDetailInfo.mFstName?default('') }"/>

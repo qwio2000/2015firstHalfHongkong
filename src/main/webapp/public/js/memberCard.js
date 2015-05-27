@@ -164,11 +164,14 @@ $(function() {
 				async: true,
 				dataType: "TEXT",
 				success: function(data) {
-					if(data == "false"){
+					if(data == "todayHuhei"){
 						alert('당일 퇴회 내역이 존재합니다');
 						return;
+					}else if(data == "huheiAgree"){
+						alert('퇴회 면제 대기 상태입니다.')
+						return;
 					}
-					alert('휴회처리 ㅋㅋ');
+					$("#Qry2FormName").submit();
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);

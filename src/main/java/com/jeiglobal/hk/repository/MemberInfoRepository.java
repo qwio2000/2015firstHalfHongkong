@@ -70,4 +70,8 @@ public interface MemberInfoRepository {
 
 	public String selectTodayHuheiCheck(HashMap<String, Object> map);
 
+	public String selectIsHuheiAgreeState(MemberDetailInfo memberDetailInfo);
+
+	public String insertMemberHuheiInfo(HashMap<String, Object> map);
+
 }
