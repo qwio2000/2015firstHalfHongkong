@@ -1,9 +1,10 @@
 package com.jeiglobal.hk.controller.fa;
 
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,17 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jeiglobal.hk.domain.common.AuthMemberInfo;
-import com.jeiglobal.hk.domain.member.ConcatData;
-import com.jeiglobal.hk.domain.member.DtlCD;
-import com.jeiglobal.hk.domain.member.JungDabInfo;
-import com.jeiglobal.hk.domain.member.MemberDetailInfo;
-import com.jeiglobal.hk.domain.member.MemberHuheiInfo;
-import com.jeiglobal.hk.domain.member.MemberIpgumInfo;
-import com.jeiglobal.hk.domain.member.MemberIpheiInfo;
-import com.jeiglobal.hk.domain.member.MemberJindoInfo;
-import com.jeiglobal.hk.domain.member.MemberJindoSearch;
-import com.jeiglobal.hk.domain.member.MemberKwamokInfo;
-import com.jeiglobal.hk.domain.member.OmrInfo;
+import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.MemberInfoService;
 
@@ -45,6 +36,7 @@ public class MemberCardController {
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/index");
+		mav.addObject("title", "관리카드");
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("authMemberInfo", authMemberInfo);
 		return mav;
@@ -57,6 +49,7 @@ public class MemberCardController {
 		List<DtlCD> dtlCD = memberInfoService.getDtlCode(memberDetailInfo.getJisa());
 		String url = request.getRequestURI();
 		ModelAndView mav = new ModelAndView("/memberCard/memberInfo");
+		mav.addObject("title", "회원정보");
 		mav.addObject("popTitle", "회원정보");
 		mav.addObject("url", url);
 		mav.addObject("memberDetailInfo", memberDetailInfo);
@@ -70,6 +63,7 @@ public class MemberCardController {
 		List<MemberKwamokInfo> mki = memberInfoService.getMemberKwamokInfo(memberDetailInfo, request);
 		String url = request.getRequestURI();
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("title", "과목정보");
 		mav.addObject("popTitle", "회원정보");
 		mav.addObject("url", url);
 		mav.addObject("memberKwamokInfo", mki);
@@ -105,6 +99,7 @@ public class MemberCardController {
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberIpheiInfo");
+		mav.addObject("title", "입복회정보");
 		mav.addObject("popTitle", "회원정보");
 		mav.addObject("url", url);
 		mav.addObject("headerScript", headerScript);
@@ -136,6 +131,7 @@ public class MemberCardController {
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberHuheiInfo");
+		mav.addObject("title", "퇴회정보");
 		mav.addObject("popTitle", "회원정보");
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("url", url);
@@ -165,6 +161,7 @@ public class MemberCardController {
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberIpgumInfo");
+		mav.addObject("title", "입금정보");
 		mav.addObject("popTitle", "회원정보");
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("url", url);
@@ -195,6 +192,7 @@ public class MemberCardController {
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberJindoInfo");
+		mav.addObject("title", "진도정보");
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("popTitle", "회원정보");
 		mav.addObject("url", url);
@@ -226,6 +224,7 @@ public class MemberCardController {
 		List<String> kwamokList = memberInfoService.getKwamokList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/jindoSearch");
+		mav.addObject("title", "진도검색");
 		mav.addObject("searchKwamok", searchKwamok);
 		mav.addObject("kwamokList", kwamokList);
 		mav.addObject("memberDetailInfo", memberDetailInfo);
@@ -249,6 +248,7 @@ public class MemberCardController {
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberOmrInfo");
+		mav.addObject("title", "진단처방");
 		mav.addObject("popTitle", "진단처방");
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("url", url);
@@ -265,6 +265,7 @@ public class MemberCardController {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("title", "오답입력");
 		mav.addObject("popTitle", "진단처방");
 		mav.addObject("url", url);
 		mav.addObject("headerScript", headerScript);
@@ -304,9 +305,11 @@ public class MemberCardController {
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberOmrView");
+		mav.addObject("title", "진단처방검색");
 		mav.addObject("popTitle", "진단처방");
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("url", url);
+		mav.addObject("lang", memberInfoService.getCookieValue(request, "LoginLang"));
 		mav.addObject("searchKwamok", map.get("kwamok"));
 		mav.addObject("searchYY", map.get("searchYY"));
 		mav.addObject("omrGichoList", map.get("omrGichoList"));
@@ -365,6 +368,7 @@ public class MemberCardController {
 		List<DtlCD> huheiSayuList = memberInfoService.getHuheiSayuList(authMemberInfo);
 		String url = request.getRequestURI();
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("title", "퇴회정보");
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("popTitle", "퇴회입력");
 		mav.addObject("url", url);
@@ -376,13 +380,34 @@ public class MemberCardController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/memberHuheiSave.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
+	@RequestMapping(value="/memberHuhei.json",method=RequestMethod.GET,produces="application/json;charset=UTF-8;")
 	@ResponseBody
-	public MemberDetailInfo memberHuheiSave(MemberDetailInfo memberDetailInfo, HttpServletRequest request, String huGubun, String huSayu, String huheiDay){
+	public String memberHuheiSave(MemberDetailInfo memberDetailInfo, HttpServletRequest request, String huheiDay){
+		//AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String todayHuheicheck = memberInfoService.getTodayHuheiCheck(memberDetailInfo, huheiDay);
+		String huheiAgreeState = memberInfoService.getIsHuheiAgreeState(memberDetailInfo);
+		return ("false".equals(todayHuheicheck)?"todayHuhei":("false".equals(huheiAgreeState)?"huheiAgree":""));
+	}
+	
+	@RequestMapping(value="/memberHuheiSave")
+	public ModelAndView memberHuheiSave(MemberDetailInfo memberDetailInfo, HttpServletRequest request, String huGubun, 
+			String huSayu, String huheiDay, HttpServletResponse response) throws IOException{
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
-		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, request);
-		
-		return memberDetailInfo;
+		String check = memberInfoService.insertMemberHuheiInfo(memberDetailInfo, authMemberInfo, huGubun, huSayu, huheiDay);
+		ModelAndView mav = new ModelAndView();
+		if("false".equals(check)){
+			mav.addObject("message", "퇴회 처리가 정상적으로 완료되지 않았습니다.");
+			mav.addObject("url", "/memberCard/memberHuhei?mKey="+memberDetailInfo.getmKey()+"&sKey="+memberDetailInfo.getsKey()+"&kwamok="+memberDetailInfo.getKwamok());
+			mav.setViewName("alertAndRedirect");
+			return mav;
+		}
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		writer.println("<script>");
+		writer.println("alert('"+memberDetailInfo.getmKey()+"님의 퇴회처리가 완료 되었습니다.');");
+		writer.println("self:close();");
+		writer.println("</script>");
+		writer.close();
+		return null;
 	}
 }
