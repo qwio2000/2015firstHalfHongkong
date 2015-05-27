@@ -293,7 +293,7 @@ public class MemberInfoService {
 		return result;
 	}
 	
-	private String getCookieValue(HttpServletRequest request, String type) {
+	public String getCookieValue(HttpServletRequest request, String type) {
 		// TODO Auto-generated method stub
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null){	

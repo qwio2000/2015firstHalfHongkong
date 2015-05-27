@@ -126,6 +126,10 @@ $(function() {
 				document.frm1.target = "Window";
 				document.frm1.submit();
 				pop_status.focus();
+			},
+			ippr20EM:function(jisa, omrDate, hkey, kwamok, omrPath, lang){
+				var pop_status = window.open("/ippr20EM?hkey="+hkey+"&kwamok="+kwamok+"&jisa="+jisa+"&omrDate="+omrDate+"&omrPath="+omrPath+"&lang="+lang,"newWindow","width=665,height=800,marginwidth=0,marginheight=0,toolbar=no,location=no,directories=no,menubar=no,scrollbars=yes");
+				pop_status.focus();
 			}
 		});
 		
@@ -140,6 +144,7 @@ $(function() {
 				async: true,
 				dataType: "JSON",
 				success: function(data, textStatus, XMLHttpRequest) {
+					console.log(data);
 					var source = $("#template").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("inc", function(value, options){

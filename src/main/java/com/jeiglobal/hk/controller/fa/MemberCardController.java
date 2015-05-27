@@ -15,17 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jeiglobal.hk.domain.common.AuthMemberInfo;
-import com.jeiglobal.hk.domain.member.ConcatData;
-import com.jeiglobal.hk.domain.member.DtlCD;
-import com.jeiglobal.hk.domain.member.JungDabInfo;
-import com.jeiglobal.hk.domain.member.MemberDetailInfo;
-import com.jeiglobal.hk.domain.member.MemberHuheiInfo;
-import com.jeiglobal.hk.domain.member.MemberIpgumInfo;
-import com.jeiglobal.hk.domain.member.MemberIpheiInfo;
-import com.jeiglobal.hk.domain.member.MemberJindoInfo;
-import com.jeiglobal.hk.domain.member.MemberJindoSearch;
-import com.jeiglobal.hk.domain.member.MemberKwamokInfo;
-import com.jeiglobal.hk.domain.member.OmrInfo;
+import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.MemberInfoService;
 
@@ -319,6 +309,7 @@ public class MemberCardController {
 		mav.addObject("popTitle", "진단처방");
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("url", url);
+		mav.addObject("lang", memberInfoService.getCookieValue(request, "LoginLang"));
 		mav.addObject("searchKwamok", map.get("kwamok"));
 		mav.addObject("searchYY", map.get("searchYY"));
 		mav.addObject("omrGichoList", map.get("omrGichoList"));
