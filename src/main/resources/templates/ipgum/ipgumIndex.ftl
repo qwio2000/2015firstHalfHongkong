@@ -10,7 +10,7 @@
 				<#include "/leftMenu.ftl">
 			</div>
 			<div id="primary_content" class="primary-content">
-				${contents}
+				입금내용 ㅋㅋ
 			</div>
 		</div>
 	</div>
