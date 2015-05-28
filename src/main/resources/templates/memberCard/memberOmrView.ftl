@@ -85,7 +85,7 @@
 									</select>
 								</td>
 								<td>
-									<a href="#">
+									<a href="javascript:$.ippr20EM('${omrGicho.team}', '${omrGicho.omrDate}', '${omrGicho.hkey}', '${omrGicho.kwamok}', '${omrGicho.omrPath}', '${lang}');">
 											<img src="/public/img/common/btn_detail_view.gif" width="23" height="19" border=0>
 									</a>
 								</td>
@@ -162,7 +162,7 @@
 						</select>
 						</td>
 						<td>
-							<a href="#">
+							<a href="javascript:$.ippr20EM('{{team}}', '{{omrDate}}', '{{hkey}}', '{{kwamok}}', '{{omrPath}}', '{{../lang}}');">
 								<img src="/public/img/common/btn_detail_view.gif" width="23" height="19" border=0>
 							</a>
 						</td>
