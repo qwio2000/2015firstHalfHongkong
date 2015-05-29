@@ -282,7 +282,7 @@ body#login {background:url('/public/img/login/bg_header.gif') repeat-x center 0}
 .connection-box dl {padding:14px 0 0 13px;font-size:11px;line-height:15px;color:#939393;letter-spacing:-1px;}
 .connection-box dt {float:left;}
 .connection-box dd {overflow:hidden;height:15px;padding-left:4px;font-family:verdana;font-size:10px;line-height:1.2;}
-.page-path {height:32px;margin-left:-30px;border-bottom:1px solid #dbdbdb;font-size:11px;text-align:right;}
+.page-path {height:32px;margin-left:-30px;font-size:11px;text-align:right;}
 .page-path .home {padding-left:13px;background:url('/public/img/common/bul_title.gif') 0 3px no-repeat;}
 .page-path .current a {color:#484848;text-decoration:underline;font-weight:bold;}
 .page-path ul {float:right;margin-top:9px;}
