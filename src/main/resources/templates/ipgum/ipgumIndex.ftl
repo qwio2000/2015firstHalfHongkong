@@ -20,11 +20,14 @@
 				</div>
 				<div class="tab-A">
 					<ul>
-						<li class="first active"><a href="#">입금입력</a></li>
-						<li class="last"><a href="#">입금내역</a></li>
+						<li class="first active"><a href="/ipgum">입금입력</a></li>
+						<li class="last"><a href="/ipgum/ipgumList">입금내역</a></li>
 					</ul>
 				 </div>
 				 <div class="mgt-20">
+				 <p>* 페이지 준비중입니다.</p>
+				 
+				 <!--
 				<div class="table-top-msg mgt-0">
 				 <p>* 총 <em class="bor-none">105</em>명의 회원이 있습니다.</p>
 				</div>
@@ -94,8 +97,8 @@
 					  </tbody>
 					</table>
 				  </form>
-			</div>
-		</div>
+			</div>-->
+		</div> 
 	</div>
 </div>
 <!-- //container -->

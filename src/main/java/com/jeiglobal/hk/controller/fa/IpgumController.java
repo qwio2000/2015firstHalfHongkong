@@ -20,12 +20,19 @@ public class IpgumController {
 	private CommonService commonService;
 	
 	@RequestMapping
-	public ModelAndView memberCard(){
+	public ModelAndView ipgum(){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/ipgum/ipgumIndex");
 		mav.addObject("title", "입금");
 		mav.addObject("authMemberInfo", authMemberInfo);
+		return mav;
+	}
+	@RequestMapping(value="/ipgumList")
+	public ModelAndView ipgumList(){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/ipgum/ipgumList");
+		mav.addObject("title", "입금내역");
 		return mav;
 	}
 }
