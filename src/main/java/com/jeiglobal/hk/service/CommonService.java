@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,18 @@ public class CommonService {
 		map.put("yyyy", sdf.format(cal.getTime()).substring(0, 4));
 		map.put("mm", sdf.format(cal.getTime()).substring(5));
 		return commonRepository.findDateSetting(map);
+	}
+	/**
+	 * 교육원 정보 가져오기 depid,deptNM
+	 * @param authMemberInfo
+	 * @return
+	 */
+	public List<Map<String,Object>> getDepInfoList(AuthMemberInfo authMemberInfo){
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("empKeyLvCD", authMemberInfo.getEmpKeyLvCD());
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("depid1", authMemberInfo.getDepid1());
+		
+		return commonRepository.findDepart(map);
 	}
 }
