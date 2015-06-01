@@ -20,4 +20,9 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<select id="selectKwamokList" parameterType="hashMap" resultType="java.lang.String">
+		SELECT subj FROM globalbiz.MemDepositSet WHERE jisaCD=#{jisaCD} AND depid1=#{depid1} GROUP BY subj;
+	</select>
+	
 </mapper>

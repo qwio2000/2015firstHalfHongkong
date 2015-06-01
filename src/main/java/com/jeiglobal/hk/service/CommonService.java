@@ -18,6 +18,11 @@ public class CommonService {
 	@Autowired
 	private CommonRepository commonRepository;
 	
+	/**
+	 * 입회 퇴회 가능날자
+	 * @param authMemberInfo
+	 * @return
+	 */
 	public List<String> getAvailableDateList(AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
@@ -41,5 +46,20 @@ public class CommonService {
 		map.put("depid1", authMemberInfo.getDepid1());
 		
 		return commonRepository.findDepart(map);
+	}
+	
+	
+	/**
+	 * 교육원에서 사용할수있는 과목리스트 subj
+	 * @param jisaCD
+	 * @param depid1
+	 * @return
+	 */
+	public List<String> getKwamokList(String jisaCD, String depid1) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);
+		map.put("depid1", depid1);
+		return commonRepository.selectKwamokList(map);
 	}
 }

@@ -1,5 +1,7 @@
 package com.jeiglobal.hk.controller.fa;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.context.*;
 import org.springframework.stereotype.*;
@@ -30,6 +32,14 @@ public class IpgumController {
 	}
 	@RequestMapping(value="/ipgumList")
 	public ModelAndView ipgumList(){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Map<String, Object>> depList = commonService.getDepInfoList(authMemberInfo);
+		for (Map<String, Object> map : depList) {
+			Set<String> keySet = map.keySet();
+			for (String string : keySet) {
+				System.out.println(string +" : " + map.get(string));
+			}
+		}
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/ipgum/ipgumList");
 		mav.addObject("title", "입금내역");

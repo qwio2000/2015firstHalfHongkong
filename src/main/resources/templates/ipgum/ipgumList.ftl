@@ -23,7 +23,7 @@
 						</ul>
 					</div>
 					<div class="mgt-20">
-						<div class="message-top2">
+						<div class="message-top2" style="margin-bottom: 20px">
 							<div class="union">
 								<input id="" type="radio"><label for="">우리지역국</label> <input
 									id="" type="radio"><label for="">우리사업국</label> <input
@@ -37,9 +37,9 @@
 									size="8px" type="submit" name="" value="검색"></span>
 							</div>
 						</div>
-						<div class="tbl-type-D">
+						<div class="tbl-type-D" style="overflow: auto; height: 600px;">
 							<form class="" name="" action="" method="post">
-								<table cellspacing="0" cellpadding="0" border="0" width="100%">
+								<table cellspacing="0" cellpadding="0" border="0" width="100%" style="height: 300px;">
 									<colgroup>
 										<col width="5%">
 										<col width="10%">
@@ -65,6 +65,16 @@
 											<td>수학</td>
 											<td>유재헌</a></td>
 											<td>ACC00290<a href="#none"></td>
+											<td>길음</td>
+											<td>초1</td>
+											<td>010-3899-7696</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>105</td>
+											<td>수학</td>
+											<td>유재헌</td>
+											<td>ACC00290<a href="#none"></a></td>
 											<td>길음</td>
 											<td>초1</td>
 											<td>010-3899-7696</td>
