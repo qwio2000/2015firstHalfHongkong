@@ -46,8 +46,6 @@ public interface MemberInfoRepository {
 	public List<MemberJindoSearchInfo> selectMemberJindoSearchInfo(
 			HashMap<String, Object> map);
 
-	public List<String> selectKwamokList(HashMap<String, Object> map);
-
 	public List<OmrGicho> selectOmrGichoList(HashMap<String, Object> map);
 
 	public OmrInfo selectMemberJindanCheck(MemberDetailInfo memberDetailInfo);
