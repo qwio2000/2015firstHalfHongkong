@@ -186,14 +186,6 @@ public class MemberInfoService {
 		return memberInfoRepository.selectMemberJindoSearch(map);
 	}
 
-	public List<String> getKwamokList(String jisaCD, String depid1) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("jisaCD", jisaCD);
-		map.put("depid1", depid1);
-		return memberInfoRepository.selectKwamokList(map);
-	}
-
 	public HashMap<String, Object> getOmrGichoList(MemberDetailInfo memberDetailInfo,
 			String searchYY, String searchKwamok, AuthMemberInfo authMemberInfo, HttpServletRequest request) {
 		// TODO Auto-generated method stub
