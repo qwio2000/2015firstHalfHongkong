@@ -25,7 +25,7 @@
 				<option value="${searchYY?default(curYY)}" ${compare(searchYY,searchYY?default(curYY),"selected='selected'","")}>${searchYY?default(curYY)}년</option>
 				<option value="${((searchYY?default(curYY))?number+1)?string("##0")}" ${compare(searchYY,((searchYY?default(curYY))?number+1)?string("##0"),"selected='selected'","")}>${((searchYY?default(curYY))?number+1)?string("##0")}년</option>
 			</select>
-			<span>과목 : <#include "/memberCard/kwamokInfo.ftl"></span>
+			<span>과목 : <#include "/common/kwamokInfo.ftl"></span>
 			<span class="button"><input id="searchBtn" style="width:80px" type ="button" name="" value="검색"></span>
 		</div>
 		 <p class="mgt-20 mgb-20"></p>

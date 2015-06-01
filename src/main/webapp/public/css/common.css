@@ -1089,7 +1089,7 @@ Yuk! CSS Hack for IE6 3 pixel bug :(
 .message-top2 .union {width:90px;float:left;}
 .message-top2 .union input {vertical-align:-2px;}
 .message-top2 .user_info { margin-top:16px; }
-.message-top2 .user_info input{width:50px;}
+.message-top2 .user_info input{width:100px;}
 .message-top2 .user_info span {vertical-align:middle; margin:0 5px;}
 .topmsg {width:634px; height:28px; float:left; margin-right:30px; margin-top:10px;padding:7px 0 19px 19px;border:2px solid #dbdbdb;line-height:20px;font-size:11px;}
 

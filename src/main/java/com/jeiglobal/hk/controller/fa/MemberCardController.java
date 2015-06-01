@@ -93,7 +93,7 @@ public class MemberCardController {
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String firstIpheiDate = memberInfoService.getMemberFirstIpheiDate(memberDetailInfo, searchKwamok);
 		List<MemberIpheiInfo> ipheiList = memberInfoService.getMemberIpheiInfo(memberDetailInfo,searchKwamok, authMemberInfo, request);
-		List<String> kwamokList = commonService.getKwamokList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(request, authMemberInfo);
 		String url = request.getRequestURI();
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
@@ -125,7 +125,7 @@ public class MemberCardController {
 	public ModelAndView huheiInfo(MemberDetailInfo memberDetailInfo, String searchKwamok, HttpServletRequest request){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberHuheiInfo> huheiList = memberInfoService.getMemberHuheiInfo(memberDetailInfo, searchKwamok, authMemberInfo, request);
-		List<String> kwamokList = commonService.getKwamokList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(request, authMemberInfo);
 		String url = request.getRequestURI();
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
@@ -155,7 +155,7 @@ public class MemberCardController {
 	public ModelAndView ipgumInfo(MemberDetailInfo memberDetailInfo, String searchKwamok, HttpServletRequest request){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberIpgumInfo> ipgumList = memberInfoService.getMemberIpgumInfo(memberDetailInfo,searchKwamok,authMemberInfo,request);
-		List<String> kwamokList = commonService.getKwamokList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(request, authMemberInfo);
 		String url = request.getRequestURI();
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
@@ -185,7 +185,7 @@ public class MemberCardController {
 	public ModelAndView jindoInfo(MemberDetailInfo memberDetailInfo, String searchKwamok, HttpServletRequest request){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberJindoInfo> jindoList = memberInfoService.getMemberJindoInfo(memberDetailInfo,searchKwamok,authMemberInfo, request);
-		List<String> kwamokList = commonService.getKwamokList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(request, authMemberInfo);
 		SimpleDateFormat sdf = new SimpleDateFormat("MM");
 		String url = request.getRequestURI();
 		List<String> headerScript = new ArrayList<String>();
@@ -221,7 +221,7 @@ public class MemberCardController {
 		MemberJindoSearch mjs = memberInfoService.getMemberInfo(memberDetailInfo, searchKwamok, authMemberInfo, request);
 		HashMap<String, Object> map = new HashMap<>();
 		map = memberInfoService.getMemberJindoSearch(memberDetailInfo,searchYY,searchMM, searchKwamok,authMemberInfo);
-		List<String> kwamokList = commonService.getKwamokList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(request, authMemberInfo);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/jindoSearch");
 		mav.addObject("title", "진도검색");
@@ -298,7 +298,7 @@ public class MemberCardController {
 	@RequestMapping(value="/memberOmrView")
 	public ModelAndView memberOmrView(MemberDetailInfo memberDetailInfo, String searchYY, String searchKwamok, HttpServletRequest request){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<String> kwamokList = commonService.getKwamokList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(request, authMemberInfo);
 		HashMap<String, Object> map = memberInfoService.getOmrGichoList(memberDetailInfo,searchYY,searchKwamok,authMemberInfo, request);
 		String url = request.getRequestURI();
 		List<String> headerScript = new ArrayList<String>();

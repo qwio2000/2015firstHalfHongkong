@@ -14,7 +14,7 @@
 			<input type="hidden" name="kwamok" value="${memberDetailInfo.kwamok}">
 			<input type="hidden" name="mFstName" value="${memberDetailInfo.mFstName}">
 		<div style="float: right;">
-		과목 : <#include "/memberCard/kwamokInfo.ftl">&nbsp;&nbsp;&nbsp;&nbsp;
+		과목 : <#include "/common/kwamokInfo.ftl">&nbsp;&nbsp;&nbsp;&nbsp;
 			<select name="searchYY">
 				<option value="${yearNumberFormat(searchYY?number-1) }">${yearNumberFormat(searchYY?number-1) }</option>
 				<option value="${yearNumberFormat(searchYY?number) }" selected="selected">${yearNumberFormat(searchYY?number) }</option>

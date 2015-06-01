@@ -24,100 +24,253 @@
 					</div>
 					<div class="mgt-20">
 						<div class="message-top2" style="margin-bottom: 20px">
-							<div class="union">
-								<input id="" type="radio"><label for="">우리지역국</label> <input
-									id="" type="radio"><label for="">우리사업국</label> <input
-									id="" type="radio"><label for="">전사</label>
-							</div>
+						<form class="" name="" action="" id="frm1" method="post">
 							<div class="user_info">
-								<span>회원번호</span><input size="6px" type="text" class="text" />
-								<span>회원명</span><input size="6px" type="text" class="text" /> <span>주민번호</span><input
-									type="text" size="10px" class="text" />&nbsp;-&nbsp;<input
-									type="text" size="10px" class="text" /> <span class="button"><input
-									size="8px" type="submit" name="" value="검색"></span>
+								<span>교실</span> 
+								<select name="empKey" style="vertical-align: middle;width: 200px;">
+									<option value="all">전체</option>
+									<#list classList as class>
+									<option value="${class.empKey }">${class.empKey }
+										(${class.empName })</option>
+									</#list>
+								</select> 
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<span>과목</span> 
+								<select name="kwamok" style="vertical-align: middle;width: 80px;text-align: center;">
+									<option value="all">전체</option>
+									<#list kwamokList as kwamok>
+									<option value="${kwamok }">${kwamok }</option>
+									</#list>
+								</select> 
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<span>입금종류</span> 
+								<select name="existCD" style="vertical-align: middle;width: 80px;">
+									<option value="all">전체</option>
+									<option value="1">신입</option>
+									<option value="2">기존</option>
+								</select><br/><br/>
+								<span>회원번호</span><input type="text" class="text" name="mKey" />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<select name="chkVal" style="vertical-align: middle;width: 80px;">
+									<option value="1">입금일</option>
+									<option value="2">작업일</option>
+								</select>&nbsp;&nbsp;
+								<input type="text" class="datePicker" name="startDay" value="${.now?string("yyyy-MM-dd")}"/>&nbsp;~&nbsp;
+								<input type="text" size="10px" class="datePicker" name="endDay" value="${.now?string("yyyy-MM-dd")}"/> 
+								<span class="button"><input size="8px" type="button" name="" id="searchBtn" value="검색"></span>
 							</div>
+						</form>
 						</div>
-						<div class="tbl-type-D" style="overflow: auto; height: 600px;">
-							<form class="" name="" action="" method="post">
-								<table cellspacing="0" cellpadding="0" border="0" width="100%" style="height: 300px;">
+						<div id="mainContent" class="tbl-type-D">
+							<div style="width: 967px;overflow: auto;overflow-y:hidden; height: 500px;">
+								<table style="border: 0px;border-spacing: 0;width: 1300px;">
 									<colgroup>
-										<col width="5%">
-										<col width="10%">
-										<col width="10%">
-										<col width="15%">
-										<col width="15%">
-										<col width="8%">
-										<col width="*">
+										<col width="50px"/>
+										<col width="150px"/>
+										<col width="80px"/>
+										<col width="120px"/>
+										<col width="50px"/>
+										<col width="100px"/>
+										<col width="150px"/>
+										<col width="105px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
 									</colgroup>
 									<tbody>
 										<tr>
-											<th>번호</th>
-											<th><span class="sort sort-down">과목</span></th>
-											<th><span class="sort sort-down">회원명</span></th>
-											<th><span class="sort sort-down">회원번호</span></th>
-											<th><span class="sort sort-down">학교</span></th>
-											<th><span class="sort sort-down">학년</span></th>
-											<th>전화번호</th>
-											<th>패키지</th>
+											<th rowspan="2">번호</th>
+											<th rowspan="2"><span class="sort sort-down">교육원</span></th>
+											<th rowspan="2"><span class="sort sort-down">입금일</span></th>
+											<th rowspan="2"><span class="sort sort-down">교실명</span></th>
+											<th rowspan="2"><span class="sort sort-down">과목</span></th>
+											<th rowspan="2"><span class="sort sort-down">회원번호</span></th>
+											<th rowspan="2">회원명</th>
+											<th rowspan="2">입금구분</th>
+											<th colspan="3">입회비</th>
+											<th colspan="3">월회비</th>
+											<th colspan="3">계</th>
 										</tr>
 										<tr>
-											<td>105</td>
-											<td>수학</td>
-											<td>유재헌</a></td>
-											<td>ACC00290<a href="#none"></td>
-											<td>길음</td>
-											<td>초1</td>
-											<td>010-3899-7696</td>
-											<td></td>
+											<th>일반</th>
+											<th>면제</th>
+											<th>합계</th>
+											<th>일반</th>
+											<th>면제</th>
+											<th>합계</th>
+											<th>일반</th>
+											<th>면제</th>
+											<th>합계</th>
 										</tr>
 										<tr>
-											<td>105</td>
-											<td>수학</td>
-											<td>유재헌</td>
-											<td>ACC00290<a href="#none"></a></td>
-											<td>길음</td>
-											<td>초1</td>
-											<td>010-3899-7696</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>105</td>
-											<td>수학</td>
-											<td>유재헌</td>
-											<td>ACC00290<a href="#none"></a></td>
-											<td>길음</td>
-											<td>초1</td>
-											<td>010-3899-7696</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>105</td>
-											<td>수학</td>
-											<td>유재헌</td>
-											<td>ACC00290<a href="#none"></a></td>
-											<td>길음</td>
-											<td>초1</td>
-											<td>010-3899-7696</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>105</td>
-											<td>수학</td>
-											<td>유재헌</td>
-											<td>ACC00290<a href="#none"></a></td>
-											<td>길음</td>
-											<td>초1</td>
-											<td>010-3899-7696</td>
-											<td></td>
+											<td colspan="8">합계</td>
+											<td>0</td>
+											<td>0</td>
+											<td>0</td>
+											<td>0</td>
+											<td>0</td>
+											<td>0</td>
+											<td>0</td>
+											<td>0</td>
+											<td>0</td>
 										</tr>
 									</tbody>
 								</table>
-							</form>
+								<div style="overflow: auto;width:1300px; height:400px;">
+								<table style="border: 0px;border-spacing: 0;width: 1300px;">
+									<colgroup>
+										<col width="50px"/>
+										<col width="150px"/>
+										<col width="80px"/>
+										<col width="120px"/>
+										<col width="50px"/>
+										<col width="100px"/>
+										<col width="150px"/>
+										<col width="105px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+										<col width="55px"/>
+									</colgroup>
+									<tbody>
+									<tr>
+										<td colspan="17" height="300">검색된 결과가 없습니다.</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
 			<!-- //container -->
 			<#include "/footer.ftl">
 </body>
+<script id="template" type="text/x-handlebars-template"> 
+<div style="width: 967px;overflow: auto;overflow-y:hidden; height: 500px;">
+	<table style="border: 0px;border-spacing: 0;width: 1300px;">
+		<colgroup>
+			<col width="50px"/>
+			<col width="150px"/>
+			<col width="80px"/>
+			<col width="120px"/>
+			<col width="50px"/>
+			<col width="100px"/>
+			<col width="150px"/>
+			<col width="105px"/>
+			<col width="55px"/>
+			<col width="55px"/>
+			<col width="55px"/>
+			<col width="55px"/>
+			<col width="55px"/>
+			<col width="55px"/>
+			<col width="55px"/>
+			<col width="55px"/>
+			<col width="55px"/>
+		</colgroup>
+		<tbody>
+			<tr>
+				<th rowspan="2">번호</th>
+				<th rowspan="2"><span class="sort sort-down">교육원</span></th>
+				<th rowspan="2"><span class="sort sort-down">입금일</span></th>
+				<th rowspan="2"><span class="sort sort-down">교실명</span></th>
+				<th rowspan="2"><span class="sort sort-down">과목</span></th>
+				<th rowspan="2"><span class="sort sort-down">회원번호</span></th>
+				<th rowspan="2">회원명</th>
+				<th rowspan="2">입금구분</th>
+				<th colspan="3">입회비</th>
+				<th colspan="3">월회비</th>
+				<th colspan="3">계</th>
+			</tr>
+			<tr>
+				<th>일반</th>
+				<th>면제</th>
+				<th>합계</th>
+				<th>일반</th>
+				<th>면제</th>
+				<th>합계</th>
+				<th>일반</th>
+				<th>면제</th>
+				<th>합계</th>
+			</tr>
+			<tr>
+				<td colspan="8">합계</td>
+				<td>{{totHeibi.sumIpheibi}}</td>
+				<td>{{totHeibi.sumIpheibiFree}}</td>
+				<td>{{totHeibi.sumTotIpheibi}}</td>
+				<td>{{totHeibi.sumWolheibiFree}}</td>
+				<td>{{totHeibi.sumWolheibi}}</td>
+				<td>{{totHeibi.sumTotWolheibi}}</td>
+				<td>{{totHeibi.sumTotIlbanHeibi}}</td>
+				<td>{{totHeibi.sumTotHeibiFree}}</td>
+				<td>{{totHeibi.sumTotHeibi}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div style="overflow: auto;width:1300px; height:400px;">
+		<table style="border: 0px;border-spacing: 0;width: 1300px;">
+			<colgroup>
+				<col width="50px"/>
+				<col width="150px"/>
+				<col width="80px"/>
+				<col width="120px"/>
+				<col width="50px"/>
+				<col width="100px"/>
+				<col width="150px"/>
+				<col width="105px"/>
+				<col width="55px"/>
+				<col width="55px"/>
+				<col width="55px"/>
+				<col width="55px"/>
+				<col width="55px"/>
+				<col width="55px"/>
+				<col width="55px"/>
+				<col width="55px"/>
+				<col width="55px"/>
+			</colgroup>
+			<tbody>
+			{{#each ipgumInfoList}}
+				<tr>
+					<td>{{inc @index}}</td>
+					<td>{{depidNM}}</td>
+					<td>{{ipgumYMD}}</td>
+					<td>{{empName}}</td>
+					<td>{{subj}}</td>
+					<td>{{mkey}}</td>
+					<td>{{mName}}</td>
+					<td>{{existCDNM}}</td>
+					<td>{{ipheibi}}</td>
+					<td>{{ipheibiFree}}</td>
+					<td>{{sumIpheibi}}</td>
+					<td>{{wolheibi}}</td>
+					<td>{{wolheibiFree}}</td>
+					<td>{{sumWolheibi}}</td>
+					<td>{{sumHeibi}}</td>
+					<td>{{sumFreeHeibi}}</td>
+					<td>{{totHeibi}}</td>
+				</tr>
+			{{else}}
+				<tr>
+					<td colspan="17" height="300">검색된 결과가 없습니다.</td>
+				</tr>
+			{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>
+</script>
 </html>

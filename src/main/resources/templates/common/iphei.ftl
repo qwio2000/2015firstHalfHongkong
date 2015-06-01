@@ -75,4 +75,3 @@
 <#include "/footer.ftl">
 </body>
 </html>
->>>>>>> refs/remotes/origin/master

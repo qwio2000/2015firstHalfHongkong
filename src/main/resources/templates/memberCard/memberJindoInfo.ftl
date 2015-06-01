@@ -15,7 +15,7 @@
 		<!-- 로고 및 탭 -->
 		<#include "/memberCard/memberPopMenu.ftl">
 		<p class="mgt-10 mgb-10">${memberDetailInfo.mFstName?default('') } 회원 상세정보 입니다.
-		<span id="search" style="float: right;"><#include "/memberCard/kwamokInfo.ftl">
+		<span id="search" style="float: right;"><#include "/common/kwamokInfo.ftl">
 		<span class="button btn-type-G"><a class="w-65" href="javascript:$.locationGubun('/memberCard/memberJindoInfo','2');">조회</a></span>
 		<span class="button btn-type-G"><a class="w-65" href="javascript:$.jindoSearch('${memberDetailInfo.mKey?default('')}','${memberDetailInfo.kwamok?default('')}','${memberDetailInfo.mFstName?default('') }');">검색</a></span>
 		</span>

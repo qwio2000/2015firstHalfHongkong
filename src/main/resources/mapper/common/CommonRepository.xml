@@ -22,7 +22,23 @@
 	</select>
 	
 	<select id="selectKwamokList" parameterType="hashMap" resultType="java.lang.String">
-		SELECT subj FROM globalbiz.MemDepositSet WHERE jisaCD=#{jisaCD} AND depid1=#{depid1} GROUP BY subj;
+		<choose>
+			<when test="empKeyLvCD != null and empKeyLvCD.equalsIgnoreCase('JA')">
+				CALL globalbiz.SPMemDeptSubj(#{jisaCD}, '', '', #{lang})
+			</when>
+			<when test="empKeyLvCD != null and empKeyLvCD.equalsIgnoreCase('FA')">
+				CALL globalbiz.SPMemDeptSubj(#{jisaCD}, #{depid1}, '', #{lang})
+			</when>
+			<otherwise>
+				CALL globalbiz.SPMemDeptSubj(#{jisaCD}, #{depid1}, #{depid2}, #{lang})
+			</otherwise>
+		</choose>
+	</select>
+	<select id="selectClassList" parameterType="hashMap" resultType="hashMap">
+		SELECT empKey, empName
+		FROM globalbiz.ComEmpMst
+		WHERE jisaCD = #{jisaCD} AND depid1=#{depid1} AND (stateCD = '1' OR (stateCD = '2' AND LEFT(rYMD, 7) = DATE_FORMAT(NOW(),'%Y-%m')))
+		ORDER BY empKeyLvCD DESC, empKey asc
 	</select>
 	
 </mapper>
