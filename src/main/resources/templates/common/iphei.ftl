@@ -45,6 +45,7 @@
 						<tr>
 							<th>입회종류</th>
 							<td colspan="3">
+<<<<<<< HEAD
 								<input type="radio" name="ipkind" checked="checked" value="01">New Enrollment
 								<input type="radio" name="ipkind" value="02">Existing Member
 								<input type="radio" name="ipkind" value="03">Free diagnostic test
@@ -64,7 +65,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td></td>
+							<td>검색들어갈자리</td>
 						</tr>
 					</table>
 				</div>

@@ -53,12 +53,6 @@
 		#{mdi.sexCD},#{mdi.schoolName},#{mdi.gradeCD},#{mdi.addr},#{mdi.tel},#{mdi.gFstName},#{mdi.gLstName},#{mdi.gPhone},#{mdi.ePhone},#{mdi.mEmail},#{mdi.gEmail},#{mdi.ipheiPath},#{mdi.specialComment},CONCAT(#{ami.jisaCD},#{ami.empKey}),
 		CONCAT(#{ami.jisaCD},#{ami.depid1}),#{mdi.fstYoil},#{mdi.sndYoil},#{mdi.cngFstYoil},#{mdi.cngSndYoil})}
 	</select>
-	<select id="selectFirstIpheiDate" parameterType="hashMap" resultType="java.lang.String">
-		SELECT ipheiYMD AS firstIpheiDate 
-		FROM globalbiz.MemIpheiMst 
-		WHERE mkey=#{mKey}
-		ORDER BY ipheiYMD LIMIT 0,1
-	</select>
 	<select id="selectMemberIpheiInfoList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberIpheiInfo">
 		SELECT subj as kwamok,ipheiYMD, globalbiz.FuncCodeDtlNM(#{jisa},'0011',ipheiGubunCD,#{lang},'1') AS ipheiGubun, globalbiz.FuncCodeDtlNM(#{jisa},'0055',ipheiKindMstCD,#{lang},'1') AS ipheiKind, jGradeCD,
 				setCnt, fstYMD, fstEmpKey, fstEmpName, sndYMD, sndEmpKey, sndEmpName
@@ -174,6 +168,20 @@
 		SELECT mstCD, dtlCD, jisaCD, dtlCDNME AS dtlCDNM
 		FROM globalbiz.ComCodeDtl WHERE jisaCD = #{jisa} AND mstCD IN ('0021','0201')
 		ORDER BY mstCD, dtlCD, sortVal1
+	</select>
+	<select id="selectTodayHuheiCheck" parameterType="hashMap" resultType="String">
+		SELECT "false" AS checkString
+		FROM globalbiz.MemHuheiMst
+		WHERE huheiYMD = #{huheiDay} and mkey = #{mdi.mKey} and subj = #{mdi.kwamok} and empKey = #{mdi.sKey}
+	</select>
+	<select id="selectIsHuheiAgreeState" parameterType="com.jeiglobal.hk.domain.member.MemberDetailInfo" resultType="String">
+		SELECT "false" AS checkString
+		FROM MemHuheiAgree 
+		WHERE mkey = #{mKey} AND subj = #{kwamok} AND agreeCD = '00';
+	</select>
+	<select id="insertMemberHuheiInfo" statementType="CALLABLE" parameterType="hashMap" resultType="String">
+		CALL globalbiz.SPHuheiInsert(#{huGubun}, #{huheiDay}, #{mdi.kwamok}, #{mdi.mKey}, #{mdi.sKey}, #{ami.depid1}, #{ami.depid2}, 
+		#{ami.jisaCD}, #{huSayu}, CONCAT(#{ami.jisaCD},#{ami.empKey}), CONCAT(#{ami.jisaCD},#{ami.depid1},#{ami.depid2}), #{ami.empKeyLvCD})
 	</select>
 	
 </mapper>

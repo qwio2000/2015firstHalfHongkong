@@ -1,16 +1,13 @@
 package com.jeiglobal.hk.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.*;
+import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import com.jeiglobal.hk.domain.common.AuthMemberInfo;
-import com.jeiglobal.hk.repository.CommonRepository;
+import com.jeiglobal.hk.domain.common.*;
+import com.jeiglobal.hk.repository.*;
 
 @Service
 public class CommonService {
@@ -27,7 +24,7 @@ public class CommonService {
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("jisa", authMemberInfo.getJisaCD());
 		map.put("empKeyLvCD", authMemberInfo.getEmpKeyLvCD());
 		map.put("yyyy", sdf.format(cal.getTime()).substring(0, 4));
@@ -40,7 +37,7 @@ public class CommonService {
 	 * @return
 	 */
 	public List<Map<String,Object>> getDepInfoList(AuthMemberInfo authMemberInfo){
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("empKeyLvCD", authMemberInfo.getEmpKeyLvCD());
 		map.put("jisaCD", authMemberInfo.getJisaCD());
 		map.put("depid1", authMemberInfo.getDepid1());
@@ -55,11 +52,29 @@ public class CommonService {
 	 * @param depid1
 	 * @return
 	 */
-	public List<String> getKwamokList(String jisaCD, String depid1) {
+	public List<String> getKwamokList(String loginLang, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<>();
-		map.put("jisaCD", jisaCD);
-		map.put("depid1", depid1);
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("depid1", authMemberInfo.getDepid1());
+		map.put("depid2", authMemberInfo.getDepid2());
+		map.put("empKeyLvCD", authMemberInfo.getEmpKeyLvCD());
+		map.put("lang", loginLang);
 		return commonRepository.selectKwamokList(map);
 	}
+
+	/**
+	 * 교육원 교실정보 리스트 empKey, empName
+	 * @param jisaCD
+	 * @param depid1
+	 * @return
+	 */
+	public List<Map<String,Object>> getClassList(AuthMemberInfo authMemberInfo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("depid1", authMemberInfo.getDepid1());
+		return commonRepository.selectClassList(map);
+	}
+	
 }

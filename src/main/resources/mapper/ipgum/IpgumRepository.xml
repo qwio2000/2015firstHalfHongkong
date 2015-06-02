@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.IpgumRepository">
+	
+	
+	<select id="selectTotHeibi" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.ipgum.TotalHeibi">
+		SELECT IFNULL(SUM(ipheibiFree),0) AS sumIpheibiFree, IFNULL(SUM(ipheibi),0) AS sumIpheibi, IFNULL(SUM(ipheibiFree+ipheibi),0) AS sumTotIpheibi,
+				IFNULL(SUM(wolheibiFree),0) AS sumWolheibiFree, IFNULL(SUM(wolheibi),0) AS sumWolheibi, IFNULL(SUM(wolheibiFree+wolheibi),0) AS sumTotWolheibi,
+				IFNULL(SUM(ipheibiFree+wolheibiFree),0) AS sumTotHeibiFree,
+				IFNULL(SUM(ipheibi+wolheibi),0) AS sumTotIlbanHeibi,	
+				IFNULL(SUM(ipheibiFree+wolheibiFree+ipheibi+wolheibi),0) AS sumTotHeibi
+		FROM globalbiz.MemIpgumMst
+		WHERE branchCD LIKE '${jisaCD}%' 
+		<if test="empKey != 'all'">
+   		 AND empKey = #{empKey}
+  		</if>
+		<if test="kwamok != 'all'">
+   		 AND subj = #{kwamok}
+  		</if>
+		<if test="existCD != 'all'">
+   		 AND existCD = #{existCD}
+  		</if>
+		<if test="mKey != null and mKey != ''">
+   		 AND mkey = #{mKey}
+  		</if>
+  		<if test="depid1 != null and depid1 neq 00000">
+   		 AND depid1 = #{depid1} AND depid2 = #{depid2}
+  		</if>
+  		<choose>
+  			<when test="chkVal eq 1">
+  				AND ipgumYMD 
+  			</when>
+  			<otherwise>
+  				AND DATE_FORMAT(regDate,'%Y-%m-%d') 
+  			</otherwise>
+  		</choose>
+		 BETWEEN #{startDay} AND #{endDay} 
+	</select>
+	<select id="selectIpgumInfoList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.ipgum.IpgumInfo">
+		SELECT a.ipgumYMD, a.empKey, a.empName, a.subj, a.mkey, CONCAT(a.mFirstName, IFNULL(a.mLastName,'')) AS mName, a.existCD, globalbiz.FuncCodeDtlNM(#{jisaCD},'0024',a.existCD,#{lang},'1') AS existCDNM,
+			a.ipheibiFree, a.ipheibi, a.ipheibiFree+a.ipheibi AS sumIpheibi,
+			a.wolheibiFree, a.wolheibi, a.wolheibiFree+a.wolheibi AS sumWolheibi,
+			a.ipheibiFree+a.ipheibi+a.wolheibiFree+a.wolheibi AS totHeibi,
+			a.ipheibiFree+a.wolheibiFree AS sumFreeHeibi,
+			a.ipheibi+a.wolheibi AS sumHeibi, b.depidNM
+		FROM globalbiz.MemIpgumMst AS a
+		INNER JOIN globalbiz.ComDepartMst AS b ON a.branchCD = CONCAT(b.jisaCD,b.depid1,b.depid2)
+		WHERE branchCD LIKE '${jisaCD}%' 
+		<if test="empKey != 'all'">
+   		 AND empKey = #{empKey}
+  		</if>
+		<if test="kwamok != 'all'">
+   		 AND subj = #{kwamok}
+  		</if>
+		<if test="existCD != 'all'">
+   		 AND existCD = #{existCD}
+  		</if>
+		<if test="mKey != null and mKey != ''">
+   		 AND mkey = #{mKey}
+  		</if>
+		<if test="depid1 != null and depid1 neq 00000">
+   		 AND a.depid1 = #{depid1} AND a.depid2 = #{depid2}
+  		</if>
+  		<choose>
+  			<when test="chkVal eq 1">
+  				AND ipgumYMD 
+  			</when>
+  			<otherwise>
+  				AND DATE_FORMAT(a.regDate,'%Y-%m-%d') 
+  			</otherwise>
+  		</choose>
+		 BETWEEN #{startDay} AND #{endDay} 
+		 ORDER BY ipgumYMD
+	</select>
+</mapper>

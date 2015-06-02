@@ -15,9 +15,9 @@
 		<!-- 로고 및 탭 -->
 		<#include "/memberCard/memberPopMenu.ftl">
 		<p class="mgt-10 mgb-10">${memberDetailInfo.mFstName?default('') } 회원 상세정보 입니다.
-		<span id="search" style="float: right;"><#include "/memberCard/kwamokInfo.ftl">
+		<span id="search" style="float: right;"><#include "/common/kwamokInfo.ftl">
 		<span class="button btn-type-G"><a class="w-65" href="javascript:$.locationGubun('/memberCard/memberJindoInfo','2');">조회</a></span>
-		<span class="button btn-type-G"><a class="w-65" href="javascript:jindo_Sch('${memberDetailInfo.mKey?default('')}','${memberDetailInfo.kwamok?default('')}','${memberDetailInfo.mFstName?default('') }');">검색</a></span>
+		<span class="button btn-type-G"><a class="w-65" href="javascript:$.jindoSearch('${memberDetailInfo.mKey?default('')}','${memberDetailInfo.kwamok?default('')}','${memberDetailInfo.mFstName?default('') }');">검색</a></span>
 		</span>
 		</p>
 		<div class="tbl-type-D">
@@ -75,11 +75,5 @@
 	</div>
 	</form>
 </div>
-<script type="text/javascript">
-function jindo_Sch(mKey, kwamok,mFstName){
-	var pop_status = window.open("/memberCard/jindoSearch?mKey="+mKey+"&kwamok="+kwamok+"&mFstName="+mFstName,"newWindow","width=665,height=800,marginwidth=0,marginheight=0,toolbar=no,location=no,directories=no,menubar=no,scrollbars=yes");
-	 pop_status.focus();
-}
-</script>
 </body>
 </html>
