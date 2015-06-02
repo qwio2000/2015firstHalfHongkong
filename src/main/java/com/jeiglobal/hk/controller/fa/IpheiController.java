@@ -1,5 +1,10 @@
 package com.jeiglobal.hk.controller.fa;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +30,16 @@ public class IpheiController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) authentication.getPrincipal();
 		
-		commonService.getAvailableDateList(authMemberInfo);
-		
+		List<String> availableDateList = commonService.getAvailableDateList(authMemberInfo);
+		List<Map<String,Object>> depInfoList = commonService.getDepInfoList(authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		model.addAttribute("title","입복회페이지");
-		
+		model.addAttribute("availableDateList",availableDateList);
+		model.addAttribute("nowDate",sdf.format(cal.getTime()));
+		model.addAttribute("depInfoList",depInfoList);
+		model.addAttribute("kwamokList",kwamokList);
 		
 		return "common/iphei";
 	}
