@@ -1,7 +1,11 @@
 package com.jeiglobal.hk.domain.member;
 
 import org.springframework.core.style.ToStringCreator;
-
+/**
+ * 회원과목정보
+ * @author JSY
+ *
+ */
 public class MemberKwamokInfo {
 	private String kwamok;
 	private String state;

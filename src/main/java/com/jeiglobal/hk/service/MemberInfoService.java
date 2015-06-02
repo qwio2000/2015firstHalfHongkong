@@ -124,7 +124,15 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberHuheiInfoList(map);
 	}
-
+	
+	/**
+	 * 회원 입금정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return List<MemberIpgumInfo>
+	 */
 	public List<MemberIpgumInfo> getMemberIpgumInfo(
 			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
@@ -136,7 +144,15 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberIpgumInfoList(map);
 	}
-
+	
+	/**
+	 * 회원의 진도정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return List<MemberJindoInfo>
+	 */
 	public List<MemberJindoInfo> getMemberJindoInfo(
 			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
@@ -151,7 +167,16 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberJindoInfoList(map);
 	}
-
+	
+	/**
+	 * 회원의 진도검색 정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchYY
+	 * @param searchMM
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @return Map<String, Object>
+	 */
 	public Map<String, Object> getMemberJindoSearch(
 			MemberDetailInfo memberDetailInfo, String searchYY, String searchMM, String searchKwamok, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
@@ -193,7 +218,15 @@ public class MemberInfoService {
 		map.put("indArray", indArray);
 		return map;
 	}
-
+	
+	/**
+	 * 회원 과목 별 요일 정보 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return MemberJindoSearch
+	 */
 	public MemberJindoSearch getMemberInfo(MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -204,7 +237,16 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberJindoSearch(map);
 	}
-
+	
+	/**
+	 * 회원의 진도처방 기록을 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchYY
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return Map<String, Object>
+	 */
 	public Map<String, Object> getOmrGichoList(MemberDetailInfo memberDetailInfo,
 			String searchYY, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
@@ -227,12 +269,24 @@ public class MemberInfoService {
 		map.put("omrGichoList", memberInfoRepository.selectOmrGichoList(map));
 		return map;
 	}
-
+	
+	/**
+	 * 회원의 진단 처방 가능 여부를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @return OmrInfo
+	 */
 	public OmrInfo getMemberJindanCheck(MemberDetailInfo memberDetailInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectMemberJindanCheck(memberDetailInfo);
 	}
-
+	
+	/**
+	 * 진단 처방 시 해당 과목, 등급에 맞는 정답리스트를 가져오는 메서드
+	 * @param kwamok
+	 * @param dung
+	 * @param authMemberInfo
+	 * @return List<JungDabInfo>
+	 */
 	public List<JungDabInfo> getJungDabList(String kwamok, String dung, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -241,7 +295,14 @@ public class MemberInfoService {
 		map.put("jisa", authMemberInfo.getJisaCD());
 		return memberInfoRepository.selectJungDabList(map);
 	}
-
+	
+	/**
+	 * 진단 처방 시 해당 과목, 등급에 맞는 문항 수를 가져오는 메서드
+	 * @param kwamok
+	 * @param dung
+	 * @param authMemberInfo
+	 * @return count(문항 수)
+	 */
 	public int getTotMunCount(String kwamok, String dung, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -250,12 +311,23 @@ public class MemberInfoService {
 		map.put("jisa", authMemberInfo.getJisaCD());
 		return memberInfoRepository.selectTotMunCount(map);
 	}
-
+	
+	/**
+	 * 회원의 이전 처방 정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @return insta(이전 처방정보)
+	 */
 	public String getMemberOmrCheck(MemberDetailInfo memberDetailInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectMemberOmrCheck(memberDetailInfo);
 	}
-
+	
+	/**
+	 * 진단 처방 시 OmrGicho 정보를 넣는 메서드
+	 * @param memberDetailInfo
+	 * @param dung
+	 * @param authMemberInfo
+	 */
 	public void insertMemberOmrGicho(MemberDetailInfo memberDetailInfo,
 			String dung, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
@@ -265,7 +337,15 @@ public class MemberInfoService {
 		map.put("ami", authMemberInfo);
 		memberInfoRepository.insertOmrGicho(map);
 	}
-
+	
+	/**
+	 * 회원의 오답을 저장하는 메서드
+	 * @param memberDetailInfo
+	 * @param dung
+	 * @param errLst
+	 * @param errTot
+	 * @param authMemberInfo
+	 */
 	public void insertOdabInfo(MemberDetailInfo memberDetailInfo, String dung,
 			String errLst, int errTot, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
@@ -292,7 +372,14 @@ public class MemberInfoService {
 			memberInfoRepository.insertOdabInfo(map);
 		}
 	}
-
+	
+	/**
+	 * 회원의 오답정보를 이용하여 처방하는 메서드
+	 * @param authMemberInfo
+	 * @param memberDetailInfo
+	 * @param dung
+	 * @return
+	 */
 	public String omrBan(AuthMemberInfo authMemberInfo,
 			MemberDetailInfo memberDetailInfo, String dung) {
 		// TODO Auto-generated method stub
@@ -304,6 +391,13 @@ public class MemberInfoService {
 		return result;
 	}
 	
+	/**
+	 * 해당 과목의 이름을 가져오는 메서드
+	 * @param jisa
+	 * @param kwamok
+	 * @param loginLang
+	 * @return kwamokName(String)
+	 */
 	public String getKwamokName(String jisa, String kwamok,
 			String loginLang) {
 		// TODO Auto-generated method stub
@@ -314,12 +408,22 @@ public class MemberInfoService {
 		return memberInfoRepository.selectKwamokName(map);
 	}
 
-
+	/**
+	 * 퇴회 사유를 가져오는 메서드
+	 * @param authMemberInfo
+	 * @return List<DtlCD>
+	 */
 	public List<DtlCD> getHuheiSayuList(AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectHuheiSayuList(authMemberInfo.getJisaCD());
 	}
-
+	
+	/**
+	 * 당일 휴회 여부를 체크하는 메서드
+	 * @param memberDetailInfo
+	 * @param huheiDay
+	 * @return check(String)
+	 */
 	public String getTodayHuheiCheck(MemberDetailInfo memberDetailInfo,
 			String huheiDay) {
 		// TODO Auto-generated method stub
@@ -328,12 +432,26 @@ public class MemberInfoService {
 		map.put("huheiDay", huheiDay);
 		return memberInfoRepository.selectTodayHuheiCheck(map);
 	}
-
+	
+	/**
+	 * 휴회 대기 상태를 알아보는 메서드
+	 * @param memberDetailInfo
+	 * @return check(String)
+	 */
 	public String getIsHuheiAgreeState(MemberDetailInfo memberDetailInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectIsHuheiAgreeState(memberDetailInfo);
 	}
-
+	
+	/**
+	 * 회원의 퇴회 정보를 저장하는 메서드
+	 * @param memberDetailInfo
+	 * @param authMemberInfo
+	 * @param huGubun
+	 * @param huSayu
+	 * @param huheiDay
+	 * @return check(String)
+	 */
 	public String insertMemberHuheiInfo(MemberDetailInfo memberDetailInfo,
 			AuthMemberInfo authMemberInfo, String huGubun, String huSayu,
 			String huheiDay) {

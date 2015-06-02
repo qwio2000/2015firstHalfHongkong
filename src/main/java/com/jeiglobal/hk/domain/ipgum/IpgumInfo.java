@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.ipgum;
-
+/**
+ * 입금내역정보
+ * @author JSY
+ *
+ */
 public class IpgumInfo {
 	private String ipgumYMD;
 	private String empKey;

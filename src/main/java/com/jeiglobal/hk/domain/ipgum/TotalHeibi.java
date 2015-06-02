@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.ipgum;
-
+/**
+ * 입금내역 합계정보
+ * @author JSY
+ *
+ */
 public class TotalHeibi {
 	private int sumIpheibiFree;
 	private int sumIpheibi;

@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.member;
-
+/**
+ * 회원 진도검색 정보
+ * @author JSY
+ *
+ */
 public class MemberJindoSearchInfo {
 	private String subj;
 	private String yy;

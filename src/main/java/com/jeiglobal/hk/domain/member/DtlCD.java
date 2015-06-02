@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.member;
-
+/**
+ * CodeDtl정보
+ * @author JSY
+ *
+ */
 public class DtlCD {
 	private String mstCD;
 	private String dtlCD;

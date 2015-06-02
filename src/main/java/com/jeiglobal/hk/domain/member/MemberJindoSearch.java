@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.member;
-
+/**
+ * 회원 과목 별 요일 정보(진도검색시)
+ * @author JSY
+ *
+ */
 public class MemberJindoSearch {
 	private String mFstName;
 	private String mLstName;
