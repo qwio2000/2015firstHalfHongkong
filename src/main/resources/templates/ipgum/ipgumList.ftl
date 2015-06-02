@@ -61,96 +61,7 @@
 							</div>
 						</form>
 						</div>
-						<div id="mainContent" class="tbl-type-D">
-							<div style="width: 967px;overflow: auto;overflow-y:hidden; height: 500px;">
-								<table style="border: 0px;border-spacing: 0;width: 1300px;">
-									<colgroup>
-										<col width="50px"/>
-										<col width="150px"/>
-										<col width="80px"/>
-										<col width="120px"/>
-										<col width="50px"/>
-										<col width="100px"/>
-										<col width="150px"/>
-										<col width="105px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-									</colgroup>
-									<tbody>
-										<tr>
-											<th rowspan="2">번호</th>
-											<th rowspan="2"><span class="sort sort-down">교육원</span></th>
-											<th rowspan="2"><span class="sort sort-down">입금일</span></th>
-											<th rowspan="2"><span class="sort sort-down">교실명</span></th>
-											<th rowspan="2"><span class="sort sort-down">과목</span></th>
-											<th rowspan="2"><span class="sort sort-down">회원번호</span></th>
-											<th rowspan="2">회원명</th>
-											<th rowspan="2">입금구분</th>
-											<th colspan="3">입회비</th>
-											<th colspan="3">월회비</th>
-											<th colspan="3">계</th>
-										</tr>
-										<tr>
-											<th>일반</th>
-											<th>면제</th>
-											<th>합계</th>
-											<th>일반</th>
-											<th>면제</th>
-											<th>합계</th>
-											<th>일반</th>
-											<th>면제</th>
-											<th>합계</th>
-										</tr>
-										<tr>
-											<td colspan="8">합계</td>
-											<td>0</td>
-											<td>0</td>
-											<td>0</td>
-											<td>0</td>
-											<td>0</td>
-											<td>0</td>
-											<td>0</td>
-											<td>0</td>
-											<td>0</td>
-										</tr>
-									</tbody>
-								</table>
-								<div style="overflow: auto;width:1300px; height:400px;">
-								<table style="border: 0px;border-spacing: 0;width: 1300px;">
-									<colgroup>
-										<col width="50px"/>
-										<col width="150px"/>
-										<col width="80px"/>
-										<col width="120px"/>
-										<col width="50px"/>
-										<col width="100px"/>
-										<col width="150px"/>
-										<col width="105px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-										<col width="55px"/>
-									</colgroup>
-									<tbody>
-									<tr>
-										<td colspan="17" height="300">검색된 결과가 없습니다.</td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
-							</div>
+						<div id="mainContent">
 						</div>
 					</div>
 				</div>
@@ -161,7 +72,8 @@
 			<#include "/footer.ftl">
 </body>
 <script id="template" type="text/x-handlebars-template"> 
-<div style="width: 967px;overflow: auto;overflow-y:hidden; height: 500px;">
+<p class="text-r">총 : {{ipgumInfoList.length}}건</p>
+<div class="tbl-type-D" style="width: 967px;overflow: auto;overflow-y:hidden; height: 500px;">
 	<table style="border: 0px;border-spacing: 0;width: 1300px;">
 		<colgroup>
 			<col width="50px"/>
