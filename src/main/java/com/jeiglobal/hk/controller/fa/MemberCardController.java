@@ -41,14 +41,13 @@ public class MemberCardController {
 	}
 	@RequestMapping(value="/memberInfo")
 	public ModelAndView memberInfo(MemberDetailInfo memberDetailInfo, 
-			@CookieValue(value="LoginLang",defaultValue="E") String loginLang, HttpServletRequest request){
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, loginLang);
 		List<DtlCD> dtlCD = memberInfoService.getDtlCode(memberDetailInfo.getJisa());
 		ModelAndView mav = new ModelAndView("/memberCard/memberInfo");
 		mav.addObject("title", "회원정보");
-		mav.addObject("url", request.getRequestURI());
 		mav.addObject("popTitle", "회원정보");
 		mav.addObject("memberDetailInfo", memberDetailInfo);
 		mav.addObject("dtlCD", dtlCD);
@@ -56,14 +55,13 @@ public class MemberCardController {
 	}
 	@RequestMapping(value="/memberKwamokInfo")
 	public ModelAndView kwamokInfo(MemberDetailInfo memberDetailInfo, 
-			@CookieValue(value="LoginLang",defaultValue="E") String loginLang, HttpServletRequest request){
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		List<MemberKwamokInfo> mki = memberInfoService.getMemberKwamokInfo(memberDetailInfo, loginLang);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("title", "과목정보");
 		mav.addObject("popTitle", "회원정보");
-		mav.addObject("url", request.getRequestURI());
 		mav.addObject("memberKwamokInfo", mki);
 		mav.addObject("memberDetailInfo", memberDetailInfo);
 		mav.setViewName("/memberCard/memberKwamokInfo");
@@ -88,7 +86,7 @@ public class MemberCardController {
 	}
 	@RequestMapping(value="/memberIpheiInfo")
 	public ModelAndView ipheiInfo(MemberDetailInfo memberDetailInfo, 
-			@CookieValue(value="LoginLang",defaultValue="E") String loginLang, HttpServletRequest request){
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberIpheiInfo> ipheiList = memberInfoService.getMemberIpheiInfo(memberDetailInfo, null, authMemberInfo, loginLang);
 		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
@@ -98,7 +96,6 @@ public class MemberCardController {
 		mav.setViewName("/memberCard/memberIpheiInfo");
 		mav.addObject("title", "입복회정보");
 		mav.addObject("popTitle", "회원정보");
-		mav.addObject("url", request.getRequestURI());
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("kwamokList", kwamokList);
 		mav.addObject("memberDetailInfo", memberDetailInfo);
@@ -119,7 +116,7 @@ public class MemberCardController {
 	
 	@RequestMapping(value="/memberHuheiInfo")
 	public ModelAndView huheiInfo(MemberDetailInfo memberDetailInfo, 
-			@CookieValue(value="LoginLang",defaultValue="E") String loginLang, HttpServletRequest request){
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberHuheiInfo> huheiList = memberInfoService.getMemberHuheiInfo(memberDetailInfo, null, authMemberInfo, loginLang);
 		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
@@ -129,7 +126,6 @@ public class MemberCardController {
 		mav.setViewName("/memberCard/memberHuheiInfo");
 		mav.addObject("title", "퇴회정보");
 		mav.addObject("popTitle", "회원정보");
-		mav.addObject("url", request.getRequestURI());
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("kwamokList", kwamokList);
 		mav.addObject("memberDetailInfo", memberDetailInfo);
@@ -149,7 +145,7 @@ public class MemberCardController {
 	}
 	@RequestMapping(value="/memberIpgumInfo")
 	public ModelAndView ipgumInfo(MemberDetailInfo memberDetailInfo, 
-			@CookieValue(value="LoginLang",defaultValue="E") String loginLang, HttpServletRequest request){
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberIpgumInfo> ipgumList = memberInfoService.getMemberIpgumInfo(memberDetailInfo,null,authMemberInfo,loginLang);
 		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
@@ -159,7 +155,6 @@ public class MemberCardController {
 		mav.setViewName("/memberCard/memberIpgumInfo");
 		mav.addObject("title", "입금정보");
 		mav.addObject("popTitle", "회원정보");
-		mav.addObject("url", request.getRequestURI());
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("kwamokList", kwamokList);
 		mav.addObject("memberDetailInfo", memberDetailInfo);
@@ -179,7 +174,7 @@ public class MemberCardController {
 	}
 	@RequestMapping(value="/memberJindoInfo")
 	public ModelAndView jindoInfo(MemberDetailInfo memberDetailInfo, String searchKwamok,
-			@CookieValue(value="LoginLang",defaultValue="E") String loginLang, HttpServletRequest request){
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberJindoInfo> jindoList = memberInfoService.getMemberJindoInfo(memberDetailInfo,searchKwamok,authMemberInfo, loginLang);
 		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
@@ -189,7 +184,6 @@ public class MemberCardController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberJindoInfo");
 		mav.addObject("title", "진도정보");
-		mav.addObject("url", request.getRequestURI());
 		mav.addObject("headerScript", headerScript);
 		mav.addObject("popTitle", "회원정보");
 		mav.addObject("searchKwamok", searchKwamok);
