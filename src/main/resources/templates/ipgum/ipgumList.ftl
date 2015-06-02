@@ -124,8 +124,8 @@
 				<td>{{totHeibi.sumIpheibi}}</td>
 				<td>{{totHeibi.sumIpheibiFree}}</td>
 				<td>{{totHeibi.sumTotIpheibi}}</td>
-				<td>{{totHeibi.sumWolheibiFree}}</td>
 				<td>{{totHeibi.sumWolheibi}}</td>
+				<td>{{totHeibi.sumWolheibiFree}}</td>
 				<td>{{totHeibi.sumTotWolheibi}}</td>
 				<td>{{totHeibi.sumTotIlbanHeibi}}</td>
 				<td>{{totHeibi.sumTotHeibiFree}}</td>
