@@ -45,14 +45,27 @@
 						<tr>
 							<th>입회종류</th>
 							<td colspan="3">
-								<input type="radio" name="ipkind" value="01">New Enrollment
+<<<<<<< HEAD
+								<input type="radio" name="ipkind" checked="checked" value="01">New Enrollment
 								<input type="radio" name="ipkind" value="02">Existing Member
 								<input type="radio" name="ipkind" value="03">Free diagnostic test
 							</td>
 						</tr>
 						<tr>
 							<th>과목선택</th>
-							<td colspan="3">체크박스들</td>
+							<td colspan="3">
+								<#if kwamokList?has_content>
+									<#list kwamokList as kwList>
+										<#if kwList_index == 6>
+											<br/>
+										</#if>
+										<input type="checkbox" name="subj" value="${kwList}">${kwList}
+									</#list>
+								</#if>
+							</td>
+						</tr>
+						<tr>
+							<td>검색들어갈자리</td>
 						</tr>
 					</table>
 				</div>
