@@ -1,20 +1,13 @@
 package com.jeiglobal.hk.service;
 
-import java.io.*;
-import java.net.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.*;
+import java.util.*;
 
-import javax.servlet.http.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.jeiglobal.hk.domain.common.AuthMemberInfo;
-import com.jeiglobal.hk.repository.CommonRepository;
+import com.jeiglobal.hk.domain.common.*;
+import com.jeiglobal.hk.repository.*;
 
 @Service
 public class CommonService {
@@ -31,7 +24,7 @@ public class CommonService {
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("jisa", authMemberInfo.getJisaCD());
 		map.put("empKeyLvCD", authMemberInfo.getEmpKeyLvCD());
 		map.put("yyyy", sdf.format(cal.getTime()).substring(0, 4));
@@ -44,7 +37,7 @@ public class CommonService {
 	 * @return
 	 */
 	public List<Map<String,Object>> getDepInfoList(AuthMemberInfo authMemberInfo){
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("empKeyLvCD", authMemberInfo.getEmpKeyLvCD());
 		map.put("jisaCD", authMemberInfo.getJisaCD());
 		map.put("depid1", authMemberInfo.getDepid1());
@@ -59,14 +52,14 @@ public class CommonService {
 	 * @param depid1
 	 * @return
 	 */
-	public List<String> getKwamokList(HttpServletRequest request, AuthMemberInfo authMemberInfo) {
+	public List<String> getKwamokList(String loginLang, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<>();
 		map.put("jisaCD", authMemberInfo.getJisaCD());
 		map.put("depid1", authMemberInfo.getDepid1());
 		map.put("depid2", authMemberInfo.getDepid2());
 		map.put("empKeyLvCD", authMemberInfo.getEmpKeyLvCD());
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		return commonRepository.selectKwamokList(map);
 	}
 
@@ -84,27 +77,4 @@ public class CommonService {
 		return commonRepository.selectClassList(map);
 	}
 	
-	/**
-	 * 쿠키 값 가져오는 메서드 
-	 * @param request
-	 * @param type
-	 * @return
-	 */
-	public String getCookieValue(HttpServletRequest request, String type) {
-		// TODO Auto-generated method stub
-		Cookie[] cookies = request.getCookies();
-		if(cookies != null){	
-			for (Cookie cookie : cookies) {
-				if(cookie.getName().equals(type)){
-					try {
-						return URLDecoder.decode(cookie.getValue(), "utf-8");
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						return null;
-					}
-				}
-			}
-		}
-		return null;
-	}
 }

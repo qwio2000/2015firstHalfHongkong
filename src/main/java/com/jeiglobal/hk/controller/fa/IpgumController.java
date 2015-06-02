@@ -2,8 +2,6 @@ package com.jeiglobal.hk.controller.fa;
 
 import java.util.*;
 
-import javax.servlet.http.*;
-
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.context.*;
 import org.springframework.stereotype.*;
@@ -34,10 +32,10 @@ public class IpgumController {
 		return mav;
 	}
 	@RequestMapping(value="/ipgumList")
-	public ModelAndView ipgumList(HttpServletRequest request){
+	public ModelAndView ipgumList(@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
-		List<String> kwamokList = commonService.getKwamokList(request, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
 		List<String> headerScript = new ArrayList<>();
 		headerScript.add("ipgum");
 		ModelAndView mav = new ModelAndView();
@@ -51,10 +49,10 @@ public class IpgumController {
 	@RequestMapping(value="/ipgumList.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public Map<String, Object> ipgumListJson(String empKey, String kwamok, String existCD, String mKey, 
-			String chkVal, String startDay, String endDay, HttpServletRequest request){
+			String chkVal, String startDay, String endDay, @CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		TotalHeibi totHeibi = ipgumService.getTotHeibi(empKey, kwamok, mKey, existCD, chkVal, startDay, endDay, authMemberInfo, request);
-		List<IpgumInfo> ipgumInfoList = ipgumService.getIpgumList(empKey, kwamok, mKey, existCD, chkVal, startDay, endDay, authMemberInfo, request);
+		TotalHeibi totHeibi = ipgumService.getTotHeibi(empKey, kwamok, mKey, existCD, chkVal, startDay, endDay, authMemberInfo);
+		List<IpgumInfo> ipgumInfoList = ipgumService.getIpgumList(empKey, kwamok, mKey, existCD, chkVal, startDay, endDay, authMemberInfo, loginLang);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("totHeibi", totHeibi);
 		map.put("ipgumInfoList", ipgumInfoList);
