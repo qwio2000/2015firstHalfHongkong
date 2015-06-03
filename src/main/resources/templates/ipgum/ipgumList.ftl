@@ -48,9 +48,10 @@
 									<option value="all">전체</option>
 									<option value="1">신입</option>
 									<option value="2">기존</option>
-								</select><br/><br/>
-								<span>회원번호</span><input type="text" class="text" name="mKey" />
+								</select>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<span>회원번호</span><input type="text" class="text" name="mKey" />
+								<br/><br/>
 								<select name="chkVal" style="vertical-align: middle;width: 80px;">
 									<option value="1">입금일</option>
 									<option value="2">작업일</option>
