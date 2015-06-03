@@ -241,6 +241,7 @@ public class MemberCardController {
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, loginLang);
+		System.out.println(memberDetailInfo);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
@@ -311,6 +312,7 @@ public class MemberCardController {
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, loginLang);
 		String check = memberInfoService.getMemberOmrCheck(memberDetailInfo);
+		System.out.println(check);
 		if(check != null && !check.isEmpty()){
 			if(check.equals("1")){
 				mav.addObject("message", "회원의 이전 처방이 분석이 되지 않았습니다.");

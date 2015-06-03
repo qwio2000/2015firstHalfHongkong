@@ -31,7 +31,7 @@
 		</p>
 		
 			<div class="btn-box">
-				<span class="button btn-type-G"><a class="w-65" style="width: 65px;" href="javascript:$.checkSubmit(<#if omrInfo?exists>'true','${omrInfo.jset?substring(0,1)}'<#else>'false',''</#if>);">진단입력</a></span>
+				<span class="button btn-type-G"><a class="w-65" style="width: 65px;" href="javascript:$.checkSubmit(<#if omrInfo?exists>true,'${omrInfo.jset?substring(0,1)}'<#else>false,''</#if>);">진단입력</a></span>
 				<span class="button btn-type-E"><a class="w-65" style="width: 65px;" href="javascript:self:close();">닫기</a></span>
 			</div>
 	</div>
