@@ -5,4 +5,7 @@
 	<select id="selectEncryptPassWord" statementType="CALLABLE" parameterType="java.lang.String" resultType="java.lang.String">
 	 {	CALL JEIGLOBAL.dbo.USP_GLOBAL_PASSWORD_CHK(#{password})   }
 	</select>
+	<select id="selectKoreaMemberSearch" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.manageInfo.KoreaMemberInfo">
+	 {	CALL JEIGLOBAL.dbo.KO_MEMBER_FIND_LST(#{type},#{searchWord},#{birthDay},#{ami.jisaCD},#{state},'','')}
+	</select>
 </mapper>

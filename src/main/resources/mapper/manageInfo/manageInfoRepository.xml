@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.ManageInfoRepository">
+	
+	
+	<select id="selectMemberSearchInfo" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.manageInfo.MemberSearchInfo">
+		SELECT a.mKey, a.subj AS kwamok, globalbiz.FuncCodeDtlNM('08','0008',a.stateCD,'E','1') AS state, b.mFstName, globalbiz.FuncCodeDtlNM('08','0007',b.sexCD,'E','1') AS sex, 
+			b.birthYMD AS birthDay, CASE WHEN a.bokheiYMD != '' THEN a.bokheiYMD ELSE a.ipheiYMD END AS lastIpBokheiDay, a.huheiYMD AS huheiDay, globalbiz.FuncCodeDtlNM('08','0001','08','E','1') AS jisa,
+			b.tel, b.addr, a.fstEmpKey AS sKey
+		FROM globalbiz.MemKwamokMst AS a
+		INNER JOIN globalbiz.MemMst AS b ON a.mkey = b.mkey
+		<choose>
+  			<when test="type eq 1">
+  				WHERE a.mKey = #{searchWord}
+  			</when>
+  			<otherwise>
+  				WHERE b.mFstName like '%${searchWord}%'
+  			</otherwise>
+  		</choose>
+		<if test="birthDay != ''">
+   		 AND b.birthYMD like '${birthDay}%'
+  		</if>
+		<choose>
+			<when test="check eq 1">
+				<choose>
+					<when test="ami.empKeyLvCD != null and ami.empKeyLvCD.equalsIgnoreCase('JA')">
+						AND a.jisaCD = #{ami.jisaCD}
+					</when>
+					<otherwise>
+						AND a.jisaCD = #{ami.jisaCD} AND a.fstDepid1 = #{ami.depid1}
+					</otherwise>
+				</choose>
+  			</when>
+  			<otherwise>
+  				<if test="ami.empKeyLvCD != null and ami.empKeyLvCD.equalsIgnoreCase('FA')">
+		   			 AND a.jisaCD = #{ami.jisaCD}
+		  		</if>
+  			</otherwise>
+  		</choose>
+	   	ORDER BY a.mKey, a.subj
+	</select>
+</mapper>

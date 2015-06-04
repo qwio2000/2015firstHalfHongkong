@@ -91,8 +91,32 @@ $(function(){
 				showMonthAfterYear : true,
 				yearSuffix : '년'
 	});
-	
-	
+	$(".datePicker_yymm").datepicker(
+		{
+			changeMonth: true,
+			changeYear: true,
+			dateFormat : 'yy-mm',
+			showButtonPanel: true,
+			yearRange: "-100:+0",
+			monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월',
+							'9월', '10월', '11월', '12월' ],
+			monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
+							'8월', '9월', '10월', '11월', '12월' ],
+			yearSuffix : '년',
+			showMonthAfterYear : true,
+			closeText : "확인",
+			currentText : "오늘",
+			onSelect: function()
+			{ 
+				var dateObject = $(this).datepicker('getDate'); 
+			},
+			onClose: function(dateText, inst){
+				var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+				var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+				$(this).datepicker('setDate', new Date(year, month, 1));
+			},
+		});
+	 
 	//family site
 	$('.fmTitle').click(function(e) {
 		var target = $(this).attr('href');
