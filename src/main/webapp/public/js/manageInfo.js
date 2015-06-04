@@ -5,15 +5,6 @@ $(function() {
 			pop_status.focus();
 		}
 	});
-		var head = $("head");
-		var headlinkLast = head.find("link[rel='stylesheet']:last");
-		var linkElement = "<style>.ui-datepicker-calendar {display: none;}</style>";
-		if (headlinkLast.length){
-			headlinkLast.after(linkElement);
-		}
-		else {
-		   head.append(linkElement);
-		}
 		// parameter 정의
 		var manageInfo_url = "/manageInfo";
 		
@@ -83,6 +74,34 @@ $(function() {
 					    } else {
 					        return options.inverse(this);
 					    }
+					});
+					$("#mainContent").empty();
+					$("#mainContent").append(template(data));
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});
+		});
+		$(document).on("click","#search",function(){
+			var url = manageInfo_url+window.location.pathname+".json";
+			var jsonSendData = $("#frm1").serialize();
+			console.log(url);
+			console.log(jsonSendData);
+			$.ajax({
+				url: url,
+				type: "POST",
+				data:jsonSendData,
+				cache: false,
+				async: true,
+				dataType: "JSON",
+				success: function(data, textStatus, XMLHttpRequest) {
+					console.log(data);
+					var source = $("#template").html();
+					var template = Handlebars.compile(source);
+					//index값 0부터 시작하기 때문에 1증가
+					Handlebars.registerHelper("inc", function(value, options){
+						return parseInt(value) + 1;
 					});
 					$("#mainContent").empty();
 					$("#mainContent").append(template(data));

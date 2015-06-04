@@ -1,5 +1,16 @@
 <#include "/header.ftl">
 <body>
+<script>
+	var head = $("head");
+	var headlinkLast = head.find("link[rel='stylesheet']:last");
+	var linkElement = "<style>.ui-datepicker-calendar {display: none;}</style>";
+	if (headlinkLast.length){
+		headlinkLast.after(linkElement);
+	}
+	else {
+	   head.append(linkElement);
+	}
+</script>
 <#include "/function.ftl">
 <div id="wrapper">
 	<#include "/headerMenu.ftl">

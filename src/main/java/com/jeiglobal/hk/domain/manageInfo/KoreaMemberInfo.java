@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.manageInfo;
-
+/**
+ * 한국회원 조회 정보
+ * @author JSY
+ *
+ */
 public class KoreaMemberInfo {
 	private String HKEY;
 	private String HKWAMOK;

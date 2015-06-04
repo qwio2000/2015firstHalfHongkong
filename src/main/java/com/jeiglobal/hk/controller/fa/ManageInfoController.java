@@ -13,13 +13,15 @@ import com.jeiglobal.hk.domain.manageInfo.*;
 import com.jeiglobal.hk.service.*;
 
 @Controller
-@RequestMapping(value="/manageInfo")
 public class ManageInfoController {
 	
 	@Autowired
 	public ManageInfoService manageInfoService;
 	
-	@RequestMapping
+	@Autowired
+	public CommonService commonService;
+
+	@RequestMapping(value="/manageInfo")
 	public ModelAndView memberSearch(){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<String> headerScript = new ArrayList<>();
@@ -31,7 +33,7 @@ public class ManageInfoController {
 		mav.addObject("authMemberInfo", authMemberInfo);
 		return mav;
 	}
-	@RequestMapping(value="/manageInfo.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
+	@RequestMapping(value="/manageInfo/manageInfo.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public Map<String, Object> memberSearchJson(String type, String searchWord, String birthDay, String check,
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
@@ -41,7 +43,7 @@ public class ManageInfoController {
 		map.put("memberSearchInfoList", memberSearchInfoList);
 		return map;
 	}
-	@RequestMapping(value="/korMemberSearch")
+	@RequestMapping(value="/manageInfo/korMemberSearch")
 	public ModelAndView korMemberSearch(){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<String> headerScript = new ArrayList<>();
@@ -53,14 +55,53 @@ public class ManageInfoController {
 		mav.addObject("authMemberInfo", authMemberInfo);
 		return mav;
 	}
-	@RequestMapping(value="/korMemberSearch.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
+	@RequestMapping(value="/manageInfo/korMemberSearch.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
 	@ResponseBody
-	public Map<String, Object> korMemberSearchJson(String type, String searchWord, String birthDay, String state,
-			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+	public Map<String, Object> korMemberSearchJson(String type, String searchWord, String birthDay, String state){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<KoreaMemberInfo> korMemberSearchInfoList = manageInfoService.getKorMemberSearchInfo(type, searchWord, birthDay, state, authMemberInfo);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("korMemberSearchInfoList", korMemberSearchInfoList);
+		return map;
+	}
+	@RequestMapping(value="/emptyHakjuk")
+	public ModelAndView emptyHakjuk(){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
+		List<String> headerScript = new ArrayList<>();
+		headerScript.add("manageInfo");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/manageInfo/emptyHakjuk");
+		mav.addObject("title", "학적관리");
+		mav.addObject("classList",classList);
+		mav.addObject("headerScript",headerScript);
+		mav.addObject("authMemberInfo", authMemberInfo);
+		return mav;
+	}
+	@RequestMapping(value="/huheiList")
+	public ModelAndView huheiList(@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> headerScript = new ArrayList<>();
+		headerScript.add("manageInfo");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/manageInfo/huheiList");
+		mav.addObject("title", "학적관리");
+		mav.addObject("classList",classList);
+		mav.addObject("kwamokList",kwamokList);
+		mav.addObject("headerScript",headerScript);
+		mav.addObject("authMemberInfo", authMemberInfo);
+		return mav;
+	}
+	@RequestMapping(value="/manageInfo/huheiList.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> huheiListJson(String empKey, String kwamok, String startBirthDate, String endBirthDate,
+			String hu_skey, String startHuheiDate, String endHuheiDate,@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<HuheiMemberInfo> huheiMemberList = manageInfoService.getHuheiMemberList(empKey, kwamok, startBirthDate, endBirthDate, hu_skey, startHuheiDate, endHuheiDate, authMemberInfo,loginLang);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("huheiMemberList", huheiMemberList);
 		return map;
 	}
 }

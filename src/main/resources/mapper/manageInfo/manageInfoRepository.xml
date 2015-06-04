@@ -39,4 +39,7 @@
   		</choose>
 	   	ORDER BY a.mKey, a.subj
 	</select>
+	<select id="selectHuheiMemberList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.manageInfo.HuheiMemberInfo">
+		CALL globalbiz.SPHuheiList(#{hu_skey},#{startBirthDate},#{endBirthDate},#{startHuheiDate},#{endHuheiDate},#{kwamok},#{empKey},#{ami.depid1},#{ami.depid2},#{ami.jisaCD},#{loginLang})
+	</select>
 </mapper>

@@ -7,6 +7,8 @@ import com.jeiglobal.hk.domain.manageInfo.*;
 @PrimaryRepositoryAnnoInterface
 public interface ManageInfoRepository {
 
-	List<MemberSearchInfo> selectMemberSearchInfo(Map<String, Object> map);
+	public List<MemberSearchInfo> selectMemberSearchInfo(Map<String, Object> map);
+
+	public List<HuheiMemberInfo> selectHuheiMemberList(Map<String, Object> map);
 
 }

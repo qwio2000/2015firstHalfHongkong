@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PreliminaryController {
-	@RequestMapping(value={"/jindo","/siljuk","/board","/kwalee","/subul","/huhei","/sukang","/member","/emptyHakjuk","/huheiList","/studyState","/misu"})
+	@RequestMapping(value={"/jindo","/siljuk","/board","/kwalee","/subul","/huhei","/sukang","/member","/studyState","/misu"})
 	public String index(HttpServletRequest requst,Model model){
 		String url = requst.getRequestURI();
 		model.addAttribute("title","사전준비페이지");

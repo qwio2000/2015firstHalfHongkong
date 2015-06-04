@@ -71,5 +71,22 @@ public class ManageInfoService {
 		map.put("ami", authMemberInfo);
 		return mssqlRepository.selectKoreaMemberSearch(map);
 	}
+	public List<HuheiMemberInfo> getHuheiMemberList(String empKey, String kwamok,
+			String startBirthDate, String endBirthDate, String hu_skey,
+			String startHuheiDate, String endHuheiDate,
+			AuthMemberInfo authMemberInfo, String loginLang) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("empKey", empKey);
+		map.put("kwamok", kwamok);
+		map.put("startBirthDate", startBirthDate);
+		map.put("endBirthDate", endBirthDate);
+		map.put("hu_skey", hu_skey);
+		map.put("startHuheiDate", startHuheiDate);
+		map.put("endHuheiDate", endHuheiDate);
+		map.put("ami", authMemberInfo);
+		map.put("loginLang", loginLang);
+		return manageInfoRepository.selectHuheiMemberList(map);
+	}
 	
 }

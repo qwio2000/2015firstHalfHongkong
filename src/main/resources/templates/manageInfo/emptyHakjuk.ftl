@@ -1,16 +1,5 @@
 <#include "/header.ftl">
 <body>
-<script>
-	var head = $("head");
-	var headlinkLast = head.find("link[rel='stylesheet']:last");
-	var linkElement = "<style>.ui-datepicker-calendar {display: none;}</style>";
-	if (headlinkLast.length){
-		headlinkLast.after(linkElement);
-	}
-	else {
-	   head.append(linkElement);
-	}
-</script>
 <div id="wrapper">
 	<#include "/headerMenu.ftl">
 	<!-- container -->
@@ -26,34 +15,22 @@
 						<li class="home"><a href="#none">홈</a> &gt; </li>
 						<li><a href="#none">회원업무</a> &gt; </li>
 						<li><a href="#none">관리정보</a> &gt; </li>
-						<li class="current"><a href="#none">회원조회</a></li>
+						<li class="current"><a href="#none">학적미발생회원</a></li>
 					</ul>
 				</div>
-				<div class="tab-A">
-					<ul>
-						<li class="first"><a href="/manageInfo">해외회원</a></li>
-						<li class="last active"><a href="/manageInfo/korMemberSearch">한국회원</a></li>
-					</ul>
-				 </div>
 				 <div class="mgt-20">
 				 	<div class="message-top2" style="margin-bottom: 20px;font-size: 13px;">
 						<form class="" name="" action="" id="frm1" method="post">
-							<input type="hidden" name="orderby" value=""/>
-							<input type="hidden" name="ord" value=""/>
 							<div class="user_info">
-								<input type="radio" name="type" id="mKey" value="1" style="width: 20px;"><label for="mKey">회원번호</label> 
-								<input type="radio" name="type" id="mName" value="2" checked="checked" style="width: 20px;"><label for="mName">이름</label>&nbsp;
-								<input type="text" class="text" name="searchWord" />&nbsp;&nbsp;
-								<span>생년월일</span><input type="text" class="datePicker_yymm" name="birthDay" readonly="readonly" />
-								<span>상태</span>
-								<select name="state">
+								<span>교실명</span>
+								<select name="empKey" style="vertical-align: middle;width: 200px;">
 									<option value="all">전체</option>
-									<option value="1">유지</option>
-									<option value="2">해지</option>
-								</select>
+									<#list classList as class>
+									<option value="${class.empKey }">${class.empKey }
+										(${class.empName })</option>
+									</#list>
+								</select> 
 								<span class="button"><input size="8px" type="button" name="" id="searchBtn" value="검색"></span>
-								<br/><br/>
-								<p>회원번호, 이름, 생년월일 : <font color="red">필수</font>항목</p>
 							</div>
 						</form>
 						</div>
