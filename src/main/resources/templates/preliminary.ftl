@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/public/css/common.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/layout_center.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript" src="/public/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript" src="/public/js/jquery-ui-1.11.4.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	//family site

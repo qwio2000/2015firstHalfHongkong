@@ -28,7 +28,9 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 		// TODO Auto-generated method stub
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) authentication.getPrincipal();
-
+		
+		String currentUrl = request.getRequestURI();
+		
 		List<GlobalMenu> menuList = menuService.menuList(0,authMemberInfo.getJisaCD(),authMemberInfo.getEmpKeyLvCD(),authMemberInfo.getDepMngCD(),"1");
 		
 		List<GlobalMenu> leftMenuList = new ArrayList<GlobalMenu>();
@@ -53,7 +55,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 			}
 			
 			for (GlobalMenu globalMenu : menuList) {
-				if(ant.match(globalMenu.getmAntPattern(),request.getRequestURI())){
+				if(ant.match(globalMenu.getmAntPattern(),currentUrl)){
 					menuCode = globalMenu.getmMenuCode();
 				}
 			}
@@ -105,6 +107,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 			request.setAttribute("menuTwoCode",menuTwoCode);
 			request.setAttribute("menuThreeCode",menuThreeCode);
 			request.setAttribute("menuFourCode",menuFourCode);
+			request.setAttribute("currentUrl",currentUrl);
 			return true;
 		}
 	}

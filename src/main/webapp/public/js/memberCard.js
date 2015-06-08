@@ -16,6 +16,7 @@ $(function() {
 					$("#Qry2FormName").submit();
 				}else{
 					alert('이 회원은 처방을 할 수 없습니다.');
+					return;
 				}
 			},
 			huGubun_chk:function(){

@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.member;
-
+/**
+ * 회원입회정보
+ * @author JSY
+ *
+ */
 public class MemberIpheiInfo {
 	private String kwamok;
 	private String ipheiYMD;

@@ -1,5 +1,10 @@
 package com.jeiglobal.hk.domain.member;
 
+/**
+ * 회원 Omr기초 정보
+ * @author JSY
+ *
+ */
 public class OmrGicho {
 	private String omrDate;
 	private String hkey;

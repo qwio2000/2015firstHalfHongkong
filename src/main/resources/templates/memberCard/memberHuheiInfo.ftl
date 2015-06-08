@@ -13,7 +13,7 @@
 		<!-- 메뉴 탭 -->
 		<#include "/memberCard/memberPopMenu.ftl">
 		<p class="mgt-10 mgb-10">${memberDetailInfo.mFstName?default('') } 회원 상세정보 입니다.
-		<span id="search" style="float: right;"><#include "/memberCard/kwamokInfo.ftl">
+		<span id="search" style="float: right;"><#include "/common/kwamokInfo.ftl">
 		<span id="searchBtn" class="button btn-type-G"><a class="w-65">조회</a></span>
 		</span>
 		</p>

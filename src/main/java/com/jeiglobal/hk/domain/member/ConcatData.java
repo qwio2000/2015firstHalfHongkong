@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.member;
-
+/**
+ * 회원 데이터 붙일때 이용
+ * @author JSY
+ *
+ */
 public class ConcatData {
 	private String tel1;
 	private String tel2;

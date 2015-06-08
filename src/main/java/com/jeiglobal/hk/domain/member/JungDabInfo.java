@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.member;
-
+/**
+ * 정답 정보
+ * @author JSY
+ *
+ */
 public class JungDabInfo {
 	private String jungKey;
 	private String jungDab;

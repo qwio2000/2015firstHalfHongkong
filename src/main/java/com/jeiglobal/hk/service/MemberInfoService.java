@@ -1,70 +1,80 @@
 package com.jeiglobal.hk.service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.text.*;
+import java.util.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.jeiglobal.hk.domain.common.AuthMemberInfo;
-import com.jeiglobal.hk.domain.member.ConcatData;
-import com.jeiglobal.hk.domain.member.DtlCD;
-import com.jeiglobal.hk.domain.member.JungDabInfo;
-import com.jeiglobal.hk.domain.member.MemberDetailInfo;
-import com.jeiglobal.hk.domain.member.MemberHuheiInfo;
-import com.jeiglobal.hk.domain.member.MemberIpgumInfo;
-import com.jeiglobal.hk.domain.member.MemberIpheiInfo;
-import com.jeiglobal.hk.domain.member.MemberJindoInfo;
-import com.jeiglobal.hk.domain.member.MemberJindoSearch;
-import com.jeiglobal.hk.domain.member.MemberJindoSearchInfo;
-import com.jeiglobal.hk.domain.member.MemberKwamokInfo;
-import com.jeiglobal.hk.domain.member.OmrInfo;
-import com.jeiglobal.hk.repository.MemberInfoRepository;
+import com.jeiglobal.hk.domain.common.*;
+import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.repository.*;
 
 @Service
 public class MemberInfoService {
 	
 	@Autowired
 	private MemberInfoRepository memberInfoRepository;
-
-	public MemberDetailInfo getMemberDetailInfo(MemberDetailInfo memberDetailInfo, HttpServletRequest request) {
+	
+	/**
+	 * 회원 상세정보 불러오는 메서드
+	 * @param memberDetailInfo
+	 * @param loginLang
+	 * @return MemberDetailInfo
+	 */
+	public MemberDetailInfo getMemberDetailInfo(MemberDetailInfo memberDetailInfo, String loginLang) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		MemberDetailInfo mdi = memberInfoRepository.selectMemberDetailInfo(map);
 		return mdi;
 	}
-
+	
+	/**
+	 * 학년과 입회경로 DtlCDNM 가져오는 메서드
+	 * @param jisaCD
+	 * @return List<DtlCD>
+	 */
 	public List<DtlCD> getDtlCode(String jisaCD) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectDtlCodeList(jisaCD);
 	}
-
-	public List<MemberKwamokInfo> getMemberKwamokInfo(MemberDetailInfo memberDetailInfo, HttpServletRequest request) {
+	
+	/**
+	 * 회원의 과목정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param loginLang
+	 * @return List<MemberKwamokInfo>
+	 */
+	public List<MemberKwamokInfo> getMemberKwamokInfo(MemberDetailInfo memberDetailInfo, String loginLang) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberKwamokInfo(map);
 	}
-
+	
+	/**
+	 * 관리카드 회원정보 업데이트
+	 * @param memberDetailInfo
+	 * @param authMemberInfo
+	 * @return count(변경 건수)
+	 */
 	public int updateMemberDetailInfo(MemberDetailInfo memberDetailInfo, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
 		map.put("ami", authMemberInfo);
 		return memberInfoRepository.updateMemberDetailInfo(map);
 	}
-
+	
+	/**
+	 * 회원 정보 중 전화번호, 이메일의 데이터를 붙이는 메서드
+	 * @param memberDetailInfo
+	 * @param cd
+	 * @return MemberDetailInfo
+	 */
 	public MemberDetailInfo concatData(MemberDetailInfo memberDetailInfo, ConcatData cd) {
 		// TODO Auto-generated method stub
 		memberDetailInfo.setTel((cd.getTel1().equals("")||cd.getTel1()==null)?"":cd.getTel1()+"-"+cd.getTel2()+"-"+cd.getTel3());
@@ -74,71 +84,105 @@ public class MemberInfoService {
 		memberDetailInfo.setgEmail((cd.getgEmail1().equals("")||cd.getgEmail1()==null)?"":cd.getgEmail1()+"@"+cd.getgEmail2());
 		return memberDetailInfo;
 	}
-
-	public String getMemberFirstIpheiDate(MemberDetailInfo memberDetailInfo, String searchKwamok) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("mKey", memberDetailInfo.getmKey());
-		return memberInfoRepository.selectFirstIpheiDate(map);
-	}
-
+	
+	/**
+	 * 회원의 입복회 정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return List<MemberIpheiInfo>
+	 */
 	public List<MemberIpheiInfo> getMemberIpheiInfo(
-			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, HttpServletRequest request) {
+			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mKey", memberDetailInfo.getmKey());
 		map.put("kwamok", memberDetailInfo.getKwamok());
 		map.put("searchKwamok", searchKwamok);
 		map.put("jisa", authMemberInfo.getJisaCD());
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberIpheiInfoList(map);
 	}
-
+	
+	/**
+	 * 회원의 퇴회정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return List<MemberHuheiInfo>
+	 */
 	public List<MemberHuheiInfo> getMemberHuheiInfo(
-			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, HttpServletRequest request) {
+			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mKey", memberDetailInfo.getmKey());
 		map.put("kwamok", memberDetailInfo.getKwamok());
 		map.put("searchKwamok", searchKwamok);
 		map.put("jisa", authMemberInfo.getJisaCD());
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberHuheiInfoList(map);
 	}
-
+	
+	/**
+	 * 회원 입금정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return List<MemberIpgumInfo>
+	 */
 	public List<MemberIpgumInfo> getMemberIpgumInfo(
-			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, HttpServletRequest request) {
+			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mKey", memberDetailInfo.getmKey());
 		map.put("kwamok", memberDetailInfo.getKwamok());
 		map.put("searchKwamok", searchKwamok);
 		map.put("jisa", authMemberInfo.getJisaCD());
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberIpgumInfoList(map);
 	}
-
+	
+	/**
+	 * 회원의 진도정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return List<MemberJindoInfo>
+	 */
 	public List<MemberJindoInfo> getMemberJindoInfo(
-			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, HttpServletRequest request) {
+			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("jisa", authMemberInfo.getJisaCD());
 		map.put("kwamok", memberDetailInfo.getKwamok());
 		map.put("mKey", memberDetailInfo.getmKey());
 		map.put("curYYYYMM", sdf.format(today));
 		map.put("searchKwamok", searchKwamok);
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberJindoInfoList(map);
 	}
-
-	public HashMap<String, Object> getMemberJindoSearch(
+	
+	/**
+	 * 회원의 진도검색 정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchYY
+	 * @param searchMM
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @return Map<String, Object>
+	 */
+	public Map<String, Object> getMemberJindoSearch(
 			MemberDetailInfo memberDetailInfo, String searchYY, String searchMM, String searchKwamok, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		if(searchYY != null && searchMM != null){
 			cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM)-1, 1);
 		}else{
@@ -174,35 +218,44 @@ public class MemberInfoService {
 		map.put("indArray", indArray);
 		return map;
 	}
-
-	public MemberJindoSearch getMemberInfo(MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, HttpServletRequest request) {
+	
+	/**
+	 * 회원 과목 별 요일 정보 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return MemberJindoSearch
+	 */
+	public MemberJindoSearch getMemberInfo(MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mKey", memberDetailInfo.getmKey());
 		map.put("kwamok", memberDetailInfo.getKwamok());
 		map.put("searchKwamok", searchKwamok);
 		map.put("jisa", authMemberInfo.getJisaCD());
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberJindoSearch(map);
 	}
-
-	public List<String> getKwamokList(String jisaCD, String depid1) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("jisaCD", jisaCD);
-		map.put("depid1", depid1);
-		return memberInfoRepository.selectKwamokList(map);
-	}
-
-	public HashMap<String, Object> getOmrGichoList(MemberDetailInfo memberDetailInfo,
-			String searchYY, String searchKwamok, AuthMemberInfo authMemberInfo, HttpServletRequest request) {
+	
+	/**
+	 * 회원의 진도처방 기록을 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param searchYY
+	 * @param searchKwamok
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return Map<String, Object>
+	 */
+	public Map<String, Object> getOmrGichoList(MemberDetailInfo memberDetailInfo,
+			String searchYY, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("hkey", memberDetailInfo.getmKey());
 		map.put("jisa", authMemberInfo.getJisaCD());
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		if(searchYY != null){
 			map.put("searchYY", searchYY);
 		}else{
@@ -216,52 +269,90 @@ public class MemberInfoService {
 		map.put("omrGichoList", memberInfoRepository.selectOmrGichoList(map));
 		return map;
 	}
-
+	
+	/**
+	 * 회원의 진단 처방 가능 여부를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @return OmrInfo
+	 */
 	public OmrInfo getMemberJindanCheck(MemberDetailInfo memberDetailInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectMemberJindanCheck(memberDetailInfo);
 	}
-
+	
+	/**
+	 * 진단 처방 시 해당 과목, 등급에 맞는 정답리스트를 가져오는 메서드
+	 * @param kwamok
+	 * @param dung
+	 * @param authMemberInfo
+	 * @return List<JungDabInfo>
+	 */
 	public List<JungDabInfo> getJungDabList(String kwamok, String dung, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("kwamok", kwamok);
 		map.put("dung", dung);
 		map.put("jisa", authMemberInfo.getJisaCD());
 		return memberInfoRepository.selectJungDabList(map);
 	}
-
+	
+	/**
+	 * 진단 처방 시 해당 과목, 등급에 맞는 문항 수를 가져오는 메서드
+	 * @param kwamok
+	 * @param dung
+	 * @param authMemberInfo
+	 * @return count(문항 수)
+	 */
 	public int getTotMunCount(String kwamok, String dung, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("kwamok", kwamok);
 		map.put("dung", dung);
 		map.put("jisa", authMemberInfo.getJisaCD());
 		return memberInfoRepository.selectTotMunCount(map);
 	}
-
+	
+	/**
+	 * 회원의 이전 처방 정보를 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @return insta(이전 처방정보)
+	 */
 	public String getMemberOmrCheck(MemberDetailInfo memberDetailInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectMemberOmrCheck(memberDetailInfo);
 	}
-
+	
+	/**
+	 * 진단 처방 시 OmrGicho 정보를 넣는 메서드
+	 * @param memberDetailInfo
+	 * @param dung
+	 * @param authMemberInfo
+	 */
 	public void insertMemberOmrGicho(MemberDetailInfo memberDetailInfo,
 			String dung, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
 		map.put("dung", dung);
 		map.put("ami", authMemberInfo);
 		memberInfoRepository.insertOmrGicho(map);
 	}
-
+	
+	/**
+	 * 회원의 오답을 저장하는 메서드
+	 * @param memberDetailInfo
+	 * @param dung
+	 * @param errLst
+	 * @param errTot
+	 * @param authMemberInfo
+	 */
 	public void insertOdabInfo(MemberDetailInfo memberDetailInfo, String dung,
 			String errLst, int errTot, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String odabNo ="";
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("jisa", authMemberInfo.getJisaCD());
 		map.put("omrDate", sdf.format(today));
 		map.put("hKey", memberDetailInfo.getmKey());
@@ -281,11 +372,18 @@ public class MemberInfoService {
 			memberInfoRepository.insertOdabInfo(map);
 		}
 	}
-
+	
+	/**
+	 * 회원의 오답정보를 이용하여 처방하는 메서드
+	 * @param authMemberInfo
+	 * @param memberDetailInfo
+	 * @param dung
+	 * @return
+	 */
 	public String omrBan(AuthMemberInfo authMemberInfo,
 			MemberDetailInfo memberDetailInfo, String dung) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mdi", memberDetailInfo);
 		map.put("ami", authMemberInfo);
 		map.put("dung", dung);
@@ -293,59 +391,72 @@ public class MemberInfoService {
 		return result;
 	}
 	
-	public String getCookieValue(HttpServletRequest request, String type) {
-		// TODO Auto-generated method stub
-		Cookie[] cookies = request.getCookies();
-		if(cookies != null){	
-			for (Cookie cookie : cookies) {
-				if(cookie.getName().equals(type)){
-					try {
-						return URLDecoder.decode(cookie.getValue(), "utf-8");
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						return null;
-					}
-				}
-			}
-		}
-		return null;
-	}
-
+	/**
+	 * 해당 과목의 이름을 가져오는 메서드
+	 * @param jisa
+	 * @param kwamok
+	 * @param loginLang
+	 * @return kwamokName(String)
+	 */
 	public String getKwamokName(String jisa, String kwamok,
-			HttpServletRequest request) {
+			String loginLang) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("jisa", jisa);
 		map.put("kwamok", kwamok);
-		map.put("lang", getCookieValue(request, "LoginLang"));
+		map.put("lang", loginLang);
 		return memberInfoRepository.selectKwamokName(map);
 	}
 
-
+	/**
+	 * 퇴회 사유를 가져오는 메서드
+	 * @param authMemberInfo
+	 * @return List<DtlCD>
+	 */
 	public List<DtlCD> getHuheiSayuList(AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectHuheiSayuList(authMemberInfo.getJisaCD());
 	}
-
+	
+	/**
+	 * 당일 휴회 여부를 체크하는 메서드
+	 * @param memberDetailInfo
+	 * @param huheiDay
+	 * @return check(String)
+	 */
 	public String getTodayHuheiCheck(MemberDetailInfo memberDetailInfo,
 			String huheiDay) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
 		map.put("huheiDay", huheiDay);
 		return memberInfoRepository.selectTodayHuheiCheck(map);
 	}
-
+	
+	/**
+	 * 휴회 대기 상태를 알아보는 메서드
+	 * @param memberDetailInfo
+	 * @return check(String)
+	 */
 	public String getIsHuheiAgreeState(MemberDetailInfo memberDetailInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectIsHuheiAgreeState(memberDetailInfo);
 	}
-
+	
+	/**
+	 * 회원의 퇴회 정보를 저장하는 메서드
+	 * @param memberDetailInfo
+	 * @param authMemberInfo
+	 * @param huGubun
+	 * @param huSayu
+	 * @param huheiDay
+	 * @return check(String)
+	 */
 	public String insertMemberHuheiInfo(MemberDetailInfo memberDetailInfo,
 			AuthMemberInfo authMemberInfo, String huGubun, String huSayu,
 			String huheiDay) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
 		map.put("huGubun", huGubun);
 		map.put("huSayu", huSayu);

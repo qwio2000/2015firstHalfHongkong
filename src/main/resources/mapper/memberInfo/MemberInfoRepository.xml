@@ -53,12 +53,6 @@
 		#{mdi.sexCD},#{mdi.schoolName},#{mdi.gradeCD},#{mdi.addr},#{mdi.tel},#{mdi.gFstName},#{mdi.gLstName},#{mdi.gPhone},#{mdi.ePhone},#{mdi.mEmail},#{mdi.gEmail},#{mdi.ipheiPath},#{mdi.specialComment},CONCAT(#{ami.jisaCD},#{ami.empKey}),
 		CONCAT(#{ami.jisaCD},#{ami.depid1}),#{mdi.fstYoil},#{mdi.sndYoil},#{mdi.cngFstYoil},#{mdi.cngSndYoil})}
 	</select>
-	<select id="selectFirstIpheiDate" parameterType="hashMap" resultType="java.lang.String">
-		SELECT ipheiYMD AS firstIpheiDate 
-		FROM globalbiz.MemIpheiMst 
-		WHERE mkey=#{mKey}
-		ORDER BY ipheiYMD LIMIT 0,1
-	</select>
 	<select id="selectMemberIpheiInfoList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberIpheiInfo">
 		SELECT subj as kwamok,ipheiYMD, globalbiz.FuncCodeDtlNM(#{jisa},'0011',ipheiGubunCD,#{lang},'1') AS ipheiGubun, globalbiz.FuncCodeDtlNM(#{jisa},'0055',ipheiKindMstCD,#{lang},'1') AS ipheiKind, jGradeCD,
 				setCnt, fstYMD, fstEmpKey, fstEmpName, sndYMD, sndEmpKey, sndEmpName
@@ -140,9 +134,6 @@
 				#{searchKwamok}
 			</otherwise>
 		</choose>,#{mKey},#{yyyy},#{mm})}
-	</select>
-	<select id="selectKwamokList" parameterType="hashMap" resultType="java.lang.String">
-		SELECT subj FROM globalbiz.MemDepositSet WHERE jisaCD=#{jisaCD} AND depid1=#{depid1} GROUP BY subj;
 	</select>
 	<select id="selectOmrGichoList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.OmrGicho">
 		CALL devglobaldig.SPOmrGichoList(#{hkey},#{kwamok},#{searchYY},#{jisa},#{lang})
