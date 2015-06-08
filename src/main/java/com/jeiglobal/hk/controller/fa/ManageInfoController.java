@@ -104,4 +104,32 @@ public class ManageInfoController {
 		map.put("huheiMemberList", huheiMemberList);
 		return map;
 	}
+	@RequestMapping(value="/studyState")
+	public ModelAndView studyState(@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
+		List<String> headerScript = new ArrayList<>();
+		headerScript.add("manageInfo");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/manageInfo/studyState");
+		mav.addObject("title", "학적관리");
+		mav.addObject("classList",classList);
+		mav.addObject("headerScript",headerScript);
+		mav.addObject("authMemberInfo", authMemberInfo);
+		return mav;
+	}
+	@RequestMapping(value="/studyState/pop")
+	public ModelAndView studyStatePop(String empKey, String searchDay, @CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<StudyState> studyStateList = manageInfoService.getStudyStateList(empKey, searchDay, loginLang, authMemberInfo);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("title", "관리정보");
+		mav.addObject("popTitle", "학습현황");
+		mav.addObject("studyStateList",studyStateList);
+		mav.addObject("year",searchDay.substring(0, 4));
+		mav.addObject("month",Integer.parseInt(searchDay.substring(5)));
+		mav.addObject("depNM", (studyStateList != null && studyStateList.size()>0)?studyStateList.get(0).getDepidNM():"");
+		mav.setViewName("/manageInfo/studyStatePop");
+		return mav;
+	}
 }

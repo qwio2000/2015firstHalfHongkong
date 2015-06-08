@@ -11,4 +11,6 @@ public interface ManageInfoRepository {
 
 	public List<HuheiMemberInfo> selectHuheiMemberList(Map<String, Object> map);
 
+	public List<StudyState> selectStudyStateList(Map<String, Object> map);
+
 }

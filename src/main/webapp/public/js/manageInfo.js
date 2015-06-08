@@ -111,4 +111,15 @@ $(function() {
 				}
 			});
 		});
+		$(document).on("click","#popBtn",function(){
+			if($("input[name='searchDay']").val() == null || $("input[name='searchDay']").val() == ''){
+				alert('검색년월을 입력하여 주십시오');
+				$("input[name='searchDay']").focus();
+				return;
+			}
+			var pop_status=window.open("","Window","width=848, height=700, menubar=yes,status=yes,scrollbars=yes");
+			$("#frm1").attr("target","Window");
+			$("#frm1").submit();
+			pop_status.focus();
+		});
 });

@@ -42,4 +42,7 @@
 	<select id="selectHuheiMemberList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.manageInfo.HuheiMemberInfo">
 		CALL globalbiz.SPHuheiList(#{hu_skey},#{startBirthDate},#{endBirthDate},#{startHuheiDate},#{endHuheiDate},#{kwamok},#{empKey},#{ami.depid1},#{ami.depid2},#{ami.jisaCD},#{loginLang})
 	</select>
+	<select id="selectStudyStateList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.manageInfo.StudyState">
+		CALL globalbiz.SPStudyStateList(#{year},#{month},#{skey},#{ami.depid1},#{ami.depid2},#{ami.jisaCD},#{lang})
+	</select>
 </mapper>
