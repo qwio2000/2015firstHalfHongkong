@@ -30,11 +30,23 @@ public class EmptyHakjukExcelView extends AbstractExcelView {
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
 		response.setHeader("Content-Transfer-Encoding", "binary");
 
+
+		List<String> columnName = new ArrayList<String>();
+		columnName.add("번호");
+		columnName.add("교실번호");
+		columnName.add("교실명");
+		columnName.add("관리요일");
+		columnName.add("회원번호");
+		columnName.add("회원명");
+		columnName.add("과목");
+		columnName.add("최종진도(년/월/주)");
+		columnName.add("최종진도");
+		
 		HSSFCellStyle cellStyle = workbook.createCellStyle();
 		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		
 		HSSFSheet sheet = createFirstSheet(workbook);
-		createColumnLabel(sheet, cellStyle);
+		createColumnLabel(sheet, cellStyle, columnName);
 		
 		List<EmptyHakjukInfo> dataList = (List<EmptyHakjukInfo>)model.get("dataList");
 		for(int i=0; i <= dataList.size()-1; i++){
@@ -68,44 +80,25 @@ public class EmptyHakjukExcelView extends AbstractExcelView {
 		  cell.setCellValue(emptyHakjukInfo.getSubj()); 
 		  cell.setCellStyle(cellStyle);
 		  cell = row.createCell(7);
-		  cell.setCellValue(emptyHakjukInfo.getFinalYMW()); 
+		  cell.setCellValue((emptyHakjukInfo.getFinalYMW()!=null&&!emptyHakjukInfo.getFinalYMW().isEmpty())?
+						  emptyHakjukInfo.getFinalYMW().substring(0, 4)+"/"+emptyHakjukInfo.getFinalYMW().substring(4, 6)
+						  +"/"+emptyHakjukInfo.getFinalYMW().subSequence(6, 7):""); 
 		  cell.setCellStyle(cellStyle);
 		  cell = row.createCell(8);
 		  cell.setCellValue(emptyHakjukInfo.getFinalJindo()); 
 		  cell.setCellStyle(cellStyle);
 	}
 
-	private void createColumnLabel(HSSFSheet sheet, HSSFCellStyle cellStyle) {
+	private void createColumnLabel(HSSFSheet sheet, HSSFCellStyle cellStyle, List<String> columnName) {
 		// TODO Auto-generated method stub
 		HSSFRow firstRow = sheet.createRow(0);
 		  
-		HSSFCell cell = firstRow.createCell(0);
-		cell.setCellValue("순번");
-		cell.setCellStyle(cellStyle);
-		cell = firstRow.createCell(1);
-		cell.setCellValue("교실번호");
-		cell.setCellStyle(cellStyle);
-		cell = firstRow.createCell(2);
-		cell.setCellValue("교실명");
-		cell.setCellStyle(cellStyle);
-		cell = firstRow.createCell(3);
-		cell.setCellValue("관리요일");
-		cell.setCellStyle(cellStyle);
-		cell = firstRow.createCell(4);
-		cell.setCellValue("회원번호");
-		cell.setCellStyle(cellStyle);
-		cell = firstRow.createCell(5);
-		cell.setCellValue("회원명");
-		cell.setCellStyle(cellStyle);
-		cell = firstRow.createCell(6);
-		cell.setCellValue("과목");
-		cell.setCellStyle(cellStyle);
-		cell = firstRow.createCell(7);
-		cell.setCellValue("최종진도(년/월/주)");
-		cell.setCellStyle(cellStyle);
-		cell = firstRow.createCell(8);
-		cell.setCellValue("최종진도");
-		cell.setCellStyle(cellStyle);
+		HSSFCell cell = null;
+		for (int i = 0; i < columnName.size(); i++) {
+			cell = firstRow.createCell(i);
+			cell.setCellValue(columnName.get(i));
+			cell.setCellStyle(cellStyle);
+		}
 	}
 
 	private HSSFSheet createFirstSheet(HSSFWorkbook workbook) {
