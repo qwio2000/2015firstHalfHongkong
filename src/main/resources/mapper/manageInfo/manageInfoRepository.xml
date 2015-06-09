@@ -45,4 +45,7 @@
 	<select id="selectStudyStateList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.manageInfo.StudyState">
 		CALL globalbiz.SPStudyStateList(#{year},#{month},#{skey},#{ami.depid1},#{ami.depid2},#{ami.jisaCD},#{lang})
 	</select>
+	<select id="selectEmptyHakjukInfo" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.manageInfo.EmptyHakjukInfo">
+		CALL globalbiz.SPEmptyHakjukList(#{empKey},#{depid1},#{depid2},#{jisaCD},#{loginLang})
+	</select>
 </mapper>

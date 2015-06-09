@@ -13,11 +13,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.*;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
+import com.jeiglobal.hk.excel.*;
 import com.jeiglobal.hk.intercepter.MenuIntercepter;
 
 import freemarker.template.TemplateException;
@@ -64,7 +64,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 		viewResolver.setViewClass(JstlView.class);
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
-		viewResolver.setOrder(1);
+		viewResolver.setOrder(2);
 		return viewResolver;
 	}
 	@Bean
@@ -75,9 +75,19 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	    resolver.setSuffix(".ftl");
 	    resolver.setContentType("text/html; charset=UTF-8");
 	    resolver.setExposeSpringMacroHelpers(true);
-	    resolver.setOrder(0);
+	    resolver.setOrder(1);
 	    return resolver;
 	  }
+	/**
+	 * 빈네임뷰리졸버(엑셀 다운로드)
+	 * @return
+	 */
+	@Bean
+	public ViewResolver beanNameViewResolver() {
+		BeanNameViewResolver resolver = new BeanNameViewResolver();
+		resolver.setOrder(0);
+		return resolver;
+	}
 	
 	 @Bean
 	  public FreeMarkerConfigurer freemarkerConfig() throws IOException, TemplateException {
@@ -88,7 +98,19 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	    result.setConfiguration(factory.createConfiguration());
 	    return result;
 	  }
-	
+	 /**
+	  * 학적미발생회원 엑셀 다운로드 빈객체 등록
+	  * @return
+	  */
+	@Bean(name="emptyHakjukExcel")
+	public EmptyHakjukExcelView emptyHakjukExcel(){
+		return new EmptyHakjukExcelView();
+	}
+	@Bean(name="huheiListExcel")
+	public HuheiListExcelView excelDownloadView(){
+		return new HuheiListExcelView();
+	}
+	 
 	@Bean
 	public MenuIntercepter menuIntercepter(){
 		return new MenuIntercepter();

@@ -59,6 +59,7 @@
 			<#include "/footer.ftl">
 </body>
 <script id="template" type="text/x-handlebars-template"> 
+<span class="button"><input size="8px" type="button" name="" id="excelHuhei" value="엑셀"></span>
 <p class="text-r">총 : {{huheiMemberList.length}}건</p>
 <div class="tbl-type-D" style="width: 967px;overflow: auto;overflow-y:hidden; height: 500px;">
 	<table style="border: 0px;border-spacing: 0;width: 1300px;">

@@ -13,4 +13,6 @@ public interface ManageInfoRepository {
 
 	public List<StudyState> selectStudyStateList(Map<String, Object> map);
 
+	public List<EmptyHakjukInfo> selectEmptyHakjukInfo(Map<String, Object> map);
+
 }

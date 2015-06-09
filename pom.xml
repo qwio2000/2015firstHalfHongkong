@@ -138,6 +138,12 @@
     <artifactId>spring-context-support</artifactId>
     <version>3.2.4.RELEASE</version>
 </dependency>
+<dependency>
+	<groupId>org.apache.poi</groupId>
+	<artifactId>poi</artifactId>
+	<version>3.12</version>
+</dependency>
+
   </dependencies> 
   
   <build>

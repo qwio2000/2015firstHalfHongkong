@@ -72,5 +72,16 @@ public class ManageInfoService {
 		map.put("lang", loginLang);
 		return manageInfoRepository.selectStudyStateList(map);
 	}
+	public List<EmptyHakjukInfo> getEmptyHakjukInfo(String empKey,
+			AuthMemberInfo authMemberInfo, String loginLang) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("empKey", empKey);
+		map.put("depid1", authMemberInfo.getDepid1());
+		map.put("depid2", authMemberInfo.getDepid2());
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("loginLang", loginLang);
+		return manageInfoRepository.selectEmptyHakjukInfo(map);
+	}
 	
 }

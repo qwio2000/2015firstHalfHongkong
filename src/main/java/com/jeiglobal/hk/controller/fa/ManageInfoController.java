@@ -132,4 +132,30 @@ public class ManageInfoController {
 		mav.setViewName("/manageInfo/studyStatePop");
 		return mav;
 	}
+	@RequestMapping(value="/manageInfo/emptyHakjuk.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> emptyHakjukJson(String empKey, @CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<EmptyHakjukInfo> emptyHakjukInfo = manageInfoService.getEmptyHakjukInfo(empKey, authMemberInfo, loginLang);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("emptyHakjukInfo", emptyHakjukInfo);
+		return map;
+	}
+	@RequestMapping(value="/manageInfo/emptyHakjuk.xls",method=RequestMethod.POST)
+	public ModelAndView emptyHakjukXls(String empKey2, @CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<EmptyHakjukInfo> emptyHakjukInfo = manageInfoService.getEmptyHakjukInfo(empKey2, authMemberInfo, loginLang);
+		ModelAndView mav = new ModelAndView("emptyHakjukExcel");
+		mav.addObject("dataList", emptyHakjukInfo);
+		return mav;
+	}
+	@RequestMapping(value="/manageInfo/huheiList.xls",method=RequestMethod.POST)
+	public ModelAndView emptyHakjukXls(String empKey2, String kwamok2, String startBirthDate2, String endBirthDate2,
+			String hu_skey2, String startHuheiDate2, String endHuheiDate2,@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<HuheiMemberInfo> huheiMemberList = manageInfoService.getHuheiMemberList(empKey2, kwamok2, startBirthDate2, endBirthDate2, hu_skey2, startHuheiDate2, endHuheiDate2, authMemberInfo,loginLang);
+		ModelAndView mav = new ModelAndView("huheiListExcel");
+		mav.addObject("dataList", huheiMemberList);
+		return mav;
+	}
 }

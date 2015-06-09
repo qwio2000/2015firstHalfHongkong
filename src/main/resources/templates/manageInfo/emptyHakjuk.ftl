@@ -24,13 +24,13 @@
 							<div class="user_info">
 								<span>교실명</span>
 								<select name="empKey" style="vertical-align: middle;width: 200px;">
-									<option value="all">전체</option>
+									<option value="">전체</option>
 									<#list classList as class>
 									<option value="${class.empKey }">${class.empKey }
 										(${class.empName })</option>
 									</#list>
 								</select> 
-								<span class="button"><input size="8px" type="button" name="" id="searchBtn" value="검색"></span>
+								<span class="button"><input size="8px" type="button" name="" id="search" value="검색"></span>
 							</div>
 						</form>
 						</div>
@@ -45,8 +45,9 @@
 <#include "/footer.ftl">
 </body>
 <script id="template" type="text/x-handlebars-template"> 
-<p class="text-r">총 : {{korMemberSearchInfoList.length}}건</p>
-{{#xIf korMemberSearchInfoList.length ">=" 10}}
+<span class="button"><input size="8px" type="button" name="" id="excel" value="엑셀"></span>
+<p class="text-r">총 : {{emptyHakjukInfo.length}}건</p>
+{{#xIf emptyHakjukInfo.length ">=" 10}}
 <div class="tbl-type-D" style="width: 960px;overflow: auto;overflow-y:hidden; height: 435px;">
 	<table style="border: 0px;border-spacing: 0;width: 943px;">
 {{else}}
@@ -56,29 +57,25 @@
 		<colgroup>
 			<col width="5%"/>
 			<col width="10%"/>
-			<col width="5%"/>
-			<col width="4%"/>
-			<col width="10%"/>
-			<col width="5%"/>
-			<col width="8%"/>
+			<col width="15%"/>
 			<col width="8%"/>
 			<col width="10%"/>
-			<col width="30%"/>
+			<col width="20%"/>
 			<col width="5%"/>
+			<col width="17%"/>
+			<col width="10%"/>
 		</colgroup>
 		<tbody>
 			<tr>
 				<th>순번</th>
+				<th>교실번호</th>
+				<th>교실명</th>
+				<th>관리요일</th>
 				<th>회원번호</th>
-				<th>과목</th>
-				<th>상태</th>
 				<th>회원명</th>
-				<th>성별</th>
-				<th>생년월일</th>
-				<th>최종퇴회일</th>
-				<th>전화번호</th>
-				<th>주소</th>
-				<th>입회</th>
+				<th>과목</th>
+				<th>최종진도<br/>(년/월/주)</th>
+				<th>최종진도</th>
 			</tr>
 		</tbody>
 	</table>
@@ -87,34 +84,30 @@
 			<colgroup>
 				<col width="5%"/>
 				<col width="10%"/>
-				<col width="5%"/>
-				<col width="4%"/>
-				<col width="10%"/>
-				<col width="5%"/>
-				<col width="8%"/>
+				<col width="15%"/>
 				<col width="8%"/>
 				<col width="10%"/>
-				<col width="30%"/>
+				<col width="20%"/>
 				<col width="5%"/>
+				<col width="17%"/>
+				<col width="10%"/>
 			</colgroup>
 			<tbody>
-			{{#each korMemberSearchInfoList}}
+			{{#each emptyHakjukInfo}}
 				<tr>
 					<td>{{inc @index}}</td>
-					<td>{{hkey}}</td>
-					<td>{{hkwamok}}</td>
-					<td>{{#xIf hkwastat "==" "1"}}유지{{else}}퇴회{{/xIf}}</td>
-					<td>{{hname}}</td>
-					<td>{{sexname}}</td>
-					<td>{{hsangil}}</td>
-					<td>{{mhthymd}}</td>
-					<td>{{htel}}</td>
-					<td>{{haddr1}}</td>
-					<td>입회</td>
+					<td>{{sKey}}</td>
+					<td>{{sName}}</td>
+					<td>{{yoilNM}}</td>
+					<td><a href="javascript:$.jindoSearch('{{mkey}}','{{subj}}','{{mFstName}}')">{{mkey}}</a></td>
+					<td>{{mFstName}}</td>
+					<td>{{subj}}</td>
+					<td>{{#if finalYMW}}{{trimString finalYMW 0 4}}/{{trimString finalYMW 4 6}}/{{trimString finalYMW 6 7}}{{else}}{{/if}}</td>
+					<td>{{finalJindo}}</td>
 				</tr>
 			{{else}}
 				<tr>
-					<td colspan="11">검색된 결과가 없습니다.</td>
+					<td colspan="9">검색된 결과가 없습니다.</td>
 				</tr>
 			{{/each}}
 			</tbody>
