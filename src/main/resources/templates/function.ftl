@@ -20,3 +20,30 @@
 		<#return falseValue>
 	</#if>
 </#function>
+<#function displayOdab firstArgs>
+	<#if firstArgs = "01">
+		<#return '①'>
+	<#elseif firstArgs = "02">
+		<#return '②'>
+	<#elseif firstArgs = "03">
+		<#return '③'>
+	<#elseif firstArgs = "04">
+		<#return '④'>
+	<#elseif firstArgs = "05">
+		<#return '⑤'>
+	<#elseif firstArgs = "06">
+		<#return '⑥'>
+	<#elseif firstArgs = "07">
+		<#return '⑦'>
+	<#elseif firstArgs = "08">
+		<#return '⑧'>
+	<#elseif firstArgs = "09">
+		<#return '⑨'>
+	<#elseif firstArgs = "10">
+		<#return '⑩'>
+	<#elseif firstArgs = "11">
+		<#return '⑪'>																				
+	<#else>
+		<#return '⑫'>						
+	</#if>
+</#function>

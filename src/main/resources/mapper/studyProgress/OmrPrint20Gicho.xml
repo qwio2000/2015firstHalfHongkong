@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jeiglobal.hk.repository.IPPRRepository">
-
-	<select id="spOmrPrint20Gicho" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.studyProgress.IPPRInfo" resultType="com.jeiglobal.hk.domain.studyProgress.OmrPrint20Gicho">
-		{ CALL devglobaldig.SPOmrPrint20Gicho(#{jisa}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{lang}}
-	</select>
-	
-</mapper>
