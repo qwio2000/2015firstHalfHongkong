@@ -9,7 +9,11 @@ import org.apache.poi.hssf.usermodel.*;
 import org.springframework.web.servlet.view.document.*;
 
 import com.jeiglobal.hk.domain.manageInfo.*;
-
+/**
+ * 휴회자 리스트 엑셀 다운로드
+ * @author JSY
+ *
+ */
 public class HuheiListExcelView extends AbstractExcelView {
 
 	@SuppressWarnings("unchecked")
@@ -58,7 +62,13 @@ public class HuheiListExcelView extends AbstractExcelView {
 		 createPageRow(sheet, dataList.get(i), i, cellStyle);
 		}
 	}
-
+	/**
+	 * 엑셀 한 행 만들기
+	 * @param sheet
+	 * @param huheiMemberInfo
+	 * @param rowNum
+	 * @param cellStyle
+	 */
 	private void createPageRow(HSSFSheet sheet, HuheiMemberInfo huheiMemberInfo, int rowNum, HSSFCellStyle cellStyle) {
 		// TODO Auto-generated method stub
 		 HSSFRow row = sheet.createRow(rowNum + 1);
@@ -106,7 +116,12 @@ public class HuheiListExcelView extends AbstractExcelView {
 		  cell.setCellValue(huheiMemberInfo.getJin()); 
 		  cell.setCellStyle(cellStyle);
 	}
-
+	/**
+	 * 컬럼 라벨 만들기
+	 * @param sheet
+	 * @param cellStyle
+	 * @param columnName
+	 */
 	private void createColumnLabel(HSSFSheet sheet, HSSFCellStyle cellStyle, List<String> columnName) {
 		// TODO Auto-generated method stub
 		HSSFRow firstRow = sheet.createRow(0);
@@ -117,7 +132,11 @@ public class HuheiListExcelView extends AbstractExcelView {
 			cell.setCellStyle(cellStyle);
 		}
 	}
-
+	/**
+	 * 엑셀 시트 생성
+	 * @param workbook
+	 * @return
+	 */
 	private HSSFSheet createFirstSheet(HSSFWorkbook workbook) {
 		// TODO Auto-generated method stub
 		HSSFSheet sheet = workbook.createSheet();

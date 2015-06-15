@@ -56,8 +56,8 @@
 									<option value="1">입금일</option>
 									<option value="2">작업일</option>
 								</select>&nbsp;&nbsp;
-								<input type="text" class="datePicker" name="startDay" value="${.now?string("yyyy-MM-dd")}"/>&nbsp;~&nbsp;
-								<input type="text" size="10px" class="datePicker" name="endDay" value="${.now?string("yyyy-MM-dd")}"/> 
+								<input type="text" class="datePicker" name="startDay" id="startDay" value="${.now?string("yyyy-MM-dd")}"/>&nbsp;~&nbsp;
+								<input type="text" size="10px" class="datePicker" name="endDay" id="endDay" value="${.now?string("yyyy-MM-dd")}"/> 
 								<span class="button"><input size="8px" type="button" name="" id="searchBtn" value="검색"></span>
 							</div>
 						</form>

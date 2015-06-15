@@ -3,25 +3,23 @@ $(function() {
 		var memberCard_url = "/ipgum";
 		
 		// 함수 정의 
-		/*$.extend ({
-			//진단 체크
-			checkSubmit:function(check, dung) {
-				if($("input[name='kwamok']").val() != 'KM' && $("input[name='kwamok']").val() != 'EM'){
-					alert('수학 외 과목은 진단입력을 할 수 없습니다.');
-					return;
-				}
-				if(check){
-					$("input[name='dung']").val(dung);
-					$("#Qry2FormName").attr('action','/memberCard/memberOmrOdabInput');
-					$("#Qry2FormName").submit();
-				}else{
-					alert('이 회원은 처방을 할 수 없습니다.');
-				}
+		$.extend ({
+			//날짜 차이(월)
+			dateDiff:function(date1, date2) {
+				var datediff = date1.getTime() - date2.getTime();
+				return Math.ceil(Math.abs((datediff / (30*24*60*60*1000))));
 			}
-		});*/
+		});
 		
 		//관리카드 팝업 내 검색
 		$(document).on("click","#searchBtn",function(){
+			var startDay = $("#startDay").val();
+			var endDay = $("#endDay").val();
+			var diffMonth = $.dateDiff(new Date(startDay), new Date(endDay));
+			if(diffMonth >= 7){
+				alert('6개월 간격으로 선택하여 주십시오.')
+				return false;
+			}
 			var jsonSendData = $("#frm1").serialize();
 			console.log(jsonSendData);
 			$.ajax({

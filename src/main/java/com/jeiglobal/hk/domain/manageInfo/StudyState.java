@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.domain.manageInfo;
-
+/**
+ * 학습현황
+ * @author JSY
+ *
+ */
 public class StudyState {
 	private String jisaCD;
 	private String fstDepid1;
