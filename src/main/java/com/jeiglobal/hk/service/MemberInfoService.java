@@ -465,4 +465,37 @@ public class MemberInfoService {
 		return memberInfoRepository.insertMemberHuheiInfo(map);
 	}
 
+	public List<String> getJindoUpdateDtlCDList(AuthMemberInfo authMemberInfo,
+			String loginLang) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("ami", authMemberInfo);
+		map.put("lang", loginLang);
+		return memberInfoRepository.selectJindoUpdateDtlCodeList(map);
+	}
+
+	public MemberInfoCheck getMemberInfoCheck(AuthMemberInfo authMemberInfo,
+			MemberDetailInfo memberDetailInfo, String loginLang) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("ami", authMemberInfo);
+		map.put("mdi", memberDetailInfo);
+		map.put("lang", loginLang);
+		return memberInfoRepository.selectMemberInfoCheck(map);
+	}
+
+	public JindoAdjustCheck getJindoAdjustCheck(
+			MemberDetailInfo memberDetailInfo, AuthMemberInfo authMemberInfo,
+			String cngGubun, String cngOpt, String loginLang) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("cngGubun", cngGubun);
+		map.put("cngOpt", cngOpt);
+		map.put("mKey", memberDetailInfo.getmKey());
+		map.put("subj", memberDetailInfo.getKwamok());
+		map.put("lang", loginLang);
+		return memberInfoRepository.selectJindoAdjustCheck(map);
+	}
+
 }

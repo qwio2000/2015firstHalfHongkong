@@ -388,4 +388,52 @@ public class MemberCardController {
 		writer.close();
 		return null;
 	}
+	@RequestMapping(value="/memberJindoUpdateInfo")
+	public ModelAndView memberJindoUpdateInfo(MemberDetailInfo memberDetailInfo, 
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
+		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, loginLang);
+		List<String> dtlCDList = memberInfoService.getJindoUpdateDtlCDList(authMemberInfo, loginLang);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberCard");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/memberCard/memberJindoUpdateInfo");
+		mav.addObject("title", "진도조정");
+		mav.addObject("popTitle", "진도조정");
+		mav.addObject("dtlCDList", dtlCDList);
+		mav.addObject("headerScript", headerScript);
+		mav.addObject("memberDetailInfo", memberDetailInfo);
+		return mav;
+	}
+	@RequestMapping(value="/memberJindoUpdateInput")
+	public ModelAndView memberJindoUpdateInput(MemberDetailInfo memberDetailInfo, String cngOpt, String updateYM,
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("url", "/memberCard/memberJindoUpdateInfo?mKey="+memberDetailInfo.getmKey()+"&sKey="+memberDetailInfo.getsKey()+"&kwamok="+memberDetailInfo.getKwamok());
+		mav.setViewName("alertAndRedirect");
+		MemberInfoCheck mic = memberInfoService.getMemberInfoCheck(authMemberInfo, memberDetailInfo, loginLang);
+		if(mic == null){
+			mav.addObject("message", "입력조건에 대한 회원이 없습니다. 확인 후 다시 하십시오.");
+			return mav;
+		}
+		String cngGubun = "1";
+		JindoAdjustCheck jac = memberInfoService.getJindoAdjustCheck(memberDetailInfo, authMemberInfo, cngGubun, cngOpt, loginLang);
+		if(jac != null){
+			if(cngOpt.equals("1") && jac.getDayCnt().equals("1")){
+				mav.addObject("message", "금일 "+jac.getCngOptNM()+"을 이미 처리 하였습니다.");
+			}else if(cngOpt.equals("1") && Integer.parseInt(jac.getCngCnt())>2){
+				mav.addObject("message", jac.getCngOptNM()+"은 월 2회까지만 가능합니다.");
+			}else if(cngOpt.equals("4") && Integer.parseInt(jac.getCngCnt())>=1){
+				mav.addObject("message", jac.getCngOptNM()+"은 월 1회까지만 가능합니다.");
+			}
+			return mav;
+		}
+		if(mic.getStateCD()!="1"){
+			mav.addObject("message", "현재 유지회원이 아닙니다. 유지 회원에 한 해 조정이 가능합니다.");
+			return mav;
+		}
+		return null;
+	}
 }

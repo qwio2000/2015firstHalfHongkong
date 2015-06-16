@@ -2,18 +2,7 @@ package com.jeiglobal.hk.repository;
 
 import java.util.*;
 
-import com.jeiglobal.hk.domain.member.DtlCD;
-import com.jeiglobal.hk.domain.member.JungDabInfo;
-import com.jeiglobal.hk.domain.member.MemberDetailInfo;
-import com.jeiglobal.hk.domain.member.MemberHuheiInfo;
-import com.jeiglobal.hk.domain.member.MemberIpgumInfo;
-import com.jeiglobal.hk.domain.member.MemberIpheiInfo;
-import com.jeiglobal.hk.domain.member.MemberJindoInfo;
-import com.jeiglobal.hk.domain.member.MemberJindoSearch;
-import com.jeiglobal.hk.domain.member.MemberJindoSearchInfo;
-import com.jeiglobal.hk.domain.member.MemberKwamokInfo;
-import com.jeiglobal.hk.domain.member.OmrGicho;
-import com.jeiglobal.hk.domain.member.OmrInfo;
+import com.jeiglobal.hk.domain.member.*;
 @PrimaryRepositoryAnnoInterface
 public interface MemberInfoRepository {
 
@@ -68,5 +57,11 @@ public interface MemberInfoRepository {
 	public String selectIsHuheiAgreeState(MemberDetailInfo memberDetailInfo);
 
 	public String insertMemberHuheiInfo(Map<String, Object> map);
+
+	public List<String> selectJindoUpdateDtlCodeList(Map<String, Object> map);
+
+	public MemberInfoCheck selectMemberInfoCheck(Map<String, Object> map);
+
+	public JindoAdjustCheck selectJindoAdjustCheck(Map<String, Object> map);
 
 }
