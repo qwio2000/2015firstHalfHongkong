@@ -199,4 +199,12 @@
 	<select id="selectJindoAdjustCheck" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JindoAdjustCheck">
 		CALL globalbiz.SPJindoAdjustCheck(#{jisaCD},#{cngGubun},#{cngOpt},#{mKey},#{subj},#{lang})
 	</select>
+	<select id="selectChangeYoilYMD" parameterType="com.jeiglobal.hk.domain.member.MemberDetailInfo" resultType="String">
+		SELECT IFNULL(MAX(cngYMD),"") AS cngYMD 
+		FROM globalbiz.MemChangeInfo 
+		WHERE mkey = #{mKey} AND subj = #{kwamok} AND cngCD IN ('16','17')
+	</select>
+	<select id="selectJindoUpdateInputInfo" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberJindoSearchInfo">
+		CALL globalbiz.SPJindoUpdateInputInfo(#{jisaCD},#{kwamok},#{mKey},#{yyyy},#{mm},#{cngOpt})
+	</select>
 </mapper>

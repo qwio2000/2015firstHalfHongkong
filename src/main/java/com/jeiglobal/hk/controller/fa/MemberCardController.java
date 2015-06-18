@@ -1,7 +1,7 @@
 package com.jeiglobal.hk.controller.fa;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -408,9 +408,10 @@ public class MemberCardController {
 	}
 	@RequestMapping(value="/memberJindoUpdateInput")
 	public ModelAndView memberJindoUpdateInput(MemberDetailInfo memberDetailInfo, String cngOpt, String updateYM,
-			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang) throws ParseException{
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("message", "잘 진행됨");
 		mav.addObject("url", "/memberCard/memberJindoUpdateInfo?mKey="+memberDetailInfo.getmKey()+"&sKey="+memberDetailInfo.getsKey()+"&kwamok="+memberDetailInfo.getKwamok());
 		mav.setViewName("alertAndRedirect");
 		MemberInfoCheck mic = memberInfoService.getMemberInfoCheck(authMemberInfo, memberDetailInfo, loginLang);
@@ -430,10 +431,40 @@ public class MemberCardController {
 			}
 			return mav;
 		}
-		if(mic.getStateCD()!="1"){
+		if(!mic.getStateCD().equals("1")){
 			mav.addObject("message", "현재 유지회원이 아닙니다. 유지 회원에 한 해 조정이 가능합니다.");
 			return mav;
 		}
-		return null;
+		String cngYMD = memberInfoService.getChangeYoilYMD(memberDetailInfo);
+		String chkDate = mic.getBokheiYMD().length()>1?mic.getBokheiYMD():mic.getIpheiYMD();
+		Calendar threeWeeksAgo = Calendar.getInstance();
+		threeWeeksAgo.add(Calendar.DATE, -21);
+		Calendar twoWeeksAgo = Calendar.getInstance();
+		twoWeeksAgo.add(Calendar.DATE, -14);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		if(cngOpt.equals("4")){
+			if(!cngYMD.equals("")){
+				if(!(format.parse(chkDate).compareTo(threeWeeksAgo.getTime())>=0 || 
+						format.parse(cngYMD).compareTo(twoWeeksAgo.getTime())>=0)){
+					mav.addObject("message", "입복회일로부터 3주 이내이거나 관리요일 변경 후 2주이내 당김이 가능합니다.");
+					return mav;
+				}
+			}else{
+				if(!(format.parse(chkDate).compareTo(threeWeeksAgo.getTime())>=0)){
+					mav.addObject("message", "입복회일로부터 3주 이내이거나 관리요일 변경 후 2주이내 당김이 가능합니다.");
+					return mav;
+				}
+			}
+		}
+		Map<String, Object> map = new HashMap<>();
+		map = memberInfoService.getJindoUpdateInputInfo(memberDetailInfo, updateYM, authMemberInfo, cngOpt);
+		mav.addObject("startYYYY", map.get("startYYYY"));
+		mav.addObject("startMM", map.get("startMM"));
+		mav.addObject("bsArray", map.get("bsArray"));
+		mav.addObject("chkArray", map.get("chkArray"));
+		mav.addObject("memberDetailInfo", memberDetailInfo);
+		mav.addObject("cngOpt", cngOpt);
+		mav.setViewName("/memberCard/memberJindoUpdateInput");
+		return mav;
 	}
 }

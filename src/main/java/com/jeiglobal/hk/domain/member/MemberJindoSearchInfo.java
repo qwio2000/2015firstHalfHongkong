@@ -15,6 +15,7 @@ public class MemberJindoSearchInfo {
 	private String bk;
 	private String bs;
 	private String bn;
+	private String chk;
 	public String getSubj() {
 		return subj;
 	}
@@ -75,12 +76,18 @@ public class MemberJindoSearchInfo {
 	public void setBn(String bn) {
 		this.bn = bn;
 	}
+	public String getChk() {
+		return chk;
+	}
+	public void setChk(String chk) {
+		this.chk = chk;
+	}
 	@Override
 	public String toString() {
 		return "MemberJindoSearchInfo [subj=" + subj + ", yy=" + yy + ", mm="
 				+ mm + ", wk=" + wk + ", sort=" + sort + ", yoil=" + yoil
 				+ ", ind=" + ind + ", bk=" + bk + ", bs=" + bs + ", bn=" + bn
-				+ "]";
+				+ ", chk=" + chk + "]";
 	}
 	
 }

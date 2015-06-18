@@ -64,4 +64,9 @@ public interface MemberInfoRepository {
 
 	public JindoAdjustCheck selectJindoAdjustCheck(Map<String, Object> map);
 
+	public String selectChangeYoilYMD(MemberDetailInfo memberDetailInfo);
+
+	public List<MemberJindoSearchInfo> selectJindoUpdateInputInfo(
+			Map<String, Object> map);
+
 }

@@ -498,4 +498,45 @@ public class MemberInfoService {
 		return memberInfoRepository.selectJindoAdjustCheck(map);
 	}
 
+	public String getChangeYoilYMD(MemberDetailInfo memberDetailInfo) {
+		// TODO Auto-generated method stub
+		return memberInfoRepository.selectChangeYoilYMD(memberDetailInfo);
+	}
+
+	public Map<String, Object> getJindoUpdateInputInfo(
+			MemberDetailInfo memberDetailInfo, String updateYM,
+			AuthMemberInfo authMemberInfo, String cngOpt) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(updateYM.substring(0,4)),Integer.parseInt(updateYM.substring(5))-1,1);
+		Map<String, Object> map = new HashMap<>();
+		String startYYYY = sdf.format(cal.getTime()).substring(0, 4);
+		String startMM = sdf.format(cal.getTime()).substring(5);
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("startYYYY", startYYYY);
+		map.put("startMM", startMM);
+		map.put("cngOpt", cngOpt);
+		String[][][] bsArray = new String[6][5][2];
+		String[][][] chkArray = new String[6][5][2];
+		for (int i = 0; i < 6; i++) {
+			map.put("mKey", memberDetailInfo.getmKey());
+			map.put("kwamok", memberDetailInfo.getKwamok());
+			map.put("yyyy", startYYYY);
+			map.put("mm", startMM);
+			List<MemberJindoSearchInfo> mjsi = memberInfoRepository.selectJindoUpdateInputInfo(map);
+			for (int j = 0; j < mjsi.size(); j++) {
+				bsArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getBs();
+				chkArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getChk();
+			}
+			cal.add(Calendar.MONTH, 1);
+			startYYYY = sdf.format(cal.getTime()).substring(0, 4);
+			startMM = sdf.format(cal.getTime()).substring(5);
+		}
+		map.put("bsArray", bsArray);
+		map.put("chkArray", chkArray);
+		
+		return map;
+	}
+
 }
