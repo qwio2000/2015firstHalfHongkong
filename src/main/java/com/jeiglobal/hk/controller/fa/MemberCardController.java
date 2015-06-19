@@ -393,6 +393,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
+		System.out.println(memberDetailInfo);
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, loginLang);
 		List<String> dtlCDList = memberInfoService.getJindoUpdateDtlCDList(authMemberInfo, loginLang);
 		List<String> headerScript = new ArrayList<String>();
@@ -406,12 +407,14 @@ public class MemberCardController {
 		mav.addObject("memberDetailInfo", memberDetailInfo);
 		return mav;
 	}
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/memberJindoUpdateInput")
 	public ModelAndView memberJindoUpdateInput(MemberDetailInfo memberDetailInfo, String cngOpt, String updateYM,
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang) throws ParseException{
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberCard");
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("message", "잘 진행됨");
 		mav.addObject("url", "/memberCard/memberJindoUpdateInfo?mKey="+memberDetailInfo.getmKey()+"&sKey="+memberDetailInfo.getsKey()+"&kwamok="+memberDetailInfo.getKwamok());
 		mav.setViewName("alertAndRedirect");
 		MemberInfoCheck mic = memberInfoService.getMemberInfoCheck(authMemberInfo, memberDetailInfo, loginLang);
@@ -420,6 +423,8 @@ public class MemberCardController {
 			return mav;
 		}
 		String cngGubun = "1";
+		System.out.println("cngGubun : "+cngGubun);
+		System.out.println("cngOpt : "+cngOpt);
 		JindoAdjustCheck jac = memberInfoService.getJindoAdjustCheck(memberDetailInfo, authMemberInfo, cngGubun, cngOpt, loginLang);
 		if(jac != null){
 			if(cngOpt.equals("1") && jac.getDayCnt().equals("1")){
@@ -442,8 +447,8 @@ public class MemberCardController {
 		Calendar twoWeeksAgo = Calendar.getInstance();
 		twoWeeksAgo.add(Calendar.DATE, -14);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		if(cngOpt.equals("4")){
-			if(!cngYMD.equals("")){
+		if("4".equals(cngOpt)){
+			if(!"".equals(cngYMD)){
 				if(!(format.parse(chkDate).compareTo(threeWeeksAgo.getTime())>=0 || 
 						format.parse(cngYMD).compareTo(twoWeeksAgo.getTime())>=0)){
 					mav.addObject("message", "입복회일로부터 3주 이내이거나 관리요일 변경 후 2주이내 당김이 가능합니다.");
@@ -461,10 +466,67 @@ public class MemberCardController {
 		mav.addObject("startYYYY", map.get("startYYYY"));
 		mav.addObject("startMM", map.get("startMM"));
 		mav.addObject("bsArray", map.get("bsArray"));
+		mav.addObject("bkArray", map.get("bkArray"));
 		mav.addObject("chkArray", map.get("chkArray"));
+		map = memberInfoService.getSetList(authMemberInfo, memberDetailInfo, map.get("sSet"));
+		
+		mav.addObject("set1",(List<JindoUpdateSet>)map.get("set1"));
+		mav.addObject("set2",(List<JindoUpdateSet>)map.get("set2"));
+		mav.addObject("set3",(List<JindoUpdateSet>)map.get("set3"));
+		mav.addObject("set1dung",(String)map.get("set1dung"));
+		mav.addObject("set2dung",(String)map.get("set2dung"));
+		mav.addObject("set3dung",(String)map.get("set3dung"));
 		mav.addObject("memberDetailInfo", memberDetailInfo);
 		mav.addObject("cngOpt", cngOpt);
+		mav.addObject("memberInfoCheck", mic);
+		mav.addObject("headerScript",headerScript);
 		mav.setViewName("/memberCard/memberJindoUpdateInput");
+		return mav;
+	}
+	@RequestMapping(value="/memberJindoUpdate")
+	public ModelAndView memberJindoUpdate(JindoUpdateInfo jindoUpdateInfo){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("alertAndRedirect");
+		if ("B".equals(jindoUpdateInfo.getCngSayu())) {
+			jindoUpdateInfo.setSets1(jindoUpdateInfo.getSetb1());
+			jindoUpdateInfo.setSets2(jindoUpdateInfo.getSetb2());
+			jindoUpdateInfo.setSets3("");
+			jindoUpdateInfo.setSets4("");
+			jindoUpdateInfo.setSets5("");
+			int setCount = memberInfoService.getBokSetCount(authMemberInfo,jindoUpdateInfo);
+			if ("KC".equals(jindoUpdateInfo.getKwamok())) {
+				if (setCount > 45) {
+					mav.addObject("message", "복습 세트수가 45세트를 넘었습니다.");
+					return mav;
+				}
+			}else{
+				if (setCount > 15) {
+					mav.addObject("message", "복습 세트수가 15세트를 넘었습니다.");
+					return mav;
+				}
+			}
+		}
+		memberInfoService.updateJindoInfo(jindoUpdateInfo, authMemberInfo);
+		String fstMsg = ("1".equals(jindoUpdateInfo.getCngOpt())?"복습":"당김");
+		mav.addObject("message", jindoUpdateInfo.getmKey()+"님의 "+fstMsg+" 조정이 끝났습니다.");
+		mav.addObject("url", "/memberCard/memberJindoUpdateView?mKey="+jindoUpdateInfo.getmKey()+"&kwamok="+jindoUpdateInfo.getKwamok());
+		mav.setViewName("alertAndRedirect");
+		return mav;
+	}
+	@RequestMapping(value="/memberJindoUpdateView")
+	public ModelAndView memberJindoUpdateView(MemberDetailInfo memberDetailInfo,
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
+		List<String> dtlCDList = memberInfoService.getJindoUpdateDtlCDList(authMemberInfo, loginLang);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/memberCard/memberJindoUpdateView");
+		mav.addObject("memberDetailInfo", memberDetailInfo);
+		mav.addObject("classList",classList);
+		mav.addObject("dtlCDList",dtlCDList);
+		mav.addObject("kwamokList",kwamokList);
 		return mav;
 	}
 }

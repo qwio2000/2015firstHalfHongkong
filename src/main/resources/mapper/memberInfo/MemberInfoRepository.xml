@@ -207,4 +207,15 @@
 	<select id="selectJindoUpdateInputInfo" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberJindoSearchInfo">
 		CALL globalbiz.SPJindoUpdateInputInfo(#{jisaCD},#{kwamok},#{mKey},#{yyyy},#{mm},#{cngOpt})
 	</select>
+	<select id="selectSetList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JindoUpdateSet">
+		CALL globalbiz.SPJindoUpdateSetList(#{jisaCD},#{subj},#{dung},#{chk})
+	</select>
+	<select id="selectBokSetCount" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+		CALL globalbiz.SPReviewSetCount(#{jisaCD},#{subj},#{sets1},#{sets2})
+	</select>
+	<select id="updateJindoInfo" statementType="CALLABLE" parameterType="hashMap">
+		CALL globalbiz.SPJindoUpdate(#{ami.jisaCD},#{jui.cngGubun},#{jui.cngOpt},#{jui.mKey},#{jui.kwamok},#{jui.setCnt},
+		#{jui.fstYoil},#{jui.sndYoil},#{jui.cngSayu},#{jui.jo_yy},#{jui.jo_mm},#{jui.jo_wk},#{jui.jo_key},#{jui.jo_set},#{jui.jo_sort}
+		,#{jui.sets1},#{jui.sets2},#{jui.sets3},#{jui.sets4},#{jui.sets5},CONCAT(#{ami.jisaCD},#{ami.empKey}))
+	</select>
 </mapper>

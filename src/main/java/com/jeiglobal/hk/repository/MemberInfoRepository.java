@@ -69,4 +69,10 @@ public interface MemberInfoRepository {
 	public List<MemberJindoSearchInfo> selectJindoUpdateInputInfo(
 			Map<String, Object> map);
 
+	public List<JindoUpdateSet> selectSetList(Map<String, Object> map);
+
+	public int selectBokSetCount(Map<String, Object> map);
+
+	public void updateJindoInfo(Map<String, Object> map);
+
 }
