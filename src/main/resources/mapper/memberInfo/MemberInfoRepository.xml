@@ -218,4 +218,10 @@
 		#{jui.fstYoil},#{jui.sndYoil},#{jui.cngSayu},#{jui.jo_yy},#{jui.jo_mm},#{jui.jo_wk},#{jui.jo_key},#{jui.jo_set},#{jui.jo_sort}
 		,#{jui.sets1},#{jui.sets2},#{jui.sets3},#{jui.sets4},#{jui.sets5},CONCAT(#{ami.jisaCD},#{ami.empKey}))
 	</select>
+	<select id="selectJindoUpdateViewList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JindoUpdateView">
+		CALL globalbiz.SPJindoUpdateList(#{mkey},#{subj},#{startDate},#{endDate},#{jisaCD},#{lang})
+	</select>
+	<select id="selectJindoUpdateHisList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JindoUpdateView">
+		CALL globalbiz.SPJindoUpdateHisView(#{jisaCD},#{subj},#{mkey},#{viewOpt},#{cngYMD},#{cngGubunCD},#{cngOptCD},#{cngSayuCD},#{yy},#{mm},#{lang})
+	</select>
 </mapper>

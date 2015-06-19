@@ -131,12 +131,18 @@ $(function() {
 			ippr20EM:function(jisa, omrDate, hkey, kwamok, omrPath, lang){
 				var pop_status = window.open("/ippr20EM?hkey="+hkey+"&kwamok="+kwamok+"&jisa="+jisa+"&omrDate="+omrDate+"&omrPath="+omrPath+"&lang="+lang,"newWindow","width=665,height=800,marginwidth=0,marginheight=0,toolbar=no,location=no,directories=no,menubar=no,scrollbars=yes");
 				pop_status.focus();
+			},
+			jindoHisView:function(mkey, subj, cngDate, cngGubun, cngOpt, cngSayu, cngYY, cngMM){
+				var pop_status = window.open("/memberCard/memberJindoHisView?mkey="+mkey+"&subj="+subj+"&cngYMD="+cngDate+"&cngGubunCD="+cngGubun+"&cngOptCD="+cngOpt+"&cngSayuCD="+cngSayu+"&yy="+cngYY+"&mm="+cngMM,"newWindow","width=848,height=700,marginwidth=0,marginheight=0,toolbar=no,location=no,directories=no,menubar=no,scrollbars=yes");
+				pop_status.focus();
 			}
 		});
 		
 		//관리카드 팝업 내 검색
 		$(document).on("click","#searchBtn",function(){
 			var jsonSendData = $("#Qry2FormName").serialize();
+			console.log(jsonSendData);
+			console.log(window.location.pathname+".json");
 			$.ajax({
 				url: window.location.pathname+".json",
 				type: "GET",

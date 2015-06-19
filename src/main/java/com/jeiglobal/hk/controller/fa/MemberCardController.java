@@ -423,18 +423,18 @@ public class MemberCardController {
 			return mav;
 		}
 		String cngGubun = "1";
-		System.out.println("cngGubun : "+cngGubun);
-		System.out.println("cngOpt : "+cngOpt);
 		JindoAdjustCheck jac = memberInfoService.getJindoAdjustCheck(memberDetailInfo, authMemberInfo, cngGubun, cngOpt, loginLang);
 		if(jac != null){
 			if(cngOpt.equals("1") && jac.getDayCnt().equals("1")){
 				mav.addObject("message", "금일 "+jac.getCngOptNM()+"을 이미 처리 하였습니다.");
+				return mav;
 			}else if(cngOpt.equals("1") && Integer.parseInt(jac.getCngCnt())>2){
 				mav.addObject("message", jac.getCngOptNM()+"은 월 2회까지만 가능합니다.");
+				return mav;
 			}else if(cngOpt.equals("4") && Integer.parseInt(jac.getCngCnt())>=1){
 				mav.addObject("message", jac.getCngOptNM()+"은 월 1회까지만 가능합니다.");
+				return mav;
 			}
-			return mav;
 		}
 		if(!mic.getStateCD().equals("1")){
 			mav.addObject("message", "현재 유지회원이 아닙니다. 유지 회원에 한 해 조정이 가능합니다.");
@@ -481,6 +481,8 @@ public class MemberCardController {
 		mav.addObject("memberInfoCheck", mic);
 		mav.addObject("headerScript",headerScript);
 		mav.setViewName("/memberCard/memberJindoUpdateInput");
+		mav.addObject("title", "진도조정");
+		mav.addObject("popTitle", "진도조정");
 		return mav;
 	}
 	@RequestMapping(value="/memberJindoUpdate")
@@ -518,15 +520,64 @@ public class MemberCardController {
 	public ModelAndView memberJindoUpdateView(MemberDetailInfo memberDetailInfo,
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberCard");
 		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
 		List<String> dtlCDList = memberInfoService.getJindoUpdateDtlCDList(authMemberInfo, loginLang);
 		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<JindoUpdateView> juv = memberInfoService.getJindoUpdateViewList(memberDetailInfo, authMemberInfo, loginLang, "", "");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberJindoUpdateView");
 		mav.addObject("memberDetailInfo", memberDetailInfo);
-		mav.addObject("classList",classList);
-		mav.addObject("dtlCDList",dtlCDList);
-		mav.addObject("kwamokList",kwamokList);
+		mav.addObject("classList", classList);
+		mav.addObject("dtlCDList", dtlCDList);
+		mav.addObject("kwamokList", kwamokList);
+		mav.addObject("jindoUpdateViewList", juv);
+		mav.addObject("headerScript",headerScript);
+		mav.addObject("title", "진도조정");
+		mav.addObject("popTitle", "진도변경내역");
+		return mav;
+	}
+	@RequestMapping(value="/memberJindoUpdateView.json",method=RequestMethod.GET,produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> memberJindoUpdateViewJson(MemberDetailInfo memberDetailInfo, String startDate, String endDate,
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<JindoUpdateView> jindoUpdateViewList = memberInfoService.getJindoUpdateViewList(memberDetailInfo, authMemberInfo, loginLang, startDate, endDate);
+		map.put("jindoUpdateViewList", jindoUpdateViewList);
+		return map;
+	}
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/memberJindoHisView")
+	public ModelAndView memberJindoHisView(JindoUpdateView jindoUpdateView,
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		ModelAndView mav = new ModelAndView();
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Map<String, Object> map = memberInfoService.getJindoUpdateHisBefore(jindoUpdateView, authMemberInfo, loginLang);
+		mav.addObject("beforeJin1", (List<JindoUpdateView>)map.get("jin1"));
+		mav.addObject("beforeJin2", (List<JindoUpdateView>)map.get("jin2"));
+		mav.addObject("beforeJin3", (List<JindoUpdateView>)map.get("jin3"));
+		mav.addObject("beforeJin4", (List<JindoUpdateView>)map.get("jin4"));
+		mav.addObject("beforeJin5", (List<JindoUpdateView>)map.get("jin5"));
+		mav.addObject("beforeJin6", (List<JindoUpdateView>)map.get("jin6"));
+		map = memberInfoService.getJindoUpdateHisAfter(jindoUpdateView, authMemberInfo, loginLang);
+		mav.addObject("afterJin1", (List<JindoUpdateView>)map.get("jin1"));
+		mav.addObject("afterJin2", (List<JindoUpdateView>)map.get("jin2"));
+		mav.addObject("afterJin3", (List<JindoUpdateView>)map.get("jin3"));
+		mav.addObject("afterJin4", (List<JindoUpdateView>)map.get("jin4"));
+		mav.addObject("afterJin5", (List<JindoUpdateView>)map.get("jin5"));
+		mav.addObject("afterJin6", (List<JindoUpdateView>)map.get("jin6"));
+		
+		mav.addObject("cngGubunNM", (String)map.get("cngGubunNM"));
+		mav.addObject("cngOptNM", (String)map.get("cngOptNM"));
+		mav.addObject("fstYoilNM", (String)map.get("fstYoilNM"));
+		mav.addObject("startYY", jindoUpdateView.getYy());
+		mav.addObject("startMM", jindoUpdateView.getMm());
+		mav.addObject("jindoUpdateView", jindoUpdateView);
+		mav.addObject("title", "진도조정");
+		mav.addObject("popTitle", "진도변경내역");
+		mav.setViewName("/memberCard/memberJindoHisView");
 		return mav;
 	}
 }

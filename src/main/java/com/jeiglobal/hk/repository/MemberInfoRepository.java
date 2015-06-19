@@ -75,4 +75,10 @@ public interface MemberInfoRepository {
 
 	public void updateJindoInfo(Map<String, Object> map);
 
+	public List<JindoUpdateView> selectJindoUpdateViewList(
+			Map<String, Object> map);
+
+	public List<JindoUpdateView> selectJindoUpdateHisList(
+			Map<String, Object> map);
+
 }
