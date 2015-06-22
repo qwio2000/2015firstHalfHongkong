@@ -34,8 +34,8 @@ public class IpgumController {
 	@RequestMapping(value="/ipgumList")
 	public ModelAndView ipgumList(@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<String> headerScript = new ArrayList<>();
 		headerScript.add("ipgum");
 		ModelAndView mav = new ModelAndView();
