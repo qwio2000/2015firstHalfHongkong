@@ -339,27 +339,6 @@ public class CommonService {
 			}
 		}
 		
-//		if(commonRepository.isExistsMemSubjMst(map)){
-//			mkucode = "";
-//			if("KK".equals(subj)){
-//				dongsubj = "KG";
-//			}else if("KG".equals(subj)){
-//				dongsubj = "KK";
-//			}else if("KE".equals(subj)){
-//				dongsubj = "KL";
-//			}else if("KL".equals(subj)){
-//				dongsubj = "KE";
-//			}else if("KC".equals(subj)){
-//				dongsubj = "KJ";
-//			}else if("KJ".equals(subj)){
-//				dongsubj = "KC";
-//			}else if("CE".equals(subj)){
-//				dongsubj = "CL";
-//			}else if("CL".equals(subj)){
-//				dongsubj = "CE";
-//			}
-//		}
-		
 		//입회대기 체크
 		map.put("agreeCD","00");
 		if(commonRepository.isMemIpheiAgree(map)){
