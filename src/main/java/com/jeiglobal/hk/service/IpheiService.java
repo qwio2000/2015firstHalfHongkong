@@ -87,12 +87,13 @@ public class IpheiService {
 		if(mkey != null && !mkey.isEmpty()){
 			MemSubjMst memSubjMst = ipheiRepository.findMemSubjMst(map);
 			
-			if(memSubjMst == null || memSubjMst.getMkey().isEmpty()){
+			if(memSubjMst == null || memSubjMst.getMkey().isEmpty() || Strings.isNullOrEmpty(memSubjMst.getHuheiYMD())){
 				return ipheiRepository.selectMJgrade(map);
 			}else{
-				String huheiYMD[] = memSubjMst.getHuheiYMD().split("-");
 				
+				String huheiYMD[] = memSubjMst.getHuheiYMD().split("-");
 				Map<String,Object> huheiMap = new HashMap<>();
+				
 				huheiMap.put("pYear",huheiYMD[0]);
 				huheiMap.put("pMonth",huheiYMD[1]);
 				huheiMap.put("pDay",huheiYMD[2]);
