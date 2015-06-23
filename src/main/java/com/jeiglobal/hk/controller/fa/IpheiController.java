@@ -21,6 +21,7 @@ import com.jeiglobal.hk.domain.common.Comcode;
 import com.jeiglobal.hk.domain.common.MemMst;
 import com.jeiglobal.hk.domain.common.OmrGichoMujin;
 import com.jeiglobal.hk.service.CommonService;
+import com.jeiglobal.hk.service.IpheiService;
 import com.jeiglobal.hk.utils.JeiCommonUtils;
 
 @Controller
@@ -29,6 +30,9 @@ public class IpheiController {
 	
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private IpheiService ipheiService;
 	
 	@RequestMapping
 	public String index(Model model,@CookieValue(value="LoginLang",defaultValue="K") String loginLang
@@ -129,7 +133,7 @@ public class IpheiController {
 		
 		//기존,무료회원 정보 가져오기
 		if("02".equals(pIpheiKind)){
-			existsMemInfo = commonService.findMemMstById(pMkey);
+			existsMemInfo = ipheiService.findMemMstById(pMkey);
 			
 			memInfo.put("mFirstName",existsMemInfo.getmFstName());
 			memInfo.put("mBirthYMD",existsMemInfo.getBirthYMD());
@@ -206,7 +210,7 @@ public class IpheiController {
 			memInfo.put("specialComment",existsMemInfo.getSpecialComment());
 
 		}else if("03".equals(pIpheiKind)){
-			mujinMemInfo = commonService.findOmrGichoMujin(pOmrdate,pMkey,pMujinSubj);
+			mujinMemInfo = ipheiService.findOmrGichoMujin(pOmrdate,pMkey,pMujinSubj);
 			memInfo.put("gradeCD",mujinMemInfo.getOmrHak());
 			memInfo.put("mFirstName",mujinMemInfo.getmFirstName());
 			memInfo.put("mBirthYMD",mujinMemInfo.getOmrBirth());
@@ -241,8 +245,8 @@ public class IpheiController {
 		
 		for (String subject : subjs) {
 			Map<String,Object> tempMap = new HashMap<>();
-			tempMap.put("mjGrade", commonService.selectMJgrade(authMemberInfo.getJisaCD(), subject, pIpheiday,pMkey,loginLang));
-			tempMap.put("ipheiSubj",commonService.ipheiSubjCheck(authMemberInfo.getJisaCD(),subject, pIpheiKind,i,pMkey, loginLang));
+			tempMap.put("mjGrade", ipheiService.selectMJgrade(authMemberInfo.getJisaCD(), subject, pIpheiday,pMkey,loginLang));
+			tempMap.put("ipheiSubj",ipheiService.ipheiSubjCheck(authMemberInfo.getJisaCD(),subject, pIpheiKind,i,pMkey, loginLang));
 			subjInfoList.add(tempMap);
 			i++;
 		}
@@ -352,7 +356,7 @@ public class IpheiController {
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		Map<String,Object> map = new HashMap<>();
-		List<Map<String,Object>>  existsMemberList = commonService.findExistsMember(authMemberInfo.getJisaCD(),mkey,mName,birthYY);
+		List<Map<String,Object>>  existsMemberList = ipheiService.findExistsMember(authMemberInfo.getJisaCD(),mkey,mName,birthYY);
 		map.put("existsMemberList", existsMemberList);
 		return map;
 	}
@@ -366,7 +370,7 @@ public class IpheiController {
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		Map<String,Object> map = new HashMap<>();
-		List<Map<String,Object>>  mujinMemberList = commonService.findMujinMember(authMemberInfo.getJisaCD(),mkey,mName,birthYY);
+		List<Map<String,Object>>  mujinMemberList = ipheiService.findMujinMember(authMemberInfo.getJisaCD(),mkey,mName,birthYY);
 		map.put("mujinMemberList", mujinMemberList);
 		return map;
 	}
@@ -379,7 +383,7 @@ public class IpheiController {
 			,@RequestParam(value="grade",defaultValue="") String grade,@RequestParam(value="restymw",defaultValue="") String restymw
 			,@RequestParam(value="mGubun",defaultValue="") String mGubun,@RequestParam(value="mSayu",defaultValue="") String mSayu){
 		
-		List<Map<String,Object>> resultList = commonService.selectDepositSet(jisaCD, depid1, bulsu, pSubj, grade, mGubun, mSayu, restymw);
+		List<Map<String,Object>> resultList = ipheiService.selectDepositSet(jisaCD, depid1, bulsu, pSubj, grade, mGubun, mSayu, restymw);
 
 		Map<String,Object> map = new HashMap<>();
 		map.put("resultList", resultList);
@@ -441,7 +445,7 @@ public class IpheiController {
 		String phone = phone1+"-"+phone2+"-"+phone3;
 		String ePhone = ePhone1+"-"+ePhone2+"-"+ePhone3;
 		
-		Map<String,Object> resultMap = commonService.registIphei(authMemberInfo.getEmpKeyLvCD(), pIpheiday, pIpkind, pMkey, omrdate, pIpGuide
+		Map<String,Object> resultMap = ipheiService.registIphei(authMemberInfo.getEmpKeyLvCD(), pIpheiday, pIpkind, pMkey, omrdate, pIpGuide
 				, jisaCD, pIpheiDepid, pFirstName, pSchool, pMemGrade, pBirthDay, pSex, tel
 				, pAddr, pGfirstname, email, gEmail, phone, ePhone,specialComment, subj
 				, rejectSubj, fstClass, fstDay, mjGrade, ipheibi

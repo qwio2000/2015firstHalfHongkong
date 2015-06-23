@@ -82,7 +82,7 @@
 				</div>
 				<div class="btn-box">
 					<span class="button btn-type-J">
-						<a href="javascript:$.registSubmit();" class="w-120">등록</a>
+						<a href="javascript:$.registSubmit('','');" class="w-120">등록</a>
 					</span>
 					<span class="button btn-type-J">
 						<a href="#none" class="w-120">취소</a>

@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.IpheiRepository">
+	
+	<select id="isMemIpheiAgree" parameterType="hashMap" resultType="boolean">
+		SELECT CASE WHEN count(0) > 0 THEN 1 ELSE 0 END
+		FROM globalbiz.MemIpheiAgree
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+			<if test="agreeCD != null">
+				AND agreeCD = #{agreeCD}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findMemIpheiAgree" parameterType="hashMap" resultType="long">
+		SELECT agreeNum
+		FROM globalbiz.MemIpheiAgree
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+			<if test="agreeCD != null">
+				AND agreeCD = #{agreeCD}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findOmrGichoMujin" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.OmrGichoMujin">
+		SELECT * FROM devglobaldig.OmrGichoMujin
+		<where>
+			<if test="hkey != null">
+				hkey = #{hkey}
+			</if>
+			<if test="omrDate != null">
+				AND omrDate = #{omrDate}
+			</if>
+			<if test="kwamok != null">
+				AND kwamok = #{subj}
+			</if>
+		</where>
+	</select>
+	
+	<select id="isDepositSet" parameterType="hashMap" resultType="hashMap">
+		SELECT B.jisaCD,B.depid1 
+		FROM (SELECT A.jisaCD,A.depid1,A.subj,COUNT(0) as cnt 
+			 FROM (SELECT jisaCD,setType,depid1,subj FROM globalbiz.MemDepositSet
+		 			WHERE	jisaCD = #{jisaCD} AND depid1 = #{depid1} AND subj = #{subj}
+		 			GROUP BY jisaCD,setType,depid1,subj ) AS A
+			GROUP BY A.jisaCD,A.depid1,A.subj ) AS B
+		WHERE B.cnt > 1
+		GROUP BY B.jisaCD,B.depid1
+	</select>
+	
+	<select id="selectDepositSet" parameterType="hashMap" resultType="hashMap">
+		SELECT guganType,gugan,mmCnt AS enterWol, mmView AS viewWol 
+		,fstGum AS ipheibi, pceGum AS chaheibi ,wolGum AS wolheibi,pceGum+wolGum AS pwGum
+		<choose>
+			<when test="mGubun != null and mSayu != null and mGubun.equalsIgnoreCase('05') and mSayu.equalsIgnoreCase('02')">
+				,pwtGum * 0.8 AS totheibi
+			</when>
+			<otherwise>
+				,pwtGum AS totheibi
+			</otherwise>		
+		</choose> 
+		FROM globalbiz.MemDepositSet
+		WHERE jisaCD = #{jisaCD} AND depid1 = #{depid1} 
+		AND bulsu = #{bulsu} AND subj = #{subj}
+		AND jucha = #{jucha} AND hpwtGum = 0 and setType = #{setType}
+		ORDER BY mmCnt,jucha desc
+	</select>
+	
+	<select id="selectMemIpheiAgreeAgnum" resultType="long">
+		SELECT IFNULL(MAX(agreeNum),0)+1 FROM globalbiz.MemIpheiAgree
+	</select>
+	
+	<insert id="insertMemIpheiAgree" parameterType="com.jeiglobal.hk.domain.common.MemIpheiAgree">
+		INSERT INTO globalbiz.MemIpheiAgree(
+			agreeNum,ipheiYMD,mkey,subj,ipheiGubunCD,ipheiKindMstCD,ipheiKindDtlCD,mFstName,mLstName,schoolName,gradeCD,birthYMD,sexCD
+			,tel,zip,addr,fstYMD,fstYoil,fstEmpKey,fstEmpName,fstDepid1,fstDepid2,sndYMD,sndYoil,sndEmpKey,sndEmpName,sndDepid1,sndDepid2
+			,jisaCD,payKindCD,IpheiPathCD,jGradeCD,setCnt,gFstName,gLstName,mEmail,gEmail,mPhone,gPhone,ePhone,ipgumGubunCD,ipgumKindMstCD
+			,ipgumKindDtlCD,restYMW,ipheibiFree,wolheibiFree,ipheibi,wolheibi,enterwol,omrDate,agreeCD,agreeSayuCD,agreeYMD,agreeDepid1
+			,agreeDepid2,agreeID,agreeDate,branchCD,banyungCD,banyungDate,banyungID,regDate,regID,updDate,updID)
+			 VALUES(#{agreeNum},#{ipheiYMD},#{mkey},#{subj},#{ipheiGubunCD},#{ipheiKindMstCD},#{ipheiKindDtlCD},#{mFstName}
+			 ,#{mLstName},#{schoolName},#{gradeCD},#{birthYMD},#{sexCD},#{tel},#{zip},#{addr},#{fstYMD}
+			 ,#{fstYoil},#{fstEmpKey},#{fstEmpName},#{fstDepid1},#{fstDepid2},#{sndYMD},#{sndYoil}
+			 ,#{sndEmpKey},#{sndEmpName},#{sndDepid1},#{sndDepid2},#{jisaCD},#{payKindCD},#{IpheiPathCD}
+			 ,#{jGradeCD},#{setCnt},#{gFstName},#{gLstName},#{mEmail},#{gEmail},#{mPhone},#{gPhone},#{ePhone}
+			 ,#{ipgumGubunCD},#{ipgumKindMstCD},#{ipgumKindDtlCD},#{restYMW},#{ipheibiFree},#{wolheibiFree}
+			 ,#{ipheibi},#{wolheibi},#{enterwol},#{omrDate},#{agreeCD},#{agreeSayuCD},#{agreeYMD},#{agreeDepid1}
+			 ,#{agreeDepid2},#{agreeID},#{agreeDate},#{branchCD},#{banyungCD},#{banyungDate},#{banyungID}
+			 ,NOW(),#{regID},NOW(),#{regID})
+	</insert>
+	
+	<insert id="insertMemSubjMst" parameterType="com.jeiglobal.hk.domain.common.MemSubjMst">
+		INSERT INTO globalbiz.MemSubjMst(mkey,subj,fstEmpKey,fstDepid1,fstDepid2,fstYoil,sndEmpKey,sndDepid1,sndDepid2
+		,sndYoil,bfFstEmpKey,bfFstDepid1,bfFstDepid2,bfFstYoil,bfSndEmpKey,bfSDepid1,bfSDepid2,bfSYoil,jisaCD,stateCD,ipheiYMD
+		,bokheiYMD,huheiYMD,expireYMD,ipgumYMD,jGradeCD,taGubunCD,mkeyKindCD,IpheiPathCD,payKindCD,setCnt,bfSetCnt,weekCnt,bfWeekCnt,mngSortCD
+		,regDate,regID,updDate,updID) VALUES(#{mkey},#{subj},#{fstEmpKey},#{fstDepid1},#{fstDepid2},#{fstYoil},#{sndEmpKey},#{sndDepid1}
+		,#{sndDepid2},#{sndYoil},#{bfFstEmpKey},#{bfFstDepid1},#{bfFstDepid2},#{bfFstYoil},#{bfSndEmpKey},#{bfSDepid1},#{bfSDepid2}
+		,#{bfSYoil},#{jisaCD},#{stateCD},#{ipheiYMD},#{bokheiYMD},#{huheiYMD},#{expireYMD},#{ipgumYMD},#{jGradeCD},#{taGubunCD}
+		,#{mkeyKindCD},#{IpheiPathCD},#{payKindCD},#{setCnt},#{bfSetCnt},#{weekCnt},#{bfWeekCnt},#{mngSortCD}
+		,NOW(),#{regID},NOW(),#{updID})
+	</insert>
+	
+	<insert id="insertMemSubjMstHis" parameterType="com.jeiglobal.hk.domain.common.MemSubjMstHis">
+		INSERT INTO globalbiz.MemSubjMstHis(mkey,subj,fstEmpKey,fstDepid1,fstDepid2,fstYoil,sndEmpKey,sndDepid1,sndDepid2
+		,sndYoil,bfFstEmpKey,bfFstDepid1,bfFstDepid2,bfFstYoil,bfSndEmpKey,bfSDepid1,bfSDepid2,bfSYoil,jisaCD,stateCD,ipheiYMD
+		,bokheiYMD,huheiYMD,expireYMD,ipgumYMD,jGradeCD,taGubunCD,mkeyKindCD,IpheiPathCD,payKindCD,setCnt,bfSetCnt,weekCnt,bfWeekCnt,mngSortCD
+		,regDate,regID,updDate,updID,updCD) VALUES(#{mkey},#{subj},#{fstEmpKey},#{fstDepid1},#{fstDepid2},#{fstYoil},#{sndEmpKey},#{sndDepid1}
+		,#{sndDepid2},#{sndYoil},#{bfFstEmpKey},#{bfFstDepid1},#{bfFstDepid2},#{bfFstYoil},#{bfSndEmpKey},#{bfSDepid1},#{bfSDepid2}
+		,#{bfSYoil},#{jisaCD},#{stateCD},#{ipheiYMD},#{bokheiYMD},#{huheiYMD},#{expireYMD},#{ipgumYMD},#{jGradeCD},#{taGubunCD}
+		,#{mkeyKindCD},#{IpheiPathCD},#{payKindCD},#{setCnt},#{bfSetCnt},#{weekCnt},#{bfWeekCnt},#{mngSortCD}
+		,#{regDate},#{regID},NOW(),#{updID},#{updCD})
+	</insert>
+	
+	<update id="updateMemSubjMst" parameterType="com.jeiglobal.hk.domain.common.MemSubjMst">
+		UPDATE globalbiz.MemSubjMst
+		<set>
+			<if test="fstEmpKey != null">fstEmpKey=#{fstEmpKey},</if>
+			<if test="fstDepid1 != null">fstDepid1=#{fstDepid1},</if>
+			<if test="fstDepid2 != null">fstDepid2=#{fstDepid2},</if>
+			<if test="fstYoil != null">fstYoil=#{fstYoil},</if>
+			<if test="sndEmpKey != null">sndEmpKey=#{sndEmpKey},</if>
+			<if test="sndDepid1 != null">sndDepid1=#{sndDepid1},</if>
+			<if test="sndDepid2 != null">sndDepid2=#{sndDepid2},</if>
+			<if test="sndYoil != null">sndYoil=#{sndYoil},</if>
+			<if test="bfFstEmpKey != null">bfFstEmpKey=#{bfFstEmpKey},</if>
+			<if test="bfFstDepid1 != null">bfFstDepid1=#{bfFstDepid1},</if>
+			<if test="bfFstDepid2 != null">bfFstDepid2=#{bfFstDepid2},</if>
+			<if test="bfFstYoil != null">bfFstYoil=#{bfFstYoil},</if>
+			<if test="bfSndEmpKey != null">bfSndEmpKey=#{bfSndEmpKey},</if>
+			<if test="bfSDepid1 != null">bfSDepid1=#{bfSDepid1},</if>
+			<if test="bfSDepid2 != null">bfSDepid2=#{bfSDepid2},</if>
+			<if test="bfSYoil != null">bfSYoil=#{bfSYoil},</if>
+			<if test="jisaCD != null">jisaCD=#{jisaCD},</if>
+			<if test="stateCD != null">stateCD=#{stateCD},</if>
+			<if test="ipheiYMD != null">ipheiYMD=#{ipheiYMD},</if>
+			<if test="bokheiYMD != null">bokheiYMD=#{bokheiYMD},</if>
+			<if test="huheiYMD != null">huheiYMD=#{huheiYMD},</if>
+			<if test="expireYMD != null">expireYMD=#{expireYMD},</if>
+			<if test="ipgumYMD != null">ipgumYMD=#{ipgumYMD},</if>
+			<if test="jGradeCD != null">jGradeCD=#{jGradeCD},</if>
+			<if test="taGubunCD != null">taGubunCD=#{taGubunCD},</if>
+			<if test="mkeyKindCD != null">mkeyKindCD=#{mkeyKindCD},</if>
+			<if test="IpheiPathCD != null">IpheiPathCD=#{IpheiPathCD},</if>
+			<if test="payKindCD != null">payKindCD=#{payKindCD},</if>
+			<if test="setCnt != null">setCnt=#{setCnt},</if>
+			<if test="bfSetCnt != null">bfSetCnt=#{bfSetCnt},</if>
+			<if test="weekCnt != null">weekCnt=#{weekCnt},</if>
+			<if test="bfWeekCnt != null">bfWeekCnt=#{bfWeekCnt},</if>
+			<if test="mngSortCD != null">mngSortCD=#{mngSortCD},</if>
+			<if test="regDate != null">regDate=#{regDate},</if>
+			<if test="regID != null">regID=#{regID},</if>
+			<if test="updDate != null">updDate=#{updDate},</if>
+			<if test="updID != null">updID=#{updID}</if>
+		</set>
+		WHERE mkey = #{mkey} AND subj = #{subj}
+	</update>
+	
+	<insert id="insertMemMst" parameterType="com.jeiglobal.hk.domain.common.MemMst">
+		INSERT INTO globalbiz.MemMst(mkey,mFstName,mLstName,schoolName,gradeCD,birthYMD,sexCD,zip,addr,tel,gFstName
+		,gLstName,mEmail,gEmail,mPhone,gPhone,ePhone,specialComment,regDate,regID,updDate,updID) 
+		VALUES(#{mkey},#{mFstName},#{mLstName},#{schoolName},#{gradeCD},#{birthYMD},#{sexCD},#{zip},#{addr},#{tel},#{gFstName}
+		,#{gLstName},#{mEmail},#{gEmail},#{mPhone},#{gPhone},#{ePhone},#{specialComment},NOW(),#{regID},NOW(),#{updID})
+	</insert>
+	
+	<update id="updateMemMst" parameterType="com.jeiglobal.hk.domain.common.MemMst">
+		UPDATE globalbiz.MemMst 
+		<set>
+			<if test="mFstName != null">mFstName = #{mFstName},</if>
+			<if test="mLstName != null">mLstName = #{mLstName},</if>
+			<if test="schoolName != null">schoolName = #{schoolName},</if>
+			<if test="gradeCD != null">gradeCD = #{gradeCD},</if>
+			<if test="birthYMD != null">birthYMD = #{birthYMD},</if>
+			<if test="sexCD != null">sexCD = #{sexCD},</if>
+			<if test="zip != null">zip = #{zip},</if>
+			<if test="addr != null">addr = #{addr},</if>
+			<if test="tel != null">tel = #{tel},</if>
+			<if test="gFstName != null">gFstName = #{gFstName},</if>
+			<if test="gLstName != null">gLstName = #{gLstName},</if>
+			<if test="mEmail != null">mEmail = #{mEmail},</if>
+			<if test="gEmail != null">gEmail = #{gEmail},</if>
+			<if test="mPhone != null">mPhone = #{mPhone},</if>
+			<if test="gPhone != null">gPhone = #{gPhone},</if>
+			<if test="ePhone != null">ePhone = #{ePhone},</if>
+			<if test="specialComment != null">specialComment = #{specialComment},</if>
+			updDate = NOW(),
+			<if test="updID != null">updID = #{updID}</if>
+		</set>
+		WHERE mkey = #{mkey}
+	</update>
+	
+	<insert id="insertMemMstHis" parameterType="com.jeiglobal.hk.domain.common.MemMstHis">
+		INSERT INTO globalbiz.MemMstHis(mkey,mFstName,mLstName,schoolName,gradeCD,birthYMD,sexCD,zip,addr,tel,gFstName
+		,gLstName,mEmail,gEmail,mPhone,gPhone,ePhone,specialComment,regDate,regID,updDate,updID,updCD) 
+		VALUES(#{mkey},#{mFstName},#{mLstName},#{schoolName},#{gradeCD},#{birthYMD},#{sexCD},#{zip},#{addr},#{tel},#{gFstName}
+		,#{gLstName},#{mEmail},#{gEmail},#{mPhone},#{gPhone},#{ePhone},#{specialComment},#{regDate},#{regID},NOW(),#{updID},#{updCD})
+	</insert>
+	
+	<insert id="insertMemIpheiMst" parameterType="com.jeiglobal.hk.domain.common.MemIpheiMst">
+		INSERT INTO globalbiz.MemIpheiMst(ipheiYMD,mkey,subj,ipheiGubunCD,ipheiKindMstCD,ipheiKindDtlCD
+		,mFstName,mLstName,schoolName,gradeCD,birthYMD,sexCD,tel,zip,addr,fstYMD,fstYoil,fstEmpKey,fstEmpName,fstDepid1,fstDepid2
+		,sndYMD,sndYoil,sndEmpKey,sndEmpName,sndDepid1,sndDepid2,jisaCD,payKindCD,IpheiPathCD,jGradeCD,setCnt,gFstName
+		,gLstName,mEmail,gEmail,mPhone,gPhone,ePhone,branchCD,banyungCD,banyungDate,banyungID,regDate,regID) 
+		VALUES(#{ipheiYMD},#{mkey},#{subj},#{ipheiGubunCD},#{ipheiKindMstCD},#{ipheiKindDtlCD}
+		,#{mFstName},#{mLstName},#{schoolName},#{gradeCD},#{birthYMD},#{sexCD},#{tel},#{zip},#{addr},#{fstYMD},#{fstYoil},#{fstEmpKey}
+		,#{fstEmpName},#{fstDepid1},#{fstDepid2},#{sndYMD},#{sndYoil},#{sndEmpKey},#{sndEmpName},#{sndDepid1},#{sndDepid2}
+		,#{jisaCD},#{payKindCD},#{IpheiPathCD},#{jGradeCD},#{setCnt},#{gFstName},#{gLstName},#{mEmail},#{gEmail}
+		,#{mPhone},#{gPhone},#{ePhone},#{branchCD},#{banyungCD},#{banyungDate},#{banyungID},NOW(),#{regID})
+	</insert>
+	
+	<insert id="insertMemIpgumMst" parameterType="com.jeiglobal.hk.domain.common.MemIpgumMst">
+		INSERT INTO globalbiz.MemIpgumMst(ipgumYMD,mkey,subj,ipgumGubunCD,ipgumKindMstCD,ipgumKindDtlCD,mFirstName,mLastName
+		,existCD,payKindCD,empKey,empName,depid1,depid2,ipheibiFree,wolheibiFree,ipheibi,wolheibi,enterwol,expireYMD
+		,branchCD,banyungCD,banyungDate,banyungID,regDate,regID) 
+		VALUES(#{ipgumYMD},#{mkey},#{subj},#{ipgumGubunCD},#{ipgumKindMstCD},#{ipgumKindDtlCD},#{mFirstName},#{mLastName}
+		,#{existCD},#{payKindCD},#{empKey},#{empName},#{depid1},#{depid2},#{ipheibiFree},#{wolheibiFree},#{ipheibi},#{wolheibi}
+		,#{enterwol},#{expireYMD},#{branchCD},#{banyungCD},#{banyungDate},#{banyungID},NOW(),#{regID})
+	</insert>
+	
+	<select id="findSubjInfo" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.MemSubInfo">
+		SELECT jisaCD,subjCD,
+		<choose>
+			<when test="loginLang != null and loginLang.equalsIgnoreCase('K')">
+				subjNMK AS subjNM,
+			</when>
+			<when test="loginLang != null and loginLang.equalsIgnoreCase('E')">
+				subjNME AS subjNM,
+			</when>
+			<when test="loginLang != null and loginLang.equalsIgnoreCase('C')">
+				subjNMC AS subjNM,
+			</when>
+			<otherwise>
+				subjNMK AS subjNM,
+			</otherwise>
+		</choose>
+		stateCD,sortCD,codeDes,regDate,regID,updDate,updID
+		FROM globalbiz.MemSubjInfo
+		<where>
+			<if test="jisaCD != null">
+				jisaCD = #{jisaCD}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+		</where>
+	</select>
+	
+	<select id="countJSET" parameterType="hashMap" resultType="long">
+		SELECT COUNT(0) FROM globalbiz.MemJindoMst
+		WHERE mkey = #{mkey} AND subj = #{subj} AND CONCAT(yy,mm,wk) >= #{huheiYMW}
+		AND RIGHT(JSET,3) NOT IN ('991','992','999','000') 
+	</select>
+	
+	<select id="findExistsMember" parameterType="hashMap" resultType="hashMap" >
+		SELECT A.mKey,A.subj,A.jisaCD,A.stateCD,B.mFstName,B.mLstName,B.sexCD,B.birthYMD,B.tel,B.addr 
+		FROM globalbiz.MemSubjMst AS A
+		INNER JOIN globalbiz.MemMst AS B
+		ON(A.mkey = B.mkey)
+		WHERE A.jisaCD = #{jisaCD}
+		<if test="mkey != null and mkey != '' ">
+			AND A.mkey = #{mkey}
+		</if>
+		<if test="mName != null and mName != '' ">
+			AND CONCAT(B.mFstName,' ',B.mLstName) LIKE CONCAT(#{mName},'%')
+		</if>		
+		<if test="birthYY != null and birthYY != '' ">
+			AND B.birthYMD LIKE CONCAT(#{birthYY},'%')
+		</if>
+		ORDER BY A.mkey,A.subj
+	</select>
+	
+	<select id="findMujinMember" parameterType="hashMap" resultType="hashMap">
+		SELECT A.omrDate,A.hkey,A.kwamok,A.skey,A.sname,A.omrBirth
+		,A.omrKind,A.omrGrd,A.omrDay,A.omrAddr,A.mFirstName,A.mLastName,B.stateCD
+		FROM devglobaldig.OmrGichoMujin AS A
+		LEFT JOIN globalbiz.MemSubjMst AS B
+		ON(A.hkey = B.mkey AND A.kwamok AND B.subj)
+		WHERE A.team = #{jisaCD}
+		<if test="mkey != null and mkey != '' ">
+			AND A.hkey = #{mkey}
+		</if>
+		<if test="mName != null and mName != '' ">
+			AND CONCAT(A.mFirstName,' ',A.mLastName) LIKE CONCAT(#{mName},'%')
+		</if>
+		<if test="birthYY != null and birthYY != '' ">
+			AND A.omrBirth LIKE CONCAT(#{birthYY},'%')
+		</if>
+		ORDER BY A.hkey,A.kwamok
+	</select>
+	
+	<select id="findMemSubjMst" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.MemSubjMst">
+		SELECT * FROM globalbiz.MemSubjMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+			<if test="mngSortCD != null">
+				AND mngSortCD = #{mngSortCD}
+			</if>
+		</where>
+	</select>
+	
+	<select id="isExistsMemSubjMst" parameterType="hashMap" resultType="boolean">
+		SELECT CASE WHEN count(0) > 0 THEN 1 ELSE 0 END FROM globalbiz.MemSubjMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+			<if test="stateCD != null">
+				AND stateCD = #{stateCD}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectStateCDMemSubjMst" parameterType="hashMap" resultType="String">
+		SELECT stateCD FROM globalbiz.MemSubjMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+		</where>
+	</select>
+	
+	<select id="isExistsMemMst" parameterType="hashMap" resultType="boolean">
+		SELECT CASE WHEN count(0) > 0 THEN 1 ELSE 0 END FROM globalbiz.MemMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findMemMstById" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.MemMst">
+		SELECT * FROM globalbiz.MemMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectComEmpMst" parameterType="String" resultType="hashMap">
+		SELECT empName , depid1
+		FROM globalbiz.ComEmpMst
+		WHERE empKey = #{empKey}
+	</select>
+	
+	<select id="selectMJgrade"  parameterType="hashMap" resultType="String">
+		SELECT gradeCD FROM globalbiz.MemSubjGradeInfo
+		<where>
+			<if test="jisaCD != null">
+				jisaCD = #{jisaCD}
+			</if>
+			<if test="subj != null">
+				AND subjCD = #{subj}
+			</if>
+			<if test="grade != null">
+				AND gradeCD != #{grade}
+			</if>
+		</where>
+		ORDER BY sortCD,gradeCD
+	</select>
+	
+</mapper>
