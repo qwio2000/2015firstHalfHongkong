@@ -29,6 +29,11 @@
 						<li class="current"><a href="#none">학습현황표</a></li>
 					</ul>
 				</div>
+				<div class="tab-A">
+					<ul>
+						<li class="first active"><a href="/studyState">학습현황표</a></li>
+					</ul>
+				 	</div>
 				 <div class="mgt-20">
 				 	<div class="message-top2" style="margin-bottom: 20px;font-size: 13px;">
 						<form class="" name="" action="/studyState/pop" id="frm1" method="post">

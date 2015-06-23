@@ -16,6 +16,11 @@
 							<li class="current"><a href="#none">퇴회자리스트</a></li>
 						</ul>
 					</div>
+					<div class="tab-A">
+					<ul>
+						<li class="first active"><a href="/huheiList">퇴회자리스트</a></li>
+					</ul>
+				 	</div>
 					<div class="mgt-20">
 						<div class="message-top2" style="margin-bottom: 20px">
 						<form class="" name="" action="" id="frm1" method="post">
