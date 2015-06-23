@@ -298,7 +298,9 @@ public class IpheiController {
 			fstYMW = commonService.selectFstDay(pFstDay);
 			if(Strings.isNullOrEmpty(fstYMW)){
 				//에러처리 하자 페이지하나만들어서
-				return null;
+				model.addAttribute("message","첫진도 주차를 찾을 수 없습니다.");
+				model.addAttribute("mode","close");
+				return "alertAndRedirect";
 			}else{
 				model.addAttribute("fstYMW",fstYMW);
 			}
