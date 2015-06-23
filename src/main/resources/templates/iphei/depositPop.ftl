@@ -1,14 +1,12 @@
-<#include "/header.ftl">
+<#include "/popHeader.ftl">
 <#include "/function.ftl">
 <body>
-<div id="wrapper">
-	<div id="container">
-		<div id="content">
-			<div id="primary_content" class="primary-content">
+<div id="popWrapper" class="wrapper">
+	<div id="popContent">
 				<div>
 					<span>▣입금구분</span>
 				</div>
-				<div class="tbl-type-D">
+				<div class="tbl-type-H">
 					<table style="border-spacing: 0;width: 100%;">
 						<colgroup>
 							<col width="20%">
@@ -125,9 +123,6 @@
 				<input type="hidden" id="pRestYMW">
 				<input type="hidden" id="pMSayu">
 				<input type="hidden" id="pMkucode" value="${pMkucode}">
-				
-			</div>
-		</div>
 	</div>
 </div>
 <!-- //container -->

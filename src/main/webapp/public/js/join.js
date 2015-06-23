@@ -15,7 +15,7 @@ $(function() {
 				return false;
 			}
 			
-			window.open("/iphei/depositPop?pIpheiday="+pIpheiday+"&pMkucode="+pMKucode+"&pJisaCD="+pJisaCD+"&pDepid1="+pDepid1+"&pSubj="+pSubj+"&pMjGrade="+pMjGrade+"&pMemGrade="+pMemGrade+"&pFstDay="+fstDay+"&seqval="+index,"입금선택","width=500,height=460");
+			window.open("/iphei/depositPop?pIpheiday="+pIpheiday+"&pMkucode="+pMKucode+"&pJisaCD="+pJisaCD+"&pDepid1="+pDepid1+"&pSubj="+pSubj+"&pMjGrade="+pMjGrade+"&pMemGrade="+pMemGrade+"&pFstDay="+fstDay+"&seqval="+index,"입금선택","width=600,height=460");
 			
 		},
 		
