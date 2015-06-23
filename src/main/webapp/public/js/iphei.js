@@ -140,6 +140,7 @@ $(function() {
 		if(pSearchMKey != ""){
 			if(pSearchMKey.length != 8){
 				alert("회원번호는 8자리입니다.");
+				$("#pSearchMKey").val("");
 				$("#pSearchMKey").focus();
 				return;
 			}
@@ -148,6 +149,7 @@ $(function() {
 		if(pMName != ""){
 			if(pMName.length < 2){
 				alert("회원명은 2자리이상 입력하십시오.");
+				$("#pMName").val("");
 				$("#pMName").focus();
 				return;
 			}

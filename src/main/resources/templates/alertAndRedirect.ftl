@@ -6,10 +6,17 @@
 </head>
 <body>
 	<script type="text/javascript">
-		var message = '${message}';
-		var returnUrl = '${url}';
+		var message = '${message?default("")}';
+		var returnUrl = '${url?default("")}';
+		var mode = '${mode?default("")}';
+		
 		alert(message);
-		document.location.href = returnUrl;
+		
+		if(mode == "close"){
+			self.close();		
+		}else{
+			document.location.href = returnUrl;
+		}
 	</script>
 </body>
 </html>
