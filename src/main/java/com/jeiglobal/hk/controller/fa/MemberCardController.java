@@ -89,7 +89,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberIpheiInfo> ipheiList = memberInfoService.getMemberIpheiInfo(memberDetailInfo, null, authMemberInfo, loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
@@ -119,7 +119,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberHuheiInfo> huheiList = memberInfoService.getMemberHuheiInfo(memberDetailInfo, null, authMemberInfo, loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
@@ -148,7 +148,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberIpgumInfo> ipgumList = memberInfoService.getMemberIpgumInfo(memberDetailInfo,null,authMemberInfo,loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
@@ -177,7 +177,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberJindoInfo> jindoList = memberInfoService.getMemberJindoInfo(memberDetailInfo,searchKwamok,authMemberInfo, loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		SimpleDateFormat sdf = new SimpleDateFormat("MM");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
@@ -201,7 +201,7 @@ public class MemberCardController {
 		MemberJindoSearch mjs = memberInfoService.getMemberInfo(memberDetailInfo, searchKwamok, authMemberInfo, loginLang);
 		Map<String, Object> map = new HashMap<>();
 		map = memberInfoService.getMemberJindoSearch(memberDetailInfo,searchYY,searchMM, searchKwamok,authMemberInfo);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/jindoSearch");
 		mav.addObject("title", "진도검색");
@@ -278,7 +278,7 @@ public class MemberCardController {
 	public ModelAndView memberOmrView(MemberDetailInfo memberDetailInfo, 
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		Map<String, Object> map = memberInfoService.getOmrGichoList(memberDetailInfo,null,null,authMemberInfo, loginLang);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
@@ -343,7 +343,7 @@ public class MemberCardController {
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, loginLang);
 		String kwamokName = memberInfoService.getKwamokName(memberDetailInfo.getJisa(), memberDetailInfo.getKwamok(), loginLang);
-		List<String> huheiDayList = commonService.getAvailableDateList(authMemberInfo); 
+		List<String> huheiDayList = commonService.getAvailableDateList(authMemberInfo.getJisaCD(),authMemberInfo.getEmpKeyLvCD()); 
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		List<DtlCD> huheiSayuList = memberInfoService.getHuheiSayuList(authMemberInfo);
@@ -522,9 +522,9 @@ public class MemberCardController {
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
-		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
 		List<String> dtlCDList = memberInfoService.getJindoUpdateDtlCDList(authMemberInfo, loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<JindoUpdateView> juv = memberInfoService.getJindoUpdateViewList(memberDetailInfo, authMemberInfo, loginLang, "", "");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/memberJindoUpdateView");

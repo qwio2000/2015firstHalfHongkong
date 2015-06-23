@@ -1,6 +1,8 @@
 package com.jeiglobal.hk.intercepter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +30,9 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 		// TODO Auto-generated method stub
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) authentication.getPrincipal();
+		
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String currentUrl = request.getRequestURI();
 		
@@ -108,6 +113,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 			request.setAttribute("menuThreeCode",menuThreeCode);
 			request.setAttribute("menuFourCode",menuFourCode);
 			request.setAttribute("currentUrl",currentUrl);
+			request.setAttribute("nowDate",sdf.format(cal.getTime()));
 			return true;
 		}
 	}

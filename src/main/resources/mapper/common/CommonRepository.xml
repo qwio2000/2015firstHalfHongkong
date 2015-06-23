@@ -4,7 +4,7 @@
 	
 	
 	<select id="findDateSetting" statementType="CALLABLE" parameterType="hashMap" resultType="String">
-		CALL globalbiz.SPDateSetting(#{yyyy},#{mm},#{jisa},#{empKeyLvCD})
+		CALL globalbiz.SPDateSetting(#{yyyy},#{mm},#{jisaCD},#{empKeyLvCD})
 	</select>
 	
 	<select id="findDepart" parameterType="hashMap" resultType="hashMap">
@@ -39,6 +39,86 @@
 		FROM globalbiz.ComEmpMst
 		WHERE jisaCD = #{jisaCD} AND depid1=#{depid1} AND (stateCD = '1' OR (stateCD = '2' AND LEFT(rYMD, 7) = DATE_FORMAT(NOW(),'%Y-%m')))
 		ORDER BY empKeyLvCD DESC, empKey asc
+	</select>
+	
+	<select id="selectCodeDtl" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.Comcode">
+		SELECT A.mstCD,A.mstCDName,A.mstCDDesc,B.dtlCD,B.jisaCD,
+		<choose>
+			<when test="loginLang != null and loginLang.equalsIgnoreCase('K')">
+			B.dtlCDNMK as dtlCDNM,
+			</when>
+			<when test="loginLang != null and loginLang.equalsIgnoreCase('E')">
+			B.dtlCDNME as dtlCDNM,
+			</when>
+			<when test="loginLang != null and loginLang.equalsIgnoreCase('C')">
+			B.dtlCDNMC as dtlCDNM,
+			</when>
+			<otherwise>
+			B.dtlCDNMK as dtlCDNM,
+			</otherwise>
+		</choose>
+		B.dtlCDDesc,B.sortVal1,B.stateCD 
+		FROM globalbiz.ComCodeMst AS A
+		INNER JOIN ComCodeDtl AS B
+		ON (A.mstCD = B.mstCD)
+		<where>
+			<if test="mstCD != null">
+				A.mstCD = #{mstCD}
+			</if>
+			<if test="jisaCD != null">
+				AND B.jisaCD = #{jisaCD}
+			</if>
+			<if test="stateCD != null">
+				AND B.stateCD = #{stateCD}
+			</if>
+		</where>
+		ORDER BY B.sortVal1
+	</select>
+	
+	<select id="selectHuheiYMW" parameterType="hashMap" resultType="String">
+		SELECT CONCAT(PYEAR,PWOL,WEEK) AS huheiYMW
+		FROM devglobaldig.JNDate 
+		<where>
+			<if test="pYear != null">
+				YEAR = #{pYear}
+			</if>
+			<if test="pMonth != null">
+				AND WOL = #{pMonth}
+			</if>
+			<if test="pDay != null">
+				AND DAY = #{pDay}
+			</if>
+		</where>
+	</select>
+	
+	<select id="countJndate" parameterType="hashMap" resultType="long">
+		SELECT COUNT(0) as totalCnt	FROM devglobaldig.JNDate
+		<where>
+			<if test="pYear != null">
+				YEAR = #{pYear}
+			</if>
+			<if test="pPwol != null">
+				AND PWOL = #{pPwol}
+			</if>
+			<if test="pYoil != null">
+				AND YOIL = #{pYoil}
+			</if>
+			<if test="pWol != null">
+				AND WOL = #{pWol}
+			</if>
+			<if test="pDay != null">
+				AND DAY >= #{pDay}
+			</if>
+		</where>
+	</select>
+		
+	<select id="selectFstDay" parameterType="hashMap" resultType="String">
+		SELECT SDATE FROM devglobaldig.JBDate
+		WHERE SDATE BETWEEN #{firstDay} AND #{lastDay}
+	</select>
+	
+	<select id="selectNewKey" statementType="CALLABLE" parameterType="hashMap" resultType="String">
+		CALL devglobaldig.SPgetNewKey(#{ipKind})
 	</select>
 	
 </mapper>

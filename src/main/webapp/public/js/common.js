@@ -72,12 +72,32 @@ $(function(){
 					}
 					document.Qry2FormName.action = url;
 					document.Qry2FormName.submit();
-	    		}
+	    		},
+	    		
+	    		//전화번호, 핸드폰 번호 형식 체크
+				telCheck:function(msg,str) {
+					var pattern = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+					if(!pattern.test(msg)){
+					    alert(str + " 형식이 올바르지 않습니다.\n\n{2,3}-{3,4}-{4}자리로 입력해 주십시오.\n");
+					    return false;
+					}
+					return true;
+				},
+
+				//email 형식 체크
+				emailCheck:function(msg,str) {
+					var pattern = /([0-9a-zA-Z_-]+)@([0-9a-zA-Z_-]+)\.([0-9a-zA-Z_-]+)/; //pattern = /(\S+)@(\S+)\.(\S+)/; 이메일주소에 한글 사용시
+					if(!pattern.test(msg)){
+					    alert(str + " 형식을 맞춰주세요. 예)hong@korea.com");
+					    return false;
+					}
+					return true;
+				}
 	});
 	$(".datePicker").datepicker(
 			{
 				changeYear : true,
-				showAnim : "slide",
+				changeMonth : true,
 				dateFormat : 'yy-mm-dd',
 				prevText : '이전 달',
 				nextText : '다음 달',

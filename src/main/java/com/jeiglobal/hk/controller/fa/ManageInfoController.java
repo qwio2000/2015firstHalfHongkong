@@ -67,7 +67,7 @@ public class ManageInfoController {
 	@RequestMapping(value="/emptyHakjuk")
 	public ModelAndView emptyHakjuk(){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
 		List<String> headerScript = new ArrayList<>();
 		headerScript.add("manageInfo");
 		ModelAndView mav = new ModelAndView();
@@ -81,8 +81,8 @@ public class ManageInfoController {
 	@RequestMapping(value="/huheiList")
 	public ModelAndView huheiList(@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<String> headerScript = new ArrayList<>();
 		headerScript.add("manageInfo");
 		ModelAndView mav = new ModelAndView();
@@ -107,7 +107,7 @@ public class ManageInfoController {
 	@RequestMapping(value="/studyState")
 	public ModelAndView studyState(@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo);
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
 		List<String> headerScript = new ArrayList<>();
 		headerScript.add("manageInfo");
 		ModelAndView mav = new ModelAndView();
