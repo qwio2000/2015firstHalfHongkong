@@ -17,6 +17,7 @@ import com.jeiglobal.hk.domain.study.RsOmrPrint20Odab4;
 import com.jeiglobal.hk.domain.study.RsOmrPrint20Program;
 import com.jeiglobal.hk.domain.study.RsOmrPrint20RangeAllGet;
 import com.jeiglobal.hk.domain.study.RsOmrPrint20Schedule;
+import com.jeiglobal.hk.domain.study.RsOmrPrint20StartYM;
 import com.jeiglobal.hk.repository.IPPRRepository;
 
 @Service
@@ -95,19 +96,57 @@ public class IPPRService {
 		return ipprRepository.spOmrPrint20Odab12(map);
 	}
 
-	public RsOmrPrint20Odab4 getOmrPrint20Odab4(RqIPPR infoIPPR) {
+	public List<RsOmrPrint20Odab4> getOmrPrint20Odab4(String jisaCD, String omrDate, String hkey, String kwamok, String omrPath, String langCD) {
 		// TODO Auto-generated method stub
-		return ipprRepository.spOmrPrint20Odab4(infoIPPR);
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);
+		map.put("omrDate", omrDate);
+		map.put("hkey", hkey);
+		map.put("kwamok", kwamok);
+		map.put("omrPath", omrPath);
+		map.put("langCD", langCD);
+		
+		return ipprRepository.spOmrPrint20Odab4(map);
 	}
 
-	public RsOmrPrint20Program getOmrPrint20OdabProgram(RqIPPR infoIPPR) {
+	public RsOmrPrint20StartYM getOmrPrint20StartYM(String jisaCD, String omrDate, String hkey, String kwamok, String omrPath, String langCD) {
 		// TODO Auto-generated method stub
-		return ipprRepository.spOmrPrint20Program(infoIPPR);
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);
+		map.put("omrDate", omrDate);
+		map.put("hkey", hkey);
+		map.put("kwamok", kwamok);
+		map.put("omrPath", omrPath);
+		map.put("langCD", langCD);
+		
+		return ipprRepository.spOmrPrint20StartYM(map);
+	}	
+	
+	public List<RsOmrPrint20Program> getOmrPrint20Program(String jisaCD, String omrDate, String hkey, String kwamok, String week, String omrPath, String langCD) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);
+		map.put("omrDate", omrDate);
+		map.put("hkey", hkey);
+		map.put("kwamok", kwamok);
+		map.put("week", week);
+		map.put("omrPath", omrPath);
+		map.put("langCD", langCD);
+		
+		return ipprRepository.spOmrPrint20Program(map);
 	}
 
-	public RsOmrPrint20Schedule getOmrPrint20Schedule(RqIPPR infoIPPR) {
+	public List<RsOmrPrint20Schedule> getOmrPrint20Schedule(String jisaCD, String omrDate, String hkey, String kwamok, String omrPath, String langCD) {
 		// TODO Auto-generated method stub
-		return ipprRepository.spOmrPrint20Schedule(infoIPPR);
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);
+		map.put("omrDate", omrDate);
+		map.put("hkey", hkey);
+		map.put("kwamok", kwamok);
+		map.put("omrPath", omrPath);
+		map.put("langCD", langCD);
+		
+		return ipprRepository.spOmrPrint20Schedule(map);
 	}
 
 	/*

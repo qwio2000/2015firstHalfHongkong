@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.IPPRRepository">
+
+	<select id="spOmrPrint20Gicho" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20Gicho">
+		{ CALL devglobaldig.SPOmrPrint20Gicho(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{langCD})}
+	</select>
+
+	<select id="spOmrPrint20Odab11Left" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20Odab11Left">
+		{ CALL devglobaldig.SPOmrPrint20Odab11Left(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{lang})}
+	</select>
+	
+	<select id="spOmrPrint20Odab11Right" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20Odab11Right">
+		{ CALL devglobaldig.SPOmrPrint20Odab11Right(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{lang})}
+	</select>
+			
+	<select id="spOmrPrint20Range" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.study.RqIPPR" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20Range">
+		{ CALL devglobaldig.SPOmrPrint20Range(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{lang})}
+	</select>
+	
+	<select id="spOmrPrint20RangeAllGet" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.study.RqIPPR" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20RangeAllGet">
+		{ CALL devglobaldig.SPOmrPrint20RangeAllGet(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{lang})}
+	</select>
+	
+	<select id="spOmrPrint20Odab12" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20Odab12">
+		{ CALL devglobaldig.SPOmrPrint20Odab12(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrGrd}, #{omrKind}, #{omrPath}, #{lang})}
+	</select>
+	
+	<select id="spOmrPrint20Odab4" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20Odab4">
+		{ CALL devglobaldig.SPOmrPrint20Odab4(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{lang})}
+	</select>
+
+	<select id="spOmrPrint20StartYM" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20StartYM">
+		{ CALL devglobaldig.SPOmrPrint20StartYM(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{lang})}
+	</select>
+		
+	<select id="spOmrPrint20Program" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20Program">
+		{ CALL devglobaldig.SPOmrPrint20Program(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{week}, #{omrPath}, #{lang})}
+	</select>
+	
+	<select id="spOmrPrint20Schedule" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.study.RsOmrPrint20Schedule">
+		{ CALL devglobaldig.SPOmrPrint20Schedule(#{jisaCD}, #{omrDate}, #{hkey}, #{kwamok}, #{omrPath}, #{lang})}
+	</select>					
+</mapper>

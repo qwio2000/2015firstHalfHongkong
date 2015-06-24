@@ -13,24 +13,27 @@ import com.jeiglobal.hk.domain.study.RsOmrPrint20Odab12;
 import com.jeiglobal.hk.domain.study.RsOmrPrint20Odab4;
 import com.jeiglobal.hk.domain.study.RsOmrPrint20Program;
 import com.jeiglobal.hk.domain.study.RsOmrPrint20Schedule;
+import com.jeiglobal.hk.domain.study.RsOmrPrint20StartYM;
 
 @PrimaryRepositoryAnnoInterface
 public interface IPPRRepository {
-	public RsOmrPrint20Gicho spOmrPrint20Gicho(Map<String,Object> map);
+	public RsOmrPrint20Gicho spOmrPrint20Gicho(Map<String, Object> map);
 
-	public List<RsOmrPrint20Odab11Left> spOmrPrint20Odab11Left(Map<String,Object> map);
-	
-	public List<RsOmrPrint20Odab11Right> spOmrPrint20Odab11Right(Map<String,Object> map);	
-	
+	public List<RsOmrPrint20Odab11Left> spOmrPrint20Odab11Left(Map<String, Object> map);
+
+	public List<RsOmrPrint20Odab11Right> spOmrPrint20Odab11Right(Map<String, Object> map);
+
 	public RsOmrPrint20Range spOmrPrint20Range(RqIPPR infoIPPR);
+
+	public RsOmrPrint20RangeAllGet spOmrPrint20RangeAllGet(RqIPPR infoIPPR);
+
+	public List<RsOmrPrint20Odab12> spOmrPrint20Odab12(Map<String, Object> map);
+
+	public List<RsOmrPrint20Odab4> spOmrPrint20Odab4(Map<String, Object> map);
+
+	public RsOmrPrint20StartYM spOmrPrint20StartYM(Map<String, Object> map);
 	
-	public RsOmrPrint20RangeAllGet spOmrPrint20RangeAllGet(RqIPPR infoIPPR);	
+	public List<RsOmrPrint20Program> spOmrPrint20Program(Map<String, Object> map);
 
-	public List<RsOmrPrint20Odab12> spOmrPrint20Odab12(Map<String,Object> map);
-
-	public RsOmrPrint20Odab4 spOmrPrint20Odab4(RqIPPR infoIPPR);
-
-	public RsOmrPrint20Program spOmrPrint20Program(RqIPPR infoIPPR);
-
-	public RsOmrPrint20Schedule spOmrPrint20Schedule(RqIPPR infoIPPR);
+	public List<RsOmrPrint20Schedule> spOmrPrint20Schedule(Map<String, Object> map);
 }
