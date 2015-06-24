@@ -7,7 +7,7 @@
 			a.sndEmpKey AS sndEmpKey, d.empName AS sndEmpName, a.sndYoil, b.birthYMD, b.sexCD, b.schoolName, b.gradeCD, b.addr, 
 			b.tel, b.gPhone, b.ePhone,b.gFstName,b.gLstName,globalbiz.FuncCodeDtlNM(#{mdi.jisa},'0009',a.IpheiPathCD,#{lang},'1') AS ipheiPath,
 			b.mEmail, b.gEmail, b.specialComment, c.empName AS sName, c.depid1, c.depid2, a.jisaCD as jisa, a.setCnt, #{mdi.sKey} AS sKey
-	FROM globalbiz.MemKwamokMst a
+	FROM globalbiz.MemSubjMst a
 	INNER JOIN globalbiz.MemMst b ON a.mkey = b.mkey
 	INNER JOIN globalbiz.ComEmpMst c ON a.fstEmpKey = c.empKey
 	LEFT JOIN globalbiz.ComEmpMst d ON a.sndEmpKey = d.empKey
@@ -43,7 +43,7 @@
 			ELSE ''
 			END AS sndYoil,
 			c.empKey AS sndEmpKey, c.empName AS sndEmpName
-		FROM globalbiz.MemKwamokMst a
+		FROM globalbiz.MemSubjMst a
 		INNER JOIN globalbiz.ComEmpMst b ON a.fstEmpKey = b.empKey
 		LEFT JOIN globalbiz.ComEmpMst c ON a.sndEmpKey = c.empKey
 		WHERE mkey = #{mdi.mKey} ORDER BY state, ipheiYMD DESC
@@ -113,7 +113,7 @@
 	</select>
 	<select id="selectMemberJindoSearch" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberJindoSearch">
 		SELECT a.mFstName, a.mLstName, b.setCnt, b.fstYoil, globalbiz.FuncCodeDtlNM(#{jisa},'0006',b.fstYoil,#{lang},'1') AS fstYoilNm, b.sndYoil, globalbiz.FuncCodeDtlNM(#{jisa},'0006',b.sndYoil,#{lang},'1') AS sndYoilNm
-		FROM globalbiz.MemMst a INNER JOIN globalbiz.MemKwamokMst b ON a.mkey = b.mkey
+		FROM globalbiz.MemMst a INNER JOIN globalbiz.MemSubjMst b ON a.mkey = b.mkey
 		WHERE a.mkey = #{mKey} 
 		<choose>
 			<when test="searchKwamok == null or searchKwamok == ''">
@@ -183,5 +183,45 @@
 		CALL globalbiz.SPHuheiInsert(#{huGubun}, #{huheiDay}, #{mdi.kwamok}, #{mdi.mKey}, #{mdi.sKey}, #{ami.depid1}, #{ami.depid2}, 
 		#{ami.jisaCD}, #{huSayu}, CONCAT(#{ami.jisaCD},#{ami.empKey}), CONCAT(#{ami.jisaCD},#{ami.depid1},#{ami.depid2}), #{ami.empKeyLvCD})
 	</select>
-	
+	<select id="selectJindoUpdateDtlCodeList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.DtlCD">
+		SELECT mstCD, dtlCD, jisaCD, dtlCDNM${lang} AS dtlCDNM
+		FROM globalbiz.ComCodeDtl 
+		WHERE mstCD IN ('0010') AND jisaCD = #{ami.jisaCD} 
+		ORDER BY mstCD, sortVal1
+	</select>
+	<select id="selectMemberInfoCheck" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberInfoCheck">
+		SELECT a.mkey, a.subj, a.stateCD, a.ipheiYMD, a.bokheiYMD, a.setCnt, b.mFstName, a.fstYoil, globalbiz.FuncCodeDtlNM(#{ami.jisaCD},'0006',a.fstYoil,#{lang},'1') AS fstYoilNM, 
+			a.sndYoil, globalbiz.FuncCodeDtlNM(#{ami.jisaCD},'0006',a.sndYoil,#{lang},'1') AS sndYoilNM
+		FROM globalbiz.MemSubjMst AS a 
+		INNER JOIN globalbiz.MemMst AS b ON a.mkey = b.mkey
+		WHERE a.mkey = #{mdi.mKey} AND a.subj = #{mdi.kwamok} AND (a.fstEmpKey = #{mdi.sKey} OR a.sndEmpKey = #{mdi.sKey})
+	</select>
+	<select id="selectJindoAdjustCheck" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JindoAdjustCheck">
+		CALL globalbiz.SPJindoAdjustCheck(#{jisaCD},#{cngGubun},#{cngOpt},#{mKey},#{subj},#{lang})
+	</select>
+	<select id="selectChangeYoilYMD" parameterType="com.jeiglobal.hk.domain.member.MemberDetailInfo" resultType="String">
+		SELECT IFNULL(MAX(cngYMD),"") AS cngYMD 
+		FROM globalbiz.MemChangeInfo 
+		WHERE mkey = #{mKey} AND subj = #{kwamok} AND cngCD IN ('16','17')
+	</select>
+	<select id="selectJindoUpdateInputInfo" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberJindoSearchInfo">
+		CALL globalbiz.SPJindoUpdateInputInfo(#{jisaCD},#{kwamok},#{mKey},#{yyyy},#{mm},#{cngOpt})
+	</select>
+	<select id="selectSetList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JindoUpdateSet">
+		CALL globalbiz.SPJindoUpdateSetList(#{jisaCD},#{subj},#{dung},#{chk})
+	</select>
+	<select id="selectBokSetCount" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+		CALL globalbiz.SPReviewSetCount(#{jisaCD},#{subj},#{sets1},#{sets2})
+	</select>
+	<select id="updateJindoInfo" statementType="CALLABLE" parameterType="hashMap">
+		CALL globalbiz.SPJindoUpdate(#{ami.jisaCD},#{jui.cngGubun},#{jui.cngOpt},#{jui.mKey},#{jui.kwamok},#{jui.setCnt},
+		#{jui.fstYoil},#{jui.sndYoil},#{jui.cngSayu},#{jui.jo_yy},#{jui.jo_mm},#{jui.jo_wk},#{jui.jo_key},#{jui.jo_set},#{jui.jo_sort}
+		,#{jui.sets1},#{jui.sets2},#{jui.sets3},#{jui.sets4},#{jui.sets5},CONCAT(#{ami.jisaCD},#{ami.empKey}))
+	</select>
+	<select id="selectJindoUpdateViewList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JindoUpdateView">
+		CALL globalbiz.SPJindoUpdateList(#{mkey},#{subj},#{startDate},#{endDate},#{jisaCD},#{lang})
+	</select>
+	<select id="selectJindoUpdateHisList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.JindoUpdateView">
+		CALL globalbiz.SPJindoUpdateHisView(#{jisaCD},#{subj},#{mkey},#{viewOpt},#{cngYMD},#{cngGubunCD},#{cngOptCD},#{cngSayuCD},#{yy},#{mm},#{lang})
+	</select>
 </mapper>

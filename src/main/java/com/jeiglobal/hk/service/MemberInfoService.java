@@ -465,4 +465,243 @@ public class MemberInfoService {
 		return memberInfoRepository.insertMemberHuheiInfo(map);
 	}
 
+	public List<String> getJindoUpdateDtlCDList(AuthMemberInfo authMemberInfo,
+			String loginLang) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("ami", authMemberInfo);
+		map.put("lang", loginLang);
+		return memberInfoRepository.selectJindoUpdateDtlCodeList(map);
+	}
+
+	public MemberInfoCheck getMemberInfoCheck(AuthMemberInfo authMemberInfo,
+			MemberDetailInfo memberDetailInfo, String loginLang) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("ami", authMemberInfo);
+		map.put("mdi", memberDetailInfo);
+		map.put("lang", loginLang);
+		return memberInfoRepository.selectMemberInfoCheck(map);
+	}
+
+	public JindoAdjustCheck getJindoAdjustCheck(
+			MemberDetailInfo memberDetailInfo, AuthMemberInfo authMemberInfo,
+			String cngGubun, String cngOpt, String loginLang) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("cngGubun", cngGubun);
+		map.put("cngOpt", cngOpt);
+		map.put("mKey", memberDetailInfo.getmKey());
+		map.put("subj", memberDetailInfo.getKwamok());
+		map.put("lang", loginLang);
+		return memberInfoRepository.selectJindoAdjustCheck(map);
+	}
+
+	public String getChangeYoilYMD(MemberDetailInfo memberDetailInfo) {
+		// TODO Auto-generated method stub
+		return memberInfoRepository.selectChangeYoilYMD(memberDetailInfo);
+	}
+
+	public Map<String, Object> getJindoUpdateInputInfo(
+			MemberDetailInfo memberDetailInfo, String updateYM,
+			AuthMemberInfo authMemberInfo, String cngOpt) {
+		// TODO Auto-generated method stub
+		String sSet = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(updateYM.substring(0,4)),Integer.parseInt(updateYM.substring(5))-1,1);
+		Map<String, Object> map = new HashMap<>();
+		String startYYYY = sdf.format(cal.getTime()).substring(0, 4);
+		String startMM = sdf.format(cal.getTime()).substring(5);
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("startYYYY", startYYYY);
+		map.put("startMM", startMM);
+		map.put("cngOpt", cngOpt);
+		String[][][] bsArray = new String[6][5][2];
+		String[][][] bkArray = new String[6][5][2];
+		String[][][] chkArray = new String[6][5][2];
+		for (int i = 0; i < 6; i++) {
+			map.put("mKey", memberDetailInfo.getmKey());
+			map.put("kwamok", memberDetailInfo.getKwamok());
+			map.put("yyyy", startYYYY);
+			map.put("mm", startMM);
+			List<MemberJindoSearchInfo> mjsi = memberInfoRepository.selectJindoUpdateInputInfo(map);
+			for (int j = 0; j < mjsi.size(); j++) {
+				bsArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getBs();
+				bkArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getBk();
+				chkArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getChk();
+				if(mjsi.get(j).getBs() != null && !(mjsi.get(j).getBs().substring(0, 1).equals("Z")) && 
+						sSet.compareTo(mjsi.get(j).getBs())<0){
+					sSet = mjsi.get(j).getBs();
+				}
+			}
+			cal.add(Calendar.MONTH, 1);
+			startYYYY = sdf.format(cal.getTime()).substring(0, 4);
+			startMM = sdf.format(cal.getTime()).substring(5);
+		}
+		map.put("sSet",sSet);
+		map.put("bsArray", bsArray);
+		map.put("bkArray", bkArray);
+		map.put("chkArray", chkArray);
+		return map;
+	}
+
+	public Map<String, Object> getSetList(AuthMemberInfo authMemberInfo,
+			MemberDetailInfo memberDetailInfo, Object sSet) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		String dung = "";
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("subj", memberDetailInfo.getKwamok());
+		map.put("dung", ((String)sSet).substring(0, 1));
+		for (int i = 0; i < 3; i++) {
+			map.put("chk", i);
+			List<JindoUpdateSet> jusList = memberInfoRepository.selectSetList(map);
+			map.put("set"+(i+1), jusList);
+			if (jusList != null && jusList.size() >0) {
+				dung = jusList.get(0).getDung();
+			}
+			map.put("set"+(i+1)+"dung", dung);
+		}
+		return map;
+	}
+
+	public int getBokSetCount(AuthMemberInfo authMemberInfo,
+			JindoUpdateInfo jindoUpdateInfo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("subj", jindoUpdateInfo.getKwamok());
+		map.put("sets1", jindoUpdateInfo.getSets1());
+		map.put("sets2", jindoUpdateInfo.getSets2());
+		return memberInfoRepository.selectBokSetCount(map);
+	}
+
+	public void updateJindoInfo(JindoUpdateInfo jindoUpdateInfo,
+			AuthMemberInfo authMemberInfo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("jui", jindoUpdateInfo);
+		map.put("ami", authMemberInfo);
+		memberInfoRepository.updateJindoInfo(map);
+	}
+
+	public List<JindoUpdateView> getJindoUpdateViewList(
+			MemberDetailInfo memberDetailInfo, AuthMemberInfo authMemberInfo,
+			String loginLang, String startDate, String endDate) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String currentDate = sdf.format(new Date());
+		if (startDate == null || "".equals(startDate)) {
+			startDate = currentDate;
+			endDate = currentDate;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("mkey", memberDetailInfo.getmKey());
+		map.put("subj", memberDetailInfo.getKwamok());
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("lang", loginLang);
+		return memberInfoRepository.selectJindoUpdateViewList(map);
+	}
+
+	public Map<String, Object> getJindoUpdateHisBefore(
+			JindoUpdateView jindoUpdateView, AuthMemberInfo authMemberInfo,
+			String loginLang) {
+		// TODO Auto-generated method stub
+		String searchYY = jindoUpdateView.getYy();
+		String searchMM = jindoUpdateView.getMm();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM)-1, 1);
+		Map<String, Object> map = new HashMap<String, Object>();
+		String cngGubunCDNM = "";
+		String cngOptCDNM = "";
+		String fstYoilNM = "";
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("subj", jindoUpdateView.getSubj());
+		map.put("mkey", jindoUpdateView.getMkey());
+		map.put("cngYMD", jindoUpdateView.getCngYMD());
+		map.put("cngGubunCD", jindoUpdateView.getCngGubunCD());
+		map.put("cngOptCD", jindoUpdateView.getCngOptCD());
+		map.put("cngSayuCD", jindoUpdateView.getCngSayuCD());
+		map.put("viewOpt", "before");
+		map.put("lang", loginLang);
+		for (int i = 0; i < 6; i++) {
+			map.put("yy", searchYY);
+			map.put("mm", searchMM);
+			List<JindoUpdateView> juv = memberInfoRepository.selectJindoUpdateHisList(map);
+			map.put("jin"+(i+1), juv);
+			if (juv != null && juv.size() > 0) {
+				if (!(cngGubunCDNM.equals(juv.get(0).getCngGubunNM()))) {
+					cngGubunCDNM = juv.get(0).getCngGubunNM();
+				}
+				if (!(cngOptCDNM.equals(juv.get(0).getCngOptNM()))) {
+					cngOptCDNM = juv.get(0).getCngOptNM();
+				}
+				if (!(fstYoilNM.equals(juv.get(0).getFstYoilNM()))) {
+					fstYoilNM = juv.get(0).getFstYoilNM();
+				}
+			}
+			cal.add(Calendar.MONTH, 1);
+			searchYY = sdf.format(cal.getTime()).substring(0, 4);
+			searchMM = sdf.format(cal.getTime()).substring(5);
+		}
+		map.put("cngGubunNM", cngGubunCDNM);
+		map.put("cngOptNM", cngOptCDNM);
+		map.put("fstYoilNM", fstYoilNM);
+		
+		return map;
+	}
+	public Map<String, Object> getJindoUpdateHisAfter(
+			JindoUpdateView jindoUpdateView, AuthMemberInfo authMemberInfo,
+			String loginLang) {
+		// TODO Auto-generated method stub
+		String searchYY = jindoUpdateView.getYy();
+		String searchMM = jindoUpdateView.getMm();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM)-1, 1);
+		Map<String, Object> map = new HashMap<String, Object>();
+		String cngGubunCDNM = "";
+		String cngOptCDNM = "";
+		String fstYoilNM = "";
+		map.put("jisaCD", authMemberInfo.getJisaCD());
+		map.put("subj", jindoUpdateView.getSubj());
+		map.put("mkey", jindoUpdateView.getMkey());
+		map.put("cngYMD", jindoUpdateView.getCngYMD());
+		map.put("cngGubunCD", jindoUpdateView.getCngGubunCD());
+		map.put("cngOptCD", jindoUpdateView.getCngOptCD());
+		map.put("cngSayuCD", jindoUpdateView.getCngSayuCD());
+		map.put("viewOpt", "after");
+		map.put("lang", loginLang);
+		for (int i = 0; i < 6; i++) {
+			map.put("yy", searchYY);
+			map.put("mm", searchMM);
+			List<JindoUpdateView> juv = memberInfoRepository.selectJindoUpdateHisList(map);
+			map.put("jin"+(i+1), juv);
+			if (juv != null && juv.size() > 0) {
+				if (!(cngGubunCDNM.equals(juv.get(0).getCngGubunNM()))) {
+					cngGubunCDNM = juv.get(0).getCngGubunNM();
+				}
+				if (!(cngOptCDNM.equals(juv.get(0).getCngOptNM()))) {
+					cngOptCDNM = juv.get(0).getCngOptNM();
+				}
+				if (!(fstYoilNM.equals(juv.get(0).getFstYoilNM()))) {
+					fstYoilNM = juv.get(0).getFstYoilNM();
+				}
+			}
+			cal.add(Calendar.MONTH, 1);
+			searchYY = sdf.format(cal.getTime()).substring(0, 4);
+			searchMM = sdf.format(cal.getTime()).substring(5);
+		}
+		map.put("cngGubunNM", cngGubunCDNM);
+		map.put("cngOptNM", cngOptCDNM);
+		map.put("fstYoilNM", fstYoilNM);
+		
+		return map;
+	}
+
 }

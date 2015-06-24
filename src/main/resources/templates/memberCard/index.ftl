@@ -91,8 +91,8 @@ $(function(){
 							<tr>
 								<td>
 									<div class="user-info-cell">
-										<p class="number">AA239051<img src="/public/img/subj/img_subj_kk.gif" width="17" height="11" border="0"/></p>
-										<a href="javascript:$.popupPost('/memberCard/memberInfo','AA309390','05707','KM')" class="link">구민준 Min Jun</a>
+										<p class="number">AA239051<img src="/public/img/subj/img_subj_km.gif" width="17" height="11" border="0"/></p>
+										<a href="javascript:$.popupPost('/memberCard/memberInfo','AA309390','05707','KM')" class="link">LEE Serim Abigail</a>
 									</div>
 								</td>
 								<td>
@@ -109,7 +109,7 @@ $(function(){
 									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA309390','05707','KM')" class="w-65">처방</a></span>
 								</td>
 								<td>
-									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberJindoUpdateInfo','AA309390','05707','KM')" class="w-65">조정</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">상담</a></span>
@@ -137,7 +137,7 @@ $(function(){
 									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA242162','01266','KM')" class="w-65">처방</a></span>
 								</td>
 								<td>
-									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberJindoUpdateInfo','AA242162','01266','KM')" class="w-65">조정</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">상담</a></span>
@@ -165,7 +165,7 @@ $(function(){
 									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA292111','05463','EM')" class="w-65">처방</a></span>
 								</td>
 								<td>
-									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberJindoUpdateInfo','AA260434','01266','EM')" class="w-65">조정</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">상담</a></span>
@@ -193,7 +193,7 @@ $(function(){
 									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA283357','01266','KM')" class="w-65">처방</a></span>
 								</td>
 								<td>
-									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberJindoUpdateInfo','AA283357','01266','KM')" class="w-65">조정</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">상담</a></span>
@@ -221,7 +221,7 @@ $(function(){
 									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberOmrInfo','AA274710','01266','EM')" class="w-65">처방</a></span>
 								</td>
 								<td>
-									<span class="button btn-type-G"><a href="#" class="w-65">조정</a></span>
+									<span class="button btn-type-G"><a href="javascript:$.popupPost('/memberCard/memberJindoUpdateInfo','AA274710','01266','EM')" class="w-65">조정</a></span>
 								</td>
 								<td>
 									<span class="button btn-type-G"><a href="#" class="w-65">상담</a></span>

@@ -1,7 +1,7 @@
 package com.jeiglobal.hk.controller.fa;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -89,7 +89,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberIpheiInfo> ipheiList = memberInfoService.getMemberIpheiInfo(memberDetailInfo, null, authMemberInfo, loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
@@ -119,7 +119,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberHuheiInfo> huheiList = memberInfoService.getMemberHuheiInfo(memberDetailInfo, null, authMemberInfo, loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
@@ -148,7 +148,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberIpgumInfo> ipgumList = memberInfoService.getMemberIpgumInfo(memberDetailInfo,null,authMemberInfo,loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		ModelAndView mav = new ModelAndView();
@@ -177,7 +177,7 @@ public class MemberCardController {
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MemberJindoInfo> jindoList = memberInfoService.getMemberJindoInfo(memberDetailInfo,searchKwamok,authMemberInfo, loginLang);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		SimpleDateFormat sdf = new SimpleDateFormat("MM");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
@@ -201,7 +201,7 @@ public class MemberCardController {
 		MemberJindoSearch mjs = memberInfoService.getMemberInfo(memberDetailInfo, searchKwamok, authMemberInfo, loginLang);
 		Map<String, Object> map = new HashMap<>();
 		map = memberInfoService.getMemberJindoSearch(memberDetailInfo,searchYY,searchMM, searchKwamok,authMemberInfo);
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/memberCard/jindoSearch");
 		mav.addObject("title", "진도검색");
@@ -278,7 +278,7 @@ public class MemberCardController {
 	public ModelAndView memberOmrView(MemberDetailInfo memberDetailInfo, 
 			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
 		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
 		Map<String, Object> map = memberInfoService.getOmrGichoList(memberDetailInfo,null,null,authMemberInfo, loginLang);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
@@ -343,7 +343,7 @@ public class MemberCardController {
 		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
 		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, loginLang);
 		String kwamokName = memberInfoService.getKwamokName(memberDetailInfo.getJisa(), memberDetailInfo.getKwamok(), loginLang);
-		List<String> huheiDayList = commonService.getAvailableDateList(authMemberInfo); 
+		List<String> huheiDayList = commonService.getAvailableDateList(authMemberInfo.getJisaCD(),authMemberInfo.getEmpKeyLvCD()); 
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberCard");
 		List<DtlCD> huheiSayuList = memberInfoService.getHuheiSayuList(authMemberInfo);
@@ -387,5 +387,197 @@ public class MemberCardController {
 		writer.println("</script>");
 		writer.close();
 		return null;
+	}
+	@RequestMapping(value="/memberJindoUpdateInfo")
+	public ModelAndView memberJindoUpdateInfo(MemberDetailInfo memberDetailInfo, 
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		memberDetailInfo.setJisa(authMemberInfo.getJisaCD());
+		System.out.println(memberDetailInfo);
+		memberDetailInfo = memberInfoService.getMemberDetailInfo(memberDetailInfo, loginLang);
+		List<String> dtlCDList = memberInfoService.getJindoUpdateDtlCDList(authMemberInfo, loginLang);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberCard");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/memberCard/memberJindoUpdateInfo");
+		mav.addObject("title", "진도조정");
+		mav.addObject("popTitle", "진도조정");
+		mav.addObject("dtlCDList", dtlCDList);
+		mav.addObject("headerScript", headerScript);
+		mav.addObject("memberDetailInfo", memberDetailInfo);
+		return mav;
+	}
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/memberJindoUpdateInput")
+	public ModelAndView memberJindoUpdateInput(MemberDetailInfo memberDetailInfo, String cngOpt, String updateYM,
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang) throws ParseException{
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberCard");
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("url", "/memberCard/memberJindoUpdateInfo?mKey="+memberDetailInfo.getmKey()+"&sKey="+memberDetailInfo.getsKey()+"&kwamok="+memberDetailInfo.getKwamok());
+		mav.setViewName("alertAndRedirect");
+		MemberInfoCheck mic = memberInfoService.getMemberInfoCheck(authMemberInfo, memberDetailInfo, loginLang);
+		if(mic == null){
+			mav.addObject("message", "입력조건에 대한 회원이 없습니다. 확인 후 다시 하십시오.");
+			return mav;
+		}
+		String cngGubun = "1";
+		JindoAdjustCheck jac = memberInfoService.getJindoAdjustCheck(memberDetailInfo, authMemberInfo, cngGubun, cngOpt, loginLang);
+		if(jac != null){
+			if(cngOpt.equals("1") && jac.getDayCnt().equals("1")){
+				mav.addObject("message", "금일 "+jac.getCngOptNM()+"을 이미 처리 하였습니다.");
+				return mav;
+			}else if(cngOpt.equals("1") && Integer.parseInt(jac.getCngCnt())>2){
+				mav.addObject("message", jac.getCngOptNM()+"은 월 2회까지만 가능합니다.");
+				return mav;
+			}else if(cngOpt.equals("4") && Integer.parseInt(jac.getCngCnt())>=1){
+				mav.addObject("message", jac.getCngOptNM()+"은 월 1회까지만 가능합니다.");
+				return mav;
+			}
+		}
+		if(!mic.getStateCD().equals("1")){
+			mav.addObject("message", "현재 유지회원이 아닙니다. 유지 회원에 한 해 조정이 가능합니다.");
+			return mav;
+		}
+		String cngYMD = memberInfoService.getChangeYoilYMD(memberDetailInfo);
+		String chkDate = mic.getBokheiYMD().length()>1?mic.getBokheiYMD():mic.getIpheiYMD();
+		Calendar threeWeeksAgo = Calendar.getInstance();
+		threeWeeksAgo.add(Calendar.DATE, -21);
+		Calendar twoWeeksAgo = Calendar.getInstance();
+		twoWeeksAgo.add(Calendar.DATE, -14);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		if("4".equals(cngOpt)){
+			if(!"".equals(cngYMD)){
+				if(!(format.parse(chkDate).compareTo(threeWeeksAgo.getTime())>=0 || 
+						format.parse(cngYMD).compareTo(twoWeeksAgo.getTime())>=0)){
+					mav.addObject("message", "입복회일로부터 3주 이내이거나 관리요일 변경 후 2주이내 당김이 가능합니다.");
+					return mav;
+				}
+			}else{
+				if(!(format.parse(chkDate).compareTo(threeWeeksAgo.getTime())>=0)){
+					mav.addObject("message", "입복회일로부터 3주 이내이거나 관리요일 변경 후 2주이내 당김이 가능합니다.");
+					return mav;
+				}
+			}
+		}
+		Map<String, Object> map = new HashMap<>();
+		map = memberInfoService.getJindoUpdateInputInfo(memberDetailInfo, updateYM, authMemberInfo, cngOpt);
+		mav.addObject("startYYYY", map.get("startYYYY"));
+		mav.addObject("startMM", map.get("startMM"));
+		mav.addObject("bsArray", map.get("bsArray"));
+		mav.addObject("bkArray", map.get("bkArray"));
+		mav.addObject("chkArray", map.get("chkArray"));
+		map = memberInfoService.getSetList(authMemberInfo, memberDetailInfo, map.get("sSet"));
+		
+		mav.addObject("set1",(List<JindoUpdateSet>)map.get("set1"));
+		mav.addObject("set2",(List<JindoUpdateSet>)map.get("set2"));
+		mav.addObject("set3",(List<JindoUpdateSet>)map.get("set3"));
+		mav.addObject("set1dung",(String)map.get("set1dung"));
+		mav.addObject("set2dung",(String)map.get("set2dung"));
+		mav.addObject("set3dung",(String)map.get("set3dung"));
+		mav.addObject("memberDetailInfo", memberDetailInfo);
+		mav.addObject("cngOpt", cngOpt);
+		mav.addObject("memberInfoCheck", mic);
+		mav.addObject("headerScript",headerScript);
+		mav.setViewName("/memberCard/memberJindoUpdateInput");
+		mav.addObject("title", "진도조정");
+		mav.addObject("popTitle", "진도조정");
+		return mav;
+	}
+	@RequestMapping(value="/memberJindoUpdate")
+	public ModelAndView memberJindoUpdate(JindoUpdateInfo jindoUpdateInfo){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("alertAndRedirect");
+		if ("B".equals(jindoUpdateInfo.getCngSayu())) {
+			jindoUpdateInfo.setSets1(jindoUpdateInfo.getSetb1());
+			jindoUpdateInfo.setSets2(jindoUpdateInfo.getSetb2());
+			jindoUpdateInfo.setSets3("");
+			jindoUpdateInfo.setSets4("");
+			jindoUpdateInfo.setSets5("");
+			int setCount = memberInfoService.getBokSetCount(authMemberInfo,jindoUpdateInfo);
+			if ("KC".equals(jindoUpdateInfo.getKwamok())) {
+				if (setCount > 45) {
+					mav.addObject("message", "복습 세트수가 45세트를 넘었습니다.");
+					return mav;
+				}
+			}else{
+				if (setCount > 15) {
+					mav.addObject("message", "복습 세트수가 15세트를 넘었습니다.");
+					return mav;
+				}
+			}
+		}
+		memberInfoService.updateJindoInfo(jindoUpdateInfo, authMemberInfo);
+		String fstMsg = ("1".equals(jindoUpdateInfo.getCngOpt())?"복습":"당김");
+		mav.addObject("message", jindoUpdateInfo.getmKey()+"님의 "+fstMsg+" 조정이 끝났습니다.");
+		mav.addObject("url", "/memberCard/memberJindoUpdateView?mKey="+jindoUpdateInfo.getmKey()+"&kwamok="+jindoUpdateInfo.getKwamok());
+		mav.setViewName("alertAndRedirect");
+		return mav;
+	}
+	@RequestMapping(value="/memberJindoUpdateView")
+	public ModelAndView memberJindoUpdateView(MemberDetailInfo memberDetailInfo,
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberCard");
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> dtlCDList = memberInfoService.getJindoUpdateDtlCDList(authMemberInfo, loginLang);
+		List<String> kwamokList = commonService.getKwamokList(loginLang, authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),authMemberInfo.getDepid2(),authMemberInfo.getEmpKeyLvCD());
+		List<JindoUpdateView> juv = memberInfoService.getJindoUpdateViewList(memberDetailInfo, authMemberInfo, loginLang, "", "");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/memberCard/memberJindoUpdateView");
+		mav.addObject("memberDetailInfo", memberDetailInfo);
+		mav.addObject("classList", classList);
+		mav.addObject("dtlCDList", dtlCDList);
+		mav.addObject("kwamokList", kwamokList);
+		mav.addObject("jindoUpdateViewList", juv);
+		mav.addObject("headerScript",headerScript);
+		mav.addObject("title", "진도조정");
+		mav.addObject("popTitle", "진도변경내역");
+		return mav;
+	}
+	@RequestMapping(value="/memberJindoUpdateView.json",method=RequestMethod.GET,produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> memberJindoUpdateViewJson(MemberDetailInfo memberDetailInfo, String startDate, String endDate,
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<JindoUpdateView> jindoUpdateViewList = memberInfoService.getJindoUpdateViewList(memberDetailInfo, authMemberInfo, loginLang, startDate, endDate);
+		map.put("jindoUpdateViewList", jindoUpdateViewList);
+		return map;
+	}
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/memberJindoHisView")
+	public ModelAndView memberJindoHisView(JindoUpdateView jindoUpdateView,
+			@CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		ModelAndView mav = new ModelAndView();
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Map<String, Object> map = memberInfoService.getJindoUpdateHisBefore(jindoUpdateView, authMemberInfo, loginLang);
+		mav.addObject("beforeJin1", (List<JindoUpdateView>)map.get("jin1"));
+		mav.addObject("beforeJin2", (List<JindoUpdateView>)map.get("jin2"));
+		mav.addObject("beforeJin3", (List<JindoUpdateView>)map.get("jin3"));
+		mav.addObject("beforeJin4", (List<JindoUpdateView>)map.get("jin4"));
+		mav.addObject("beforeJin5", (List<JindoUpdateView>)map.get("jin5"));
+		mav.addObject("beforeJin6", (List<JindoUpdateView>)map.get("jin6"));
+		map = memberInfoService.getJindoUpdateHisAfter(jindoUpdateView, authMemberInfo, loginLang);
+		mav.addObject("afterJin1", (List<JindoUpdateView>)map.get("jin1"));
+		mav.addObject("afterJin2", (List<JindoUpdateView>)map.get("jin2"));
+		mav.addObject("afterJin3", (List<JindoUpdateView>)map.get("jin3"));
+		mav.addObject("afterJin4", (List<JindoUpdateView>)map.get("jin4"));
+		mav.addObject("afterJin5", (List<JindoUpdateView>)map.get("jin5"));
+		mav.addObject("afterJin6", (List<JindoUpdateView>)map.get("jin6"));
+		
+		mav.addObject("cngGubunNM", (String)map.get("cngGubunNM"));
+		mav.addObject("cngOptNM", (String)map.get("cngOptNM"));
+		mav.addObject("fstYoilNM", (String)map.get("fstYoilNM"));
+		mav.addObject("startYY", jindoUpdateView.getYy());
+		mav.addObject("startMM", jindoUpdateView.getMm());
+		mav.addObject("jindoUpdateView", jindoUpdateView);
+		mav.addObject("title", "진도조정");
+		mav.addObject("popTitle", "진도변경내역");
+		mav.setViewName("/memberCard/memberJindoHisView");
+		return mav;
 	}
 }
