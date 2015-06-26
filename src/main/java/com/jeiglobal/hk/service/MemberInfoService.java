@@ -12,17 +12,19 @@ import com.jeiglobal.hk.repository.*;
 
 @Service
 public class MemberInfoService {
-	
+
 	@Autowired
 	private MemberInfoRepository memberInfoRepository;
-	
+
 	/**
 	 * 회원 상세정보 불러오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param loginLang
 	 * @return MemberDetailInfo
 	 */
-	public MemberDetailInfo getMemberDetailInfo(MemberDetailInfo memberDetailInfo, String loginLang) {
+	public MemberDetailInfo getMemberDetailInfo(
+			MemberDetailInfo memberDetailInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
@@ -30,9 +32,10 @@ public class MemberInfoService {
 		MemberDetailInfo mdi = memberInfoRepository.selectMemberDetailInfo(map);
 		return mdi;
 	}
-	
+
 	/**
 	 * 학년과 입회경로 DtlCDNM 가져오는 메서드
+	 * 
 	 * @param jisaCD
 	 * @return List<DtlCD>
 	 */
@@ -40,53 +43,71 @@ public class MemberInfoService {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectDtlCodeList(jisaCD);
 	}
-	
+
 	/**
 	 * 회원의 과목정보를 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param loginLang
 	 * @return List<MemberKwamokInfo>
 	 */
-	public List<MemberKwamokInfo> getMemberKwamokInfo(MemberDetailInfo memberDetailInfo, String loginLang) {
+	public List<MemberKwamokInfo> getMemberKwamokInfo(
+			MemberDetailInfo memberDetailInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberKwamokInfo(map);
 	}
-	
+
 	/**
 	 * 관리카드 회원정보 업데이트
+	 * 
 	 * @param memberDetailInfo
 	 * @param authMemberInfo
 	 * @return count(변경 건수)
 	 */
-	public int updateMemberDetailInfo(MemberDetailInfo memberDetailInfo, AuthMemberInfo authMemberInfo) {
+	public int updateMemberDetailInfo(MemberDetailInfo memberDetailInfo,
+			AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<>();
 		map.put("mdi", memberDetailInfo);
 		map.put("ami", authMemberInfo);
 		return memberInfoRepository.updateMemberDetailInfo(map);
 	}
-	
+
 	/**
 	 * 회원 정보 중 전화번호, 이메일의 데이터를 붙이는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param cd
 	 * @return MemberDetailInfo
 	 */
-	public MemberDetailInfo concatData(MemberDetailInfo memberDetailInfo, ConcatData cd) {
+	public MemberDetailInfo concatData(MemberDetailInfo memberDetailInfo,
+			ConcatData cd) {
 		// TODO Auto-generated method stub
-		memberDetailInfo.setTel((cd.getTel1().equals("")||cd.getTel1()==null)?"":cd.getTel1()+"-"+cd.getTel2()+"-"+cd.getTel3());
-		memberDetailInfo.setgPhone((cd.getgPhone1().equals("")||cd.getgPhone1()==null)?"":cd.getgPhone1()+"-"+cd.getgPhone2()+"-"+cd.getgPhone3());
-		memberDetailInfo.setePhone((cd.getePhone1().equals("")||cd.getePhone1()==null)?"":cd.getePhone1()+"-"+cd.getePhone2()+"-"+cd.getePhone3());
-		memberDetailInfo.setmEmail((cd.getmEmail1().equals("")||cd.getmEmail1()==null)?"":cd.getmEmail1()+"@"+cd.getmEmail2());
-		memberDetailInfo.setgEmail((cd.getgEmail1().equals("")||cd.getgEmail1()==null)?"":cd.getgEmail1()+"@"+cd.getgEmail2());
+		memberDetailInfo
+				.setTel((cd.getTel1().equals("") || cd.getTel1() == null) ? ""
+						: cd.getTel1() + "-" + cd.getTel2() + "-"
+								+ cd.getTel3());
+		memberDetailInfo.setgPhone((cd.getgPhone1().equals("") || cd
+				.getgPhone1() == null) ? "" : cd.getgPhone1() + "-"
+				+ cd.getgPhone2() + "-" + cd.getgPhone3());
+		memberDetailInfo.setePhone((cd.getePhone1().equals("") || cd
+				.getePhone1() == null) ? "" : cd.getePhone1() + "-"
+				+ cd.getePhone2() + "-" + cd.getePhone3());
+		memberDetailInfo.setmEmail((cd.getmEmail1().equals("") || cd
+				.getmEmail1() == null) ? "" : cd.getmEmail1() + "@"
+				+ cd.getmEmail2());
+		memberDetailInfo.setgEmail((cd.getgEmail1().equals("") || cd
+				.getgEmail1() == null) ? "" : cd.getgEmail1() + "@"
+				+ cd.getgEmail2());
 		return memberDetailInfo;
 	}
-	
+
 	/**
 	 * 회원의 입복회 정보를 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param searchKwamok
 	 * @param authMemberInfo
@@ -94,7 +115,8 @@ public class MemberInfoService {
 	 * @return List<MemberIpheiInfo>
 	 */
 	public List<MemberIpheiInfo> getMemberIpheiInfo(
-			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
+			MemberDetailInfo memberDetailInfo, String searchKwamok,
+			AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mKey", memberDetailInfo.getmKey());
@@ -104,9 +126,10 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberIpheiInfoList(map);
 	}
-	
+
 	/**
 	 * 회원의 퇴회정보를 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param searchKwamok
 	 * @param authMemberInfo
@@ -114,7 +137,8 @@ public class MemberInfoService {
 	 * @return List<MemberHuheiInfo>
 	 */
 	public List<MemberHuheiInfo> getMemberHuheiInfo(
-			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
+			MemberDetailInfo memberDetailInfo, String searchKwamok,
+			AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mKey", memberDetailInfo.getmKey());
@@ -124,9 +148,10 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberHuheiInfoList(map);
 	}
-	
+
 	/**
 	 * 회원 입금정보를 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param searchKwamok
 	 * @param authMemberInfo
@@ -134,7 +159,8 @@ public class MemberInfoService {
 	 * @return List<MemberIpgumInfo>
 	 */
 	public List<MemberIpgumInfo> getMemberIpgumInfo(
-			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
+			MemberDetailInfo memberDetailInfo, String searchKwamok,
+			AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mKey", memberDetailInfo.getmKey());
@@ -144,9 +170,10 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberIpgumInfoList(map);
 	}
-	
+
 	/**
 	 * 회원의 진도정보를 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param searchKwamok
 	 * @param authMemberInfo
@@ -154,7 +181,8 @@ public class MemberInfoService {
 	 * @return List<MemberJindoInfo>
 	 */
 	public List<MemberJindoInfo> getMemberJindoInfo(
-			MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
+			MemberDetailInfo memberDetailInfo, String searchKwamok,
+			AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
@@ -167,9 +195,10 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberJindoInfoList(map);
 	}
-	
+
 	/**
 	 * 회원의 진도검색 정보를 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param searchYY
 	 * @param searchMM
@@ -178,14 +207,16 @@ public class MemberInfoService {
 	 * @return Map<String, Object>
 	 */
 	public Map<String, Object> getMemberJindoSearch(
-			MemberDetailInfo memberDetailInfo, String searchYY, String searchMM, String searchKwamok, AuthMemberInfo authMemberInfo) {
+			MemberDetailInfo memberDetailInfo, String searchYY,
+			String searchMM, String searchKwamok, AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Map<String, Object> map = new HashMap<>();
-		if(searchYY != null && searchMM != null){
-			cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM)-1, 1);
-		}else{
+		if (searchYY != null && searchMM != null) {
+			cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM) - 1,
+					1);
+		} else {
 			searchYY = sdf.format(cal.getTime()).substring(0, 4);
 			searchMM = sdf.format(cal.getTime()).substring(5);
 		}
@@ -205,10 +236,13 @@ public class MemberInfoService {
 			map.put("searchKwamok", searchKwamok);
 			map.put("yyyy", startYYYY);
 			map.put("mm", startMM);
-			List<MemberJindoSearchInfo> mjsi = memberInfoRepository.selectMemberJindoSearchInfo(map);
+			List<MemberJindoSearchInfo> mjsi = memberInfoRepository
+					.selectMemberJindoSearchInfo(map);
 			for (int j = 0; j < mjsi.size(); j++) {
-				bsArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getBs();
-				indArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getInd();
+				bsArray[i][Integer.parseInt(mjsi.get(j).getWk()) - 1][0] = mjsi
+						.get(j).getBs();
+				indArray[i][Integer.parseInt(mjsi.get(j).getWk()) - 1][0] = mjsi
+						.get(j).getInd();
 			}
 			cal.add(Calendar.MONTH, 1);
 			startYYYY = sdf.format(cal.getTime()).substring(0, 4);
@@ -218,16 +252,18 @@ public class MemberInfoService {
 		map.put("indArray", indArray);
 		return map;
 	}
-	
+
 	/**
 	 * 회원 과목 별 요일 정보 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param searchKwamok
 	 * @param authMemberInfo
 	 * @param loginLang
 	 * @return MemberJindoSearch
 	 */
-	public MemberJindoSearch getMemberInfo(MemberDetailInfo memberDetailInfo, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
+	public MemberJindoSearch getMemberInfo(MemberDetailInfo memberDetailInfo,
+			String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mKey", memberDetailInfo.getmKey());
@@ -237,9 +273,10 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberJindoSearch(map);
 	}
-	
+
 	/**
 	 * 회원의 진도처방 기록을 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param searchYY
 	 * @param searchKwamok
@@ -247,8 +284,9 @@ public class MemberInfoService {
 	 * @param loginLang
 	 * @return Map<String, Object>
 	 */
-	public Map<String, Object> getOmrGichoList(MemberDetailInfo memberDetailInfo,
-			String searchYY, String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
+	public Map<String, Object> getOmrGichoList(
+			MemberDetailInfo memberDetailInfo, String searchYY,
+			String searchKwamok, AuthMemberInfo authMemberInfo, String loginLang) {
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
@@ -256,22 +294,23 @@ public class MemberInfoService {
 		map.put("hkey", memberDetailInfo.getmKey());
 		map.put("jisa", authMemberInfo.getJisaCD());
 		map.put("lang", loginLang);
-		if(searchYY != null){
+		if (searchYY != null) {
 			map.put("searchYY", searchYY);
-		}else{
+		} else {
 			map.put("searchYY", sdf.format(cal.getTime()));
 		}
-		if(searchKwamok != null){
+		if (searchKwamok != null) {
 			map.put("kwamok", searchKwamok);
-		}else{
+		} else {
 			map.put("kwamok", memberDetailInfo.getKwamok());
 		}
 		map.put("omrGichoList", memberInfoRepository.selectOmrGichoList(map));
 		return map;
 	}
-	
+
 	/**
 	 * 회원의 진단 처방 가능 여부를 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @return OmrInfo
 	 */
@@ -279,15 +318,17 @@ public class MemberInfoService {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectMemberJindanCheck(memberDetailInfo);
 	}
-	
+
 	/**
 	 * 진단 처방 시 해당 과목, 등급에 맞는 정답리스트를 가져오는 메서드
+	 * 
 	 * @param kwamok
 	 * @param dung
 	 * @param authMemberInfo
 	 * @return List<JungDabInfo>
 	 */
-	public List<JungDabInfo> getJungDabList(String kwamok, String dung, AuthMemberInfo authMemberInfo) {
+	public List<JungDabInfo> getJungDabList(String kwamok, String dung,
+			AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("kwamok", kwamok);
@@ -295,15 +336,17 @@ public class MemberInfoService {
 		map.put("jisa", authMemberInfo.getJisaCD());
 		return memberInfoRepository.selectJungDabList(map);
 	}
-	
+
 	/**
 	 * 진단 처방 시 해당 과목, 등급에 맞는 문항 수를 가져오는 메서드
+	 * 
 	 * @param kwamok
 	 * @param dung
 	 * @param authMemberInfo
 	 * @return count(문항 수)
 	 */
-	public int getTotMunCount(String kwamok, String dung, AuthMemberInfo authMemberInfo) {
+	public int getTotMunCount(String kwamok, String dung,
+			AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("kwamok", kwamok);
@@ -311,9 +354,10 @@ public class MemberInfoService {
 		map.put("jisa", authMemberInfo.getJisaCD());
 		return memberInfoRepository.selectTotMunCount(map);
 	}
-	
+
 	/**
 	 * 회원의 이전 처방 정보를 가져오는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @return insta(이전 처방정보)
 	 */
@@ -321,9 +365,10 @@ public class MemberInfoService {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectMemberOmrCheck(memberDetailInfo);
 	}
-	
+
 	/**
 	 * 진단 처방 시 OmrGicho 정보를 넣는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param dung
 	 * @param authMemberInfo
@@ -337,9 +382,10 @@ public class MemberInfoService {
 		map.put("ami", authMemberInfo);
 		memberInfoRepository.insertOmrGicho(map);
 	}
-	
+
 	/**
 	 * 회원의 오답을 저장하는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param dung
 	 * @param errLst
@@ -351,7 +397,7 @@ public class MemberInfoService {
 		// TODO Auto-generated method stub
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String odabNo ="";
+		String odabNo = "";
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("jisa", authMemberInfo.getJisaCD());
 		map.put("omrDate", sdf.format(today));
@@ -359,10 +405,12 @@ public class MemberInfoService {
 		map.put("kwamok", memberDetailInfo.getKwamok());
 		map.put("dung", dung);
 		String[] splitErrList = errLst.split("\\$");
-		for (int i = 1; i < splitErrList.length+1; i++) {
-			if(splitErrList[i].equals("#"))break;
+		for (int i = 1; i < splitErrList.length + 1; i++) {
+			if (splitErrList[i].equals("#"))
+				break;
 			String munNo = splitErrList[i].trim();
-			if((memberDetailInfo.getKwamok().equals("EM")|| memberDetailInfo.getKwamok().equals("KM"))&& dung.compareTo("C")>0){
+			if ((memberDetailInfo.getKwamok().equals("EM") || memberDetailInfo
+					.getKwamok().equals("KM")) && dung.compareTo("C") > 0) {
 				String[] splitMunNo = munNo.split("\\|");
 				munNo = splitMunNo[0].trim();
 				odabNo = splitMunNo[1].trim();
@@ -372,9 +420,10 @@ public class MemberInfoService {
 			memberInfoRepository.insertOdabInfo(map);
 		}
 	}
-	
+
 	/**
 	 * 회원의 오답정보를 이용하여 처방하는 메서드
+	 * 
 	 * @param authMemberInfo
 	 * @param memberDetailInfo
 	 * @param dung
@@ -390,16 +439,16 @@ public class MemberInfoService {
 		String result = memberInfoRepository.omrBan(map);
 		return result;
 	}
-	
+
 	/**
 	 * 해당 과목의 이름을 가져오는 메서드
+	 * 
 	 * @param jisa
 	 * @param kwamok
 	 * @param loginLang
 	 * @return kwamokName(String)
 	 */
-	public String getKwamokName(String jisa, String kwamok,
-			String loginLang) {
+	public String getKwamokName(String jisa, String kwamok, String loginLang) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<>();
 		map.put("jisa", jisa);
@@ -410,16 +459,19 @@ public class MemberInfoService {
 
 	/**
 	 * 퇴회 사유를 가져오는 메서드
+	 * 
 	 * @param authMemberInfo
 	 * @return List<DtlCD>
 	 */
 	public List<DtlCD> getHuheiSayuList(AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
-		return memberInfoRepository.selectHuheiSayuList(authMemberInfo.getJisaCD());
+		return memberInfoRepository.selectHuheiSayuList(authMemberInfo
+				.getJisaCD());
 	}
-	
+
 	/**
 	 * 당일 휴회 여부를 체크하는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param huheiDay
 	 * @return check(String)
@@ -432,9 +484,10 @@ public class MemberInfoService {
 		map.put("huheiDay", huheiDay);
 		return memberInfoRepository.selectTodayHuheiCheck(map);
 	}
-	
+
 	/**
 	 * 휴회 대기 상태를 알아보는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @return check(String)
 	 */
@@ -442,9 +495,10 @@ public class MemberInfoService {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectIsHuheiAgreeState(memberDetailInfo);
 	}
-	
+
 	/**
 	 * 회원의 퇴회 정보를 저장하는 메서드
+	 * 
 	 * @param memberDetailInfo
 	 * @param authMemberInfo
 	 * @param huGubun
@@ -465,6 +519,13 @@ public class MemberInfoService {
 		return memberInfoRepository.insertMemberHuheiInfo(map);
 	}
 
+	/**
+	 * 진도 조정 사유 Dtl Code 가져오는 메서드
+	 * 
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return List<String>
+	 */
 	public List<String> getJindoUpdateDtlCDList(AuthMemberInfo authMemberInfo,
 			String loginLang) {
 		// TODO Auto-generated method stub
@@ -473,7 +534,14 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectJindoUpdateDtlCodeList(map);
 	}
-
+	
+	/**
+	 * 조건에 맞는 회원이 존재하는지 체크하는 메서드
+	 * @param authMemberInfo
+	 * @param memberDetailInfo
+	 * @param loginLang
+	 * @return MemberInfoCheck
+	 */
 	public MemberInfoCheck getMemberInfoCheck(AuthMemberInfo authMemberInfo,
 			MemberDetailInfo memberDetailInfo, String loginLang) {
 		// TODO Auto-generated method stub
@@ -483,7 +551,16 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectMemberInfoCheck(map);
 	}
-
+	
+	/**
+	 * 진도조정 여부 체크하는 메서드
+	 * @param memberDetailInfo
+	 * @param authMemberInfo
+	 * @param cngGubun
+	 * @param cngOpt
+	 * @param loginLang
+	 * @return JindoAdjustCheck
+	 */
 	public JindoAdjustCheck getJindoAdjustCheck(
 			MemberDetailInfo memberDetailInfo, AuthMemberInfo authMemberInfo,
 			String cngGubun, String cngOpt, String loginLang) {
@@ -497,12 +574,25 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectJindoAdjustCheck(map);
 	}
-
+	
+	/**
+	 * 관리요일 변경일자 가져오는 메서드(진도조정시 체크)
+	 * @param memberDetailInfo
+	 * @return String
+	 */
 	public String getChangeYoilYMD(MemberDetailInfo memberDetailInfo) {
 		// TODO Auto-generated method stub
 		return memberInfoRepository.selectChangeYoilYMD(memberDetailInfo);
 	}
-
+	
+	/**
+	 * 진도조정 시 출력할 회원의 현재 진도 정보 가져오는 메서드
+	 * @param memberDetailInfo
+	 * @param updateYM
+	 * @param authMemberInfo
+	 * @param cngOpt
+	 * @return Map<String, Object>
+	 */
 	public Map<String, Object> getJindoUpdateInputInfo(
 			MemberDetailInfo memberDetailInfo, String updateYM,
 			AuthMemberInfo authMemberInfo, String cngOpt) {
@@ -510,7 +600,8 @@ public class MemberInfoService {
 		String sSet = "";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Calendar cal = Calendar.getInstance();
-		cal.set(Integer.parseInt(updateYM.substring(0,4)),Integer.parseInt(updateYM.substring(5))-1,1);
+		cal.set(Integer.parseInt(updateYM.substring(0, 4)),
+				Integer.parseInt(updateYM.substring(5)) - 1, 1);
 		Map<String, Object> map = new HashMap<>();
 		String startYYYY = sdf.format(cal.getTime()).substring(0, 4);
 		String startMM = sdf.format(cal.getTime()).substring(5);
@@ -526,13 +617,18 @@ public class MemberInfoService {
 			map.put("kwamok", memberDetailInfo.getKwamok());
 			map.put("yyyy", startYYYY);
 			map.put("mm", startMM);
-			List<MemberJindoSearchInfo> mjsi = memberInfoRepository.selectJindoUpdateInputInfo(map);
+			List<MemberJindoSearchInfo> mjsi = memberInfoRepository
+					.selectJindoUpdateInputInfo(map);
 			for (int j = 0; j < mjsi.size(); j++) {
-				bsArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getBs();
-				bkArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getBk();
-				chkArray[i][Integer.parseInt(mjsi.get(j).getWk())-1][0] = mjsi.get(j).getChk();
-				if(mjsi.get(j).getBs() != null && !(mjsi.get(j).getBs().substring(0, 1).equals("Z")) && 
-						sSet.compareTo(mjsi.get(j).getBs())<0){
+				bsArray[i][Integer.parseInt(mjsi.get(j).getWk()) - 1][0] = mjsi
+						.get(j).getBs();
+				bkArray[i][Integer.parseInt(mjsi.get(j).getWk()) - 1][0] = mjsi
+						.get(j).getBk();
+				chkArray[i][Integer.parseInt(mjsi.get(j).getWk()) - 1][0] = mjsi
+						.get(j).getChk();
+				if (mjsi.get(j).getBs() != null
+						&& !(mjsi.get(j).getBs().substring(0, 1).equals("Z"))
+						&& sSet.compareTo(mjsi.get(j).getBs()) < 0) {
 					sSet = mjsi.get(j).getBs();
 				}
 			}
@@ -540,13 +636,20 @@ public class MemberInfoService {
 			startYYYY = sdf.format(cal.getTime()).substring(0, 4);
 			startMM = sdf.format(cal.getTime()).substring(5);
 		}
-		map.put("sSet",sSet);
+		map.put("sSet", sSet);
 		map.put("bsArray", bsArray);
 		map.put("bkArray", bkArray);
 		map.put("chkArray", chkArray);
 		return map;
 	}
-
+	
+	/**
+	 * 진도조정 가능한 과목, 등급의 세트를 가져오는 메서드
+	 * @param authMemberInfo
+	 * @param memberDetailInfo
+	 * @param sSet
+	 * @return Map<String, Object>
+	 */
 	public Map<String, Object> getSetList(AuthMemberInfo authMemberInfo,
 			MemberDetailInfo memberDetailInfo, Object sSet) {
 		// TODO Auto-generated method stub
@@ -554,19 +657,26 @@ public class MemberInfoService {
 		String dung = "";
 		map.put("jisaCD", authMemberInfo.getJisaCD());
 		map.put("subj", memberDetailInfo.getKwamok());
-		map.put("dung", ((String)sSet).substring(0, 1));
+		map.put("dung", ((String) sSet).substring(0, 1));
 		for (int i = 0; i < 3; i++) {
 			map.put("chk", i);
-			List<JindoUpdateSet> jusList = memberInfoRepository.selectSetList(map);
-			map.put("set"+(i+1), jusList);
-			if (jusList != null && jusList.size() >0) {
+			List<JindoUpdateSet> jusList = memberInfoRepository
+					.selectSetList(map);
+			map.put("set" + (i + 1), jusList);
+			if (jusList != null && jusList.size() > 0) {
 				dung = jusList.get(0).getDung();
 			}
-			map.put("set"+(i+1)+"dung", dung);
+			map.put("set" + (i + 1) + "dung", dung);
 		}
 		return map;
 	}
-
+	
+	/**
+	 * 복습의 경우 선택한 복습 범위 진도 갯수 가져오는 메서드
+	 * @param authMemberInfo
+	 * @param jindoUpdateInfo
+	 * @return int
+	 */
 	public int getBokSetCount(AuthMemberInfo authMemberInfo,
 			JindoUpdateInfo jindoUpdateInfo) {
 		// TODO Auto-generated method stub
@@ -577,7 +687,12 @@ public class MemberInfoService {
 		map.put("sets2", jindoUpdateInfo.getSets2());
 		return memberInfoRepository.selectBokSetCount(map);
 	}
-
+	
+	/**
+	 * 진도조정 수행하는 메서드
+	 * @param jindoUpdateInfo
+	 * @param authMemberInfo
+	 */
 	public void updateJindoInfo(JindoUpdateInfo jindoUpdateInfo,
 			AuthMemberInfo authMemberInfo) {
 		// TODO Auto-generated method stub
@@ -606,7 +721,14 @@ public class MemberInfoService {
 		map.put("lang", loginLang);
 		return memberInfoRepository.selectJindoUpdateViewList(map);
 	}
-
+	
+	/**
+	 * 진도변경 전 진도정보를 가져오는 메서드
+	 * @param jindoUpdateView
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return Map<String, Object>
+	 */
 	public Map<String, Object> getJindoUpdateHisBefore(
 			JindoUpdateView jindoUpdateView, AuthMemberInfo authMemberInfo,
 			String loginLang) {
@@ -615,7 +737,7 @@ public class MemberInfoService {
 		String searchMM = jindoUpdateView.getMm();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Calendar cal = Calendar.getInstance();
-		cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM)-1, 1);
+		cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM) - 1, 1);
 		Map<String, Object> map = new HashMap<String, Object>();
 		String cngGubunCDNM = "";
 		String cngOptCDNM = "";
@@ -632,8 +754,9 @@ public class MemberInfoService {
 		for (int i = 0; i < 6; i++) {
 			map.put("yy", searchYY);
 			map.put("mm", searchMM);
-			List<JindoUpdateView> juv = memberInfoRepository.selectJindoUpdateHisList(map);
-			map.put("jin"+(i+1), juv);
+			List<JindoUpdateView> juv = memberInfoRepository
+					.selectJindoUpdateHisList(map);
+			map.put("jin" + (i + 1), juv);
 			if (juv != null && juv.size() > 0) {
 				if (!(cngGubunCDNM.equals(juv.get(0).getCngGubunNM()))) {
 					cngGubunCDNM = juv.get(0).getCngGubunNM();
@@ -652,9 +775,17 @@ public class MemberInfoService {
 		map.put("cngGubunNM", cngGubunCDNM);
 		map.put("cngOptNM", cngOptCDNM);
 		map.put("fstYoilNM", fstYoilNM);
-		
+
 		return map;
 	}
+	
+	/**
+	 * 진도변경 후 진도정보를 가져오는 메서드
+	 * @param jindoUpdateView
+	 * @param authMemberInfo
+	 * @param loginLang
+	 * @return Map<String, Object>
+	 */
 	public Map<String, Object> getJindoUpdateHisAfter(
 			JindoUpdateView jindoUpdateView, AuthMemberInfo authMemberInfo,
 			String loginLang) {
@@ -663,7 +794,7 @@ public class MemberInfoService {
 		String searchMM = jindoUpdateView.getMm();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Calendar cal = Calendar.getInstance();
-		cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM)-1, 1);
+		cal.set(Integer.parseInt(searchYY), Integer.parseInt(searchMM) - 1, 1);
 		Map<String, Object> map = new HashMap<String, Object>();
 		String cngGubunCDNM = "";
 		String cngOptCDNM = "";
@@ -680,8 +811,9 @@ public class MemberInfoService {
 		for (int i = 0; i < 6; i++) {
 			map.put("yy", searchYY);
 			map.put("mm", searchMM);
-			List<JindoUpdateView> juv = memberInfoRepository.selectJindoUpdateHisList(map);
-			map.put("jin"+(i+1), juv);
+			List<JindoUpdateView> juv = memberInfoRepository
+					.selectJindoUpdateHisList(map);
+			map.put("jin" + (i + 1), juv);
 			if (juv != null && juv.size() > 0) {
 				if (!(cngGubunCDNM.equals(juv.get(0).getCngGubunNM()))) {
 					cngGubunCDNM = juv.get(0).getCngGubunNM();
@@ -700,7 +832,7 @@ public class MemberInfoService {
 		map.put("cngGubunNM", cngGubunCDNM);
 		map.put("cngOptNM", cngOptCDNM);
 		map.put("fstYoilNM", fstYoilNM);
-		
+
 		return map;
 	}
 

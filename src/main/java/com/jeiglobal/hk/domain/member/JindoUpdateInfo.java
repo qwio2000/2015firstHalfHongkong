@@ -1,5 +1,10 @@
 package com.jeiglobal.hk.domain.member;
 
+/**
+ * 진도조정시 필요한 정보
+ * @author JSY
+ *
+ */
 public class JindoUpdateInfo {
 	private String mKey;
 	private String kwamok;
