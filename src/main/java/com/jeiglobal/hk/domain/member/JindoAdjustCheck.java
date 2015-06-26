@@ -1,5 +1,10 @@
 package com.jeiglobal.hk.domain.member;
 
+/**
+ * 진도조정 체크정보
+ * @author JSY
+ *
+ */
 public class JindoAdjustCheck {
 	private String cngOptNM;
 	private String cngCnt;
