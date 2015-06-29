@@ -570,7 +570,7 @@
 		<if test="empKey != null and empKey != '' ">
 			AND (fstEmpKey = #{empKey} OR sndEmpKey = #{empKey})
 		</if>
-		ORDER BY ipheiYMD
+		ORDER BY ipheiYMD, mkey
 	</select>
 	
 </mapper>
