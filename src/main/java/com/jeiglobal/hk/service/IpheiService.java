@@ -11,20 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Strings;
-import com.jeiglobal.hk.domain.common.JNDate;
-import com.jeiglobal.hk.domain.common.MemIpgumMst;
-import com.jeiglobal.hk.domain.common.MemIpheiAgree;
-import com.jeiglobal.hk.domain.common.MemIpheiMst;
-import com.jeiglobal.hk.domain.common.MemJindoCngDtlAfter;
-import com.jeiglobal.hk.domain.common.MemJindoCngDtlBefore;
-import com.jeiglobal.hk.domain.common.MemJindoCngMst;
-import com.jeiglobal.hk.domain.common.MemJindoMst;
-import com.jeiglobal.hk.domain.common.MemMst;
-import com.jeiglobal.hk.domain.common.MemMstHis;
-import com.jeiglobal.hk.domain.common.MemSubjMst;
-import com.jeiglobal.hk.domain.common.MemSubjMstHis;
-import com.jeiglobal.hk.domain.common.OmrGichoMujin;
-import com.jeiglobal.hk.domain.common.OmrJinSet;
+import com.jeiglobal.hk.domain.common.*;
 import com.jeiglobal.hk.repository.CommonRepository;
 import com.jeiglobal.hk.repository.IpheiRepository;
 import com.jeiglobal.hk.utils.JeiCommonUtils;
@@ -2136,5 +2123,22 @@ public class IpheiService {
 		memJindoCngDtlAfter.setInd(memJindoMst.getInd());
 		
 		ipheiRepository.insertMemJindoCngDtlAfter(memJindoCngDtlAfter);
+	}
+
+	public List<MemberIpheiList> findIpheiList(String empKey, String kwamok,
+			String startDate, String endDate, String type, String ipheiGubun,
+			String loginLang, String jisaCD, String depid1) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("empKey", empKey);
+		map.put("kwamok", kwamok);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("type", type);
+		map.put("ipheiGubun", ipheiGubun);
+		map.put("loginLang", loginLang);
+		map.put("jisaCD", jisaCD);
+		map.put("depid1", depid1);
+		return ipheiRepository.findIpheiList(map);
 	}
 }

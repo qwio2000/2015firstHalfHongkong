@@ -54,7 +54,7 @@ $(function(){
 								<span class="button btn-login"><input type="submit" value="로그인" style="cursor:pointer;"/></span>
 							</div>
 							<ul>
-								<li>비밀번호가 기억이 안나신다구요? 본사로 연락주시기 바랍니다.</li>
+								<li>비밀번호가 기억이 안나신다구요? 본사로 연락주시기 바랍니다!</li>
 								<li>통합관리자 계정 정보를 입력해 주시고 관련 정보는 유출되지 않도록 보안사항을 지켜주세요.</li>
 							</ul>
 						</fieldset>

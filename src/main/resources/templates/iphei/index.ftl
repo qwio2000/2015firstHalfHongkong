@@ -88,7 +88,7 @@
 						<a href="#none" class="w-120">취소</a>
 					</span>
 					<span class="button btn-type-I">
-						<a href="#none" class="w-120">목록</a>
+						<a href="/iphei/list" class="w-120">목록</a>
 					</span>
 				</div>		
 			</div>

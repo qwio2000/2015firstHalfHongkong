@@ -3,20 +3,7 @@ package com.jeiglobal.hk.repository;
 import java.util.List;
 import java.util.Map;
 
-import com.jeiglobal.hk.domain.common.MemIpgumMst;
-import com.jeiglobal.hk.domain.common.MemIpheiAgree;
-import com.jeiglobal.hk.domain.common.MemIpheiMst;
-import com.jeiglobal.hk.domain.common.MemJindoCngDtlAfter;
-import com.jeiglobal.hk.domain.common.MemJindoCngDtlBefore;
-import com.jeiglobal.hk.domain.common.MemJindoCngMst;
-import com.jeiglobal.hk.domain.common.MemJindoMst;
-import com.jeiglobal.hk.domain.common.MemMst;
-import com.jeiglobal.hk.domain.common.MemMstHis;
-import com.jeiglobal.hk.domain.common.MemSubInfo;
-import com.jeiglobal.hk.domain.common.MemSubjMst;
-import com.jeiglobal.hk.domain.common.MemSubjMstHis;
-import com.jeiglobal.hk.domain.common.OmrGichoMujin;
-import com.jeiglobal.hk.domain.common.OmrJinSet;
+import com.jeiglobal.hk.domain.common.*;
 
 
 @PrimaryRepositoryAnnoInterface
@@ -107,4 +94,6 @@ public interface IpheiRepository {
 	public List<MemJindoMst> findMemJindoMst(Map<String,Object> map);
 	
 	public void deleteMemJindoMstWhereYyMm(Map<String,Object> map);
+
+	public List<MemberIpheiList> findIpheiList(Map<String, Object> map);
 }

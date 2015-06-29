@@ -544,5 +544,33 @@
 		</where>
 		LIMIT 1
 	</select>
+	<select id="findIpheiList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.MemberIpheiList">
+		SELECT ipheiYMD, mkey, mFstName, mLstName, fstEmpKey, fstEmpName, IFNULL(sndEmpKey,'') AS sndEmpKey, IFNULL(sndEmpName,'') AS sndEmpName, subj, fstYoil, IFNULL(sndYoil,'') AS sndYoil, ipheiGubunCD, 
+			DATE_FORMAT(regDate, '%Y-%m-%d %H:%i') AS regDate, jGradeCD, globalbiz.FuncCodeDtlNM(#{jisaCD},'0006',fstYoil,#{loginLang},'1') AS fstYoilNM, globalbiz.FuncCodeDtlNM(#{jisaCD},'0011',ipheiGubunCD,#{loginLang},'1') AS ipheiGubunCDNM,
+			globalbiz.FuncCodeDtlNM(#{jisaCD},'0006',sndYoil,#{loginLang},'1') AS sndYoilNM, globalbiz.FuncCodeDtlNM(#{jisaCD},'0003',gradeCD,#{loginLang},'1') AS gradeCDNM
+		FROM globalbiz.MemIpheiMst
+		WHERE LEFT(branchCD,2) = #{jisaCD} 
+		<if test="depid1 != null and depid1 != '00000' and depid1 != ''">
+			AND SUBSTRING(branchCD, 3, 5) = #{depid1}
+		</if>
+		<choose>
+			<when test="type != null and type.equalsIgnoreCase('1')">
+				AND ipheiYMD BETWEEN #{startDate} AND #{endDate}
+			</when>
+			<otherwise>
+				AND regDate BETWEEN #{startDate} AND #{endDate}
+			</otherwise>
+		</choose>
+		<if test="ipheiGubun != null and ipheiGubun != ''">
+			AND ipheiGubunCD = #{ipheiGubun}
+		</if>		
+		<if test="kwamok != null and kwamok != '' ">
+			AND subj = #{kwamok}
+		</if>
+		<if test="empKey != null and empKey != '' ">
+			AND (fstEmpKey = #{empKey} OR sndEmpKey = #{empKey})
+		</if>
+		ORDER BY ipheiYMD
+	</select>
 	
 </mapper>
