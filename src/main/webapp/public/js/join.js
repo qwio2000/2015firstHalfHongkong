@@ -5,14 +5,14 @@ $(function() {
 			var fstDay = $("#fstDay"+index).val();
 			if(pMemGrade == ""){
 				alert("학년을 선택해주세요.");
-				return false;
+				return;
 			}
 			
 			var pMjGrade = $("#mjGradeId"+index).val();
 			
 			if(pMjGrade == ""){
 				alert("진단 등급을 선택해주세요.");
-				return false;
+				return;
 			}
 			
 			window.open("/iphei/depositPop?pIpheiday="+pIpheiday+"&pMkucode="+pMKucode+"&pJisaCD="+pJisaCD+"&pDepid1="+pDepid1+"&pSubj="+pSubj+"&pMjGrade="+pMjGrade+"&pMemGrade="+pMemGrade+"&pFstDay="+fstDay+"&seqval="+index,"입금선택","width=600,height=460");
@@ -80,33 +80,33 @@ $(function() {
 			if(allowSubjCnt == 0){
 				alert("입회가능한 과목이 없습니다.");
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			if(pIpGuide == ""){
 				alert("입회경로를 선택해 주세요.");
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			if(pFirstName == ""){
 				alert("회원명을 입력해 주세요.");
 				$("#pFirstName").focus();
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			if(pBirthDay ==""){
 				alert("생년월일을 입력해 주세요.");
 				$("#pBirthDay").focus();
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			if(pMemGrade == ""){
 				alert("학년을 선택해 주세요.");
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			if(pAddr == ""){
@@ -122,7 +122,7 @@ $(function() {
 				$("#tel3").val("");
 				$("#tel1").focus();
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			if(!$.telCheck(phone,"휴대전화")){
@@ -131,7 +131,7 @@ $(function() {
 				$("#phone3").val("");
 				$("#phone1").focus();
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			if(!$.telCheck(ePhone,"긴급전화")){
@@ -140,7 +140,7 @@ $(function() {
 				$("#ePhone3").val("");
 				$("#ePhone1").focus();
 				$.showButton();
-				return false;
+				return;
 			}
 			
 //			if(!$.emailCheck(email,"회원 이메일")){
@@ -197,12 +197,12 @@ $(function() {
 			
 			if(eachFlag){
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			if(!confirm("입회처리를 시작합니다.\n\n입회처리를 원하시면 확인을 누르십시요.")){
 				$.showButton();
-				return false;
+				return;
 			}
 			
 			$.ajax({

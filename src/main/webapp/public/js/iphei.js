@@ -14,9 +14,6 @@ $(function() {
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					var source = $("#existsTemplate").html();
 					var template = Handlebars.compile(source);
-//					Handlebars.registerHelper('changeAddr',function(context,options){
-//						return context.substring(0,3) +"-"+ context.substring(3);
-//					});
 					$("#dataList").empty();
 					$("#dataList").append(template(jsonData));
 				},
@@ -40,9 +37,6 @@ $(function() {
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					var source = $("#mujinTemplate").html();
 					var template = Handlebars.compile(source);
-//					Handlebars.registerHelper('changeAddr',function(context,options){
-//						return context.substring(0,3) +"-"+ context.substring(3);
-//					});
 					$("#dataList").empty();
 					$("#dataList").append(template(jsonData));
 				},
