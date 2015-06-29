@@ -215,8 +215,14 @@ $(function() {
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					alert("입회 "+jsonData.successCnt+" , 승인 "+jsonData.successCnt+" 건이 정상적으로 처리되었습니다.\n\n회원명 :"+pFirstName
 							+"\n회원번호:"+jsonData.mkey);
-								
-					location.href="/iphei";
+					if($("input[name='ipheiType']:checked").val() == "01"){
+						location.href="/iphei";
+					}else{
+						var pop = window.open("/memberCard/memberOmrInfo?mKey="+jsonData.mkey+"&sKey="+jsonData.gotoSkey+"&kwamok="+jsonData.gotoSubj
+								,"Window","width=848, height=700, menubar=no,status=yes,scrollbars=no");
+						pop.focus();
+						location.href="/iphei";
+					}		
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert("정상적으로 처리가 되지않았습니다.");

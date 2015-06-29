@@ -2,8 +2,6 @@ package com.jeiglobal.hk.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.common.base.Strings;
 

@@ -482,6 +482,8 @@ public class IpheiService {
 		
 		String gotoSubj = null;
 		String gotoMjGrade = null;
+		//임의로 넣음 처방연결때문에
+		String gotoSkey = null;
 				
 		for (int i = 0; i < subj.length; i++) {
 			if(!Strings.isNullOrEmpty(subj[i])){
@@ -500,6 +502,8 @@ public class IpheiService {
 				if(agreeNum == 0 && Strings.isNullOrEmpty(gotoSubj) && !"X".equals(mjGrade[i])){
 					gotoSubj = subj[i];
 					gotoMjGrade = mjGrade[i];
+					//임시로넣음 처방연결
+					gotoSkey = fstClass[i];
 				}
 				
 				String pRestYMW = restymw[i];
@@ -1313,10 +1317,16 @@ public class IpheiService {
 			}
 		}
 		
+		if(Strings.isNullOrEmpty(gotoSubj) && Strings.isNullOrEmpty(gotoSkey)){
+			gotoSubj = subj[0];
+			gotoSkey = fstClass[0];
+		}
+		
 		resultMap.put("successCnt", successCnt);
 		resultMap.put("mkey", mkey);
 		resultMap.put("gotoSubj", gotoSubj);
 		resultMap.put("gotoMjGrade", gotoMjGrade);
+		resultMap.put("gotoSkey",gotoSkey);
 		
 		return resultMap;
 		
