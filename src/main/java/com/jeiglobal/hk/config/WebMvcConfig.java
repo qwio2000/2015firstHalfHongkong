@@ -110,6 +110,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	public HuheiListExcelView excelDownloadView(){
 		return new HuheiListExcelView();
 	}
+	@Bean(name="ipheiListExcel")
+	public IpheiListExcelView ipheiListExcel(){
+		return new IpheiListExcelView();
+	}
 	 
 	@Bean
 	public MenuIntercepter menuIntercepter(){

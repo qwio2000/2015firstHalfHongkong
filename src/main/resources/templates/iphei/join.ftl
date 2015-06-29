@@ -65,7 +65,7 @@
 						<tr>
 							<th>학교명</th>
 							<td colspan="3"><input name="pSchool" type="text" value="${memInfo.mSchool}"></td>
-							<th>학년</th>
+							<th>학년*</th>
 							<td>
 								<select name="pMemGrade" id="pMemGrade">
 									<option value="">선택</option>

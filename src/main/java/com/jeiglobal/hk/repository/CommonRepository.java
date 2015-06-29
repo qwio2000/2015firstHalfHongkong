@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jeiglobal.hk.domain.common.Comcode;
+import com.jeiglobal.hk.domain.common.JNDate;
 
 
 @PrimaryRepositoryAnnoInterface
@@ -25,5 +26,13 @@ public interface CommonRepository {
 	public long countJndate(Map<String,Object> map);
 	
 	public String selectNewKey(Map<String,Object> map);
+	
+	public JNDate selectJNDate(Map<String,Object> map);
+	
+	public JNDate findOneJNDateOrderByYearPwolWeek(Map<String,Object> map);
+	
+	public Map<String,Object> selectOneJNDateGroupByPYearPWolWeek(Map<String,Object> map);
+	
+	public Map<String,Object> selectOneJNDateWhereYWWGroupByPYearPWolWeek(Map<String,Object> map);
 	
 }

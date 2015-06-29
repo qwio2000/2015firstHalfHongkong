@@ -9,11 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.jeiglobal.hk.domain.common.AuthMemberInfo;
 import com.jeiglobal.hk.service.AuthoritiesService;
 
 @Component
@@ -41,15 +39,6 @@ public class MyCustomLogoutSuccessHandler implements LogoutSuccessHandler {
 		cookie2.setPath("/");
 		cookie2.setMaxAge(0);
 		response.addCookie(cookie2);
-		
-		AuthMemberInfo member = (AuthMemberInfo)authentication.getPrincipal();
-		
-		StandardPasswordEncoder standrdPasswordEncoder = new StandardPasswordEncoder();
-		
-		String authId = member.getMemberId();
-		String authKey = standrdPasswordEncoder.encode(authId);
-		
-		authoritiesService.updateEncodeCookieById(authId,authKey);
 		
 		response.sendRedirect(request.getContextPath()+"/login");
 	}

@@ -91,6 +91,62 @@
 		</where>
 	</select>
 	
+	<select id="selectJNDate" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.JNDate">
+		SELECT * FROM devglobaldig.JNDate
+		<where>
+			<if test="omrDay != null">
+				YOIL = #{omrDay}
+			</if>
+			<if test="nDate != null">
+				AND CONCAT(YEAR,WOL,DAY) = #{nDate}
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+	
+	<select id="findOneJNDateOrderByYearPwolWeek" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.JNDate">
+		SELECT * FROM devglobaldig.JNDate
+		<where>
+			<if test="hYY != null AND hmm != null AND bYoil != null">
+				CONCAT(YEAR,WOL,YOIL) = CONCAT(#{hYY},#{hmm},#{bYoil})
+			</if>
+		</where>
+		ORDER BY CONCAT(YEAR,PWOL,WEEK) DESC
+		LIMIT 1
+	</select>
+	
+	<select id="selectOneJNDateGroupByPYearPWolWeek" parameterType="hashMap" resultType="hashMap">
+		SELECT PYEAR,PWOL,WEEK FROM 
+		(
+			SELECT PYEAR,PWOL,WEEK
+			FROM devglobaldig.JNDate
+			GROUP BY PYEAR,PWOL,WEEK
+		) AS A
+		<where>
+			<if test="chkYY != null AND chkmm != null">
+				CONCAT(PYEAR,PWOL) > CONCAT(#{chkYY},#{chkmm})
+			</if>
+		</where>
+		ORDER BY CONCAT(PYEAR,PWOL,WEEK)
+		LIMIT 1
+	</select>
+	
+	<select id="selectOneJNDateWhereYWWGroupByPYearPWolWeek" parameterType="hashMap" resultType="hashMap">
+		SELECT PYEAR,PWOL,WEEK FROM 
+		(
+			SELECT PYEAR,PWOL,WEEK
+			FROM devglobaldig.JNDate
+			GROUP BY PYEAR,PWOL,WEEK
+		) AS A
+		<where>
+			<if test="chkYY != null AND chkmm != null AND chkWeek != null">
+				CONCAT(PYEAR,PWOL,WEEK) > CONCAT(#{chkYY},#{chkmm},#{chkWeek})
+			</if>
+		</where>
+		ORDER BY CONCAT(PYEAR,PWOL,WEEK)
+		LIMIT 1
+	</select>
+	
 	<select id="countJndate" parameterType="hashMap" resultType="long">
 		SELECT COUNT(0) as totalCnt	FROM devglobaldig.JNDate
 		<where>

@@ -3,6 +3,8 @@ package com.jeiglobal.hk.utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.google.common.base.Strings;
+
 public class JeiCommonUtils {
 
 	/**
@@ -14,15 +16,15 @@ public class JeiCommonUtils {
 	 */
 	public static int getMonthDiff(String day1,String day2,String options){
 
-		if(options != null && !options.isEmpty()){
+		if(!Strings.isNullOrEmpty(options)){
 			day1 = day1.replaceAll(options,"");
 			day2 = day2.replaceAll(options,"");
 		}
 		int year1 = Integer.parseInt(day1.substring(0,4));		
 		int year2 = Integer.parseInt(day2.substring(0,4));
 		
-		int month1 = Integer.parseInt(day1.substring(4,5));
-		int month2 = Integer.parseInt(day2.substring(4,5));
+		int month1 = Integer.parseInt(day1.substring(4,6));
+		int month2 = Integer.parseInt(day2.substring(4,6));
 		
 		int diffMonth = (year1 - year2) * 12  + (month1 - month2);
 		
@@ -48,12 +50,16 @@ public class JeiCommonUtils {
 	 * @return
 	 */
 	public static String getDiffDay(String format,String ipheiDay,int diffDay){
-		String setDay[] = ipheiDay.split("-");
-		
 		Calendar cal = Calendar.getInstance();
-		cal.set(Integer.parseInt(setDay[0]),Integer.parseInt(setDay[1])-1,Integer.parseInt(setDay[2]));
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		
+		if(ipheiDay.indexOf("-") == -1){
+			cal.set(Integer.parseInt(ipheiDay.substring(0,4)),Integer.parseInt(ipheiDay.substring(4,6))-1,Integer.parseInt(ipheiDay.substring(6)));
+		}else{
+			String setDay[] = ipheiDay.split("-");
+			cal.set(Integer.parseInt(setDay[0]),Integer.parseInt(setDay[1])-1,Integer.parseInt(setDay[2]));
+		}
 		cal.add(Calendar.DATE,diffDay);
-		SimpleDateFormat formatter = new SimpleDateFormat(format);   
 		return formatter.format(cal.getTime());
 	}
 	
@@ -66,17 +72,39 @@ public class JeiCommonUtils {
 	 * @return	int : 1(일)~7(토)
 	 */
 	public static int getWeekNum(String someDay) {
-		String days[] = someDay.split("-");
+		int year = 0;
+		int month = 0;
+		int day = 0;
 		
-		int year = Integer.parseInt(days[0]);
-		int month = Integer.parseInt(days[1]);
-		int day = Integer.parseInt(days[2]);
+		if(someDay.indexOf("-") == -1){
+			year = Integer.parseInt(someDay.substring(0,4));
+			month = Integer.parseInt(someDay.substring(4,6));
+			day = Integer.parseInt(someDay.substring(6));
+		}else{
+			String days[] = someDay.split("-");
+			
+			year = Integer.parseInt(days[0]);
+			month = Integer.parseInt(days[1]);
+			day = Integer.parseInt(days[2]);
+		}
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(year, month -1, day);
 		return cal.get(Calendar.DAY_OF_WEEK);
 	}
 	
+	/**
+	 * 컨버트 20150624 -> 2015-06-24  또는 2015-06-24 -> 20150624
+	 * @param someDay
+	 * @return
+	 */
+	public static String convertDay(String someDay){
+		if(someDay.indexOf("-") == -1){
+			return someDay.substring(0,4)+"-"+someDay.substring(4,6)+"-"+someDay.substring(6);
+		}else{
+			return someDay.replaceAll("-","");
+		}
+	}
 	
 	/**
 	 * 그달의 마지막 날짜 구하기
@@ -93,5 +121,4 @@ public class JeiCommonUtils {
 		
 		return day[0]+"-"+day[1]+"-"+cal.getActualMaximum(Calendar.DATE);
 	}
-	
 }

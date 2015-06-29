@@ -1,28 +1,18 @@
 package com.jeiglobal.hk.controller.fa;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.context.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.*;
 
-import com.google.common.base.Strings;
-import com.jeiglobal.hk.domain.common.AuthMemberInfo;
-import com.jeiglobal.hk.domain.common.Comcode;
-import com.jeiglobal.hk.domain.common.MemMst;
-import com.jeiglobal.hk.domain.common.OmrGichoMujin;
-import com.jeiglobal.hk.service.CommonService;
-import com.jeiglobal.hk.service.IpheiService;
-import com.jeiglobal.hk.utils.JeiCommonUtils;
+import com.google.common.base.*;
+import com.jeiglobal.hk.domain.common.*;
+import com.jeiglobal.hk.service.*;
+import com.jeiglobal.hk.utils.*;
 
 @Controller
 @RequestMapping(value="/iphei")
@@ -455,5 +445,40 @@ public class IpheiController {
 				, restymw, enterwol, mkucode, ipheiType, authMemberInfo.getMemberId());
 		
 		return resultMap;
+	}
+	
+	@RequestMapping(value="/list")
+	public String ipheiList(Model model,@CookieValue(value="LoginLang",defaultValue="K") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<Map<String, Object>> classList = commonService.getClassList(authMemberInfo.getJisaCD(),authMemberInfo.getDepid1());
+		List<String> kwamokList = commonService.getKwamokList(loginLang,authMemberInfo.getJisaCD(),authMemberInfo.getDepid1(),"",authMemberInfo.getEmpKeyLvCD());
+		List<Comcode> ipheiKindList = commonService.selectCodeDtl(authMemberInfo.getJisaCD(),"0011","1",loginLang);
+		List<String> headerScript = new ArrayList<>();
+		headerScript.add("iphei");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("classList", classList);
+		model.addAttribute("kwamokList", kwamokList);
+		model.addAttribute("ipheiKindList", ipheiKindList);
+		return "iphei/list";
+	}
+	
+	@RequestMapping(value="/list.json",method=RequestMethod.POST,produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> ipheiListJson(String empKey, String kwamok, String startDate, String endDate,
+			String type, String ipheiGubun, @CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<MemberIpheiList> ipheiList = ipheiService.findIpheiList(empKey, kwamok, startDate, endDate, type, ipheiGubun, loginLang, authMemberInfo.getJisaCD(), authMemberInfo.getDepid1());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ipheiList", ipheiList);
+		return map;
+	}
+	@RequestMapping(value="/list.xls",method=RequestMethod.POST)
+	public ModelAndView emptyHakjukXls(String empKey, String kwamok, String startDate, String endDate,
+			String type, String ipheiGubun, @CookieValue(value="LoginLang",defaultValue="E") String loginLang){
+		AuthMemberInfo authMemberInfo = (AuthMemberInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<MemberIpheiList> ipheiList = ipheiService.findIpheiList(empKey, kwamok, startDate, endDate, type, ipheiGubun, loginLang, authMemberInfo.getJisaCD(), authMemberInfo.getDepid1());
+		ModelAndView mav = new ModelAndView("ipheiListExcel");
+		mav.addObject("dataList", ipheiList);
+		return mav;
 	}
 }
