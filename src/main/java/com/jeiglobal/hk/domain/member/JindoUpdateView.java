@@ -1,5 +1,10 @@
 package com.jeiglobal.hk.domain.member;
 
+/**
+ * 진도조정 조회시 필요한 정보
+ * @author JSY
+ *
+ */
 public class JindoUpdateView {
 	private String cngGubunCD;
 	private String cngGubunNM;

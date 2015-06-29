@@ -128,8 +128,8 @@ $(function() {
 				document.frm1.submit();
 				pop_status.focus();
 			},
-			ippr20EM:function(jisa, omrDate, hkey, kwamok, omrPath, lang){
-				var pop_status = window.open("/ippr20EM?hkey="+hkey+"&kwamok="+kwamok+"&jisa="+jisa+"&omrDate="+omrDate+"&omrPath="+omrPath+"&lang="+lang,"newWindow","width=665,height=800,marginwidth=0,marginheight=0,toolbar=no,location=no,directories=no,menubar=no,scrollbars=yes");
+			ippr20EM:function(jisaCD, omrDate, hkey, kwamok, omrPath, langCD){
+				var pop_status = window.open("/study/ippr20EM?hkey="+hkey+"&kwamok="+kwamok+"&jisaCD="+jisaCD+"&omrDate="+omrDate+"&omrPath="+omrPath+"&langCD="+langCD,"newWindow","width=665,height=800,marginwidth=0,marginheight=0,toolbar=no,location=no,directories=no,menubar=no,scrollbars=yes");
 				pop_status.focus();
 			},
 			jindoHisView:function(mkey, subj, cngDate, cngGubun, cngOpt, cngSayu, cngYY, cngMM){

@@ -104,7 +104,7 @@ $(function() {
 				
 				if(!submitFlag){
 					alert("입회 과목을 선택하십시오.");
-					return false;
+					return;
 				}
 			}
 			

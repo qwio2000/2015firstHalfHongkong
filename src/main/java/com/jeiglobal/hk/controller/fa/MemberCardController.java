@@ -468,8 +468,8 @@ public class MemberCardController {
 		mav.addObject("bsArray", map.get("bsArray"));
 		mav.addObject("bkArray", map.get("bkArray"));
 		mav.addObject("chkArray", map.get("chkArray"));
-		map = memberInfoService.getSetList(authMemberInfo, memberDetailInfo, map.get("sSet"));
 		
+		map = memberInfoService.getSetList(authMemberInfo, memberDetailInfo, map.get("sSet"));
 		mav.addObject("set1",(List<JindoUpdateSet>)map.get("set1"));
 		mav.addObject("set2",(List<JindoUpdateSet>)map.get("set2"));
 		mav.addObject("set3",(List<JindoUpdateSet>)map.get("set3"));
