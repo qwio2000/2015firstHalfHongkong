@@ -310,6 +310,9 @@
 			<if test="mngSortCD != null">
 				AND mngSortCD = #{mngSortCD}
 			</if>
+			<if test="stateCD != null">
+				AND stateCD = #{stateCD}
+			</if>
 		</where>
 	</select>
 	
@@ -378,6 +381,168 @@
 			</if>
 		</where>
 		ORDER BY sortCD,gradeCD
+	</select>
+	
+	<select id="selectCAS_NSETbyNSys2" parameterType="hashMap" resultType="String">
+		SELECT CAS_NSET FROM devglobaldig.NSys2
+		<where>
+			<if test="jisaCD != null">
+				JISA = #{jisaCD}
+			</if>
+			<if test="subj != null">
+				AND KWAMOK = #{subj}
+			</if>
+			<if test="startSet != null">
+				AND LEFT(CAS_NSET,1) = #{startSet}
+			</if>
+		</where>
+		ORDER BY CAS_KEY
+	</select>
+	
+	<select id="selectCAS_NSETbyNSys2UseMujinInsert" parameterType="hashMap" resultType="String">
+		SELECT CAS_NSET FROM devglobaldig.NSys2
+		<where>
+			<if test="jisaCD != null">
+				JISA = #{jisaCD}
+			</if>
+			<if test="subj != null">
+				AND KWAMOK = #{subj}
+			</if>
+			<if test="startSet != null">
+				AND LEFT(CAS_NSET,1) <![CDATA[<=]]> #{startSet}
+			</if>
+			AND LEFT(CAS_NSET,2) != 'AS'
+		</where>
+		ORDER BY CAS_KEY
+	</select>
+	
+	<select id="findOmrJinSet" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.OmrJinSet">
+		SELECT * FROM devglobaldig.OmrJinSet
+		<where>
+			<if test="omrDate != null">
+				omrDate = #{omrDate}
+			</if>
+			<if test="mkey != null">
+				AND hkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND kwamok = #{subj]
+			</if>
+		</where>
+		ORDER BY CONCAT(rYY,rMM,rWeek)
+	</select>
+	
+	<insert id="insertMemJindoMst" parameterType="com.jeiglobal.hk.domain.common.MemJindoMst">
+		INSERT INTO globalbiz.MemJindoMst(mkey,subj,yy,mm,wk,sort,yoil,yymmwk,jset,ind) 
+		VALUES(#{mkey},#{subj},#{yy},#{mm},#{wk},#{sort},#{yoil},#{yymmwk},#{jset},#{ind})
+	</insert>
+	
+	<select id="findOneMemJindoMst" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.MemJindoMst">
+		SELECT * FROM globalbiz.MemJindoMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+	
+	<select id="findMemJindoMst" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.MemJindoMst">
+		SELECT * FROM globalbiz.MemJindoMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findMemJindoMstOrderByYyMmWkSort" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.MemJindoMst">
+		SELECT * FROM globalbiz.MemJindoMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+			<if test="hYY != null AND hmm != null AND hWeek != null">
+				AND CONCAT(yy,mm,wk) >= CONCAT(#{hYY},#{hmm},#{hWeek})
+			</if>
+		</where>
+		ORDER BY yy,mm,wk,sort
+	</select>
+	
+	<delete id="deleteMemJindoMst" parameterType="hashMap">
+		DELETE FROM globalbiz.MemJindoMst WHERE mkey = #{mkey} AND subj = #{subj} AND CONCAT(yy,mm,wk) >= CONCAT(#{hYY},#{hmm},#{hWeek})
+	</delete>
+	
+	<delete id="deleteMemJindoMstWhereYyMm" parameterType="hashMap">
+		DELETE FROM globalbiz.MemJindoMst WHERE mkey = #{mkey} AND subj = #{subj} AND CONCAT(yy,mm) > CONCAT(#{hYY},#{hmm})
+	</delete>
+	
+	<delete id="deleteMemJindoMstWhereYyMmWeekSort" parameterType="hashMap">
+		DELETE FROM globalbiz.MemJindoMst 
+		WHERE mkey = #{mkey} AND subj = #{subj} AND yy = #{rYY} AND mm = #{rmm} AND wk = #{rWeek} AND sort = #{rSort}
+	</delete>
+	
+	<delete id="deleteMemJindoCngMst" parameterType="hashMap">
+		DELETE FROM globalbiz.MemJindoCngMst
+		WHERE mkey = #{mkey} AND subj = #{subj} AND cngYMD = #{cngYMD} AND cngGubunCD = #{cngGubunCD} AND cngOptCD = #{cngOptCD} 
+	</delete>
+	
+	<delete id="deleteMemJindoCngDtlAfter" parameterType="hashMap">
+		DELETE FROM globalbiz.MemJindoCngDtlAfter
+		WHERE mkey = #{mkey} AND subj = #{subj} AND cngYMD = #{cngYMD} AND cngGubunCD = #{cngGubunCD} AND cngOptCD = #{cngOptCD}
+	</delete>
+	
+	<delete id="deleteMemJindoCngDtlBefore" parameterType="hashMap">
+		DELETE FROM globalbiz.MemJindoCngDtlBefore
+		WHERE mkey = #{mkey} AND subj = #{subj} AND cngYMD = #{cngYMD} AND cngGubunCD = #{cngGubunCD} AND cngOptCD = #{cngOptCD}
+	</delete>
+	
+	<insert id="insertMemJindoCngMst" parameterType="com.jeiglobal.hk.domain.common.MemJindoCngMst">
+		INSERT INTO globalbiz.MemJindoCngMst(cngYMD,cngGubunCD,cngOptCD,cngSayuCD,mkey,subj,cngJset1,cngJset2,cngJset3,cngJset4,cngJset5
+		,setCnt,yy,mm,wk,sort,jset,yoil,regID,regDate)
+		VALUES(#{cngYMD},#{cngGubunCD},#{cngOptCD},#{cngSayuCD},#{mkey},#{subj},#{cngJset1},#{cngJset2},#{cngJset3},#{cngJset4},#{cngJset5}
+		,#{setCnt},#{yy},#{mm},#{wk},#{sort},#{jset},#{yoil},#{regID},NOW())
+	</insert>
+	
+	<insert id="insertMemJindoCngDtlAfter" parameterType="com.jeiglobal.hk.domain.common.MemJindoCngDtlAfter">
+		INSERT INTO globalbiz.MemJindoCngDtlAfter(cngYMD,cngGubunCD,cngOptCD,cngSayuCD,mkey,subj,yy,mm,wk,sort,yoil,jset,ind)
+		VALUES(#{cngYMD},#{cngGubunCD},#{cngOptCD},#{cngSayuCD},#{mkey},#{subj},#{yy},#{mm},#{wk},#{sort},#{yoil},#{jset},#{ind})
+	</insert>
+	
+	<insert id="insertMemJindoCngDtlBefore" parameterType="com.jeiglobal.hk.domain.common.MemJindoCngDtlBefore">
+		INSERT INTO globalbiz.MemJindoCngDtlBefore(cngYMD,cngGubunCD,cngOptCD,cngSayuCD,mkey,subj,yy,mm,wk,sort,yoil,jset,ind)
+		VALUES(#{cngYMD},#{cngGubunCD},#{cngOptCD},#{cngSayuCD},#{mkey},#{subj},#{yy},#{mm},#{wk},#{sort},#{yoil},#{jset},#{ind})
+	</insert>
+	
+	<select id="findMemJindoCngMst" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.common.MemJindoCngMst">
+		SELECT * FROM globalbiz.MemJindoCngMst
+		<where>
+			<if test="mkey != null">
+				mkey = #{mkey}
+			</if>
+			<if test="subj != null">
+				AND subj = #{subj}
+			</if>
+			<if test="cngYMD != null">
+				AND cngYMD = #{cngYMD}
+			</if>
+			<if test="cngGubunCD != null">
+				AND cngGubunCD = #{cngGubunCD}
+			</if>
+			<if test="cngOptCD != null">
+				AND cngOptCD = #{cngOptCD}
+			</if>
+		</where>
+		LIMIT 1
 	</select>
 	
 </mapper>
